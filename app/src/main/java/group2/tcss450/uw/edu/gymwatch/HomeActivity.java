@@ -1,11 +1,11 @@
 package group2.tcss450.uw.edu.gymwatch;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,9 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
+
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,36 +27,24 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //For the recycle view
         mGymRecView = (RecyclerView) findViewById(R.id.gym_rec_list);
         mGymRecView.setLayoutManager(new LinearLayoutManager(this));
         mGymAdapter = new GymAdapter(GymListData.getList(), this);
         mGymRecView.setAdapter(mGymAdapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final EditText editText = (EditText)findViewById(R.id.search_text);
 
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView view, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    editText.setVisibility(View.GONE);
-                    getSupportActionBar().setTitle("Gym Watch");
-                    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!");
-                    return true;
-                }
-                return false;
-            }
-        });
+        //setSupportActionBar(toolbar);
 
-        editText.setVisibility(View.GONE);
 
+        //Fab Button In process of setting up
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editText.setVisibility(View.VISIBLE);
-
+                //editText.setVisibility(View.VISIBLE);
+                //search.setFocusable(true);
                 //InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 //keyboard.showSoftInput(editText,InputMethodManager.SHOW_IMPLICIT);
 

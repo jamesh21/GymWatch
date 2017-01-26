@@ -19,11 +19,14 @@ public class GymListData {
             android.R.drawable.ic_dialog_map, android.R.drawable.ic_btn_speak_now,
             android.R.drawable.ic_dialog_email};
 
-
+    /**
+     * This method is used to get all the gyms to display on the screen
+     * @return
+     */
     public static List<GymItem> getList() {
         List<GymItem> data = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-
+            //Making a fake list of gyms to display onto the screen
             for (int j = 0; j < mGymNameList.length;j++) {
                 data.add(new GymItem(mGymNameList[j], mGymRatingList[j], mGymAddressList[j],
                         mGymFillList[j], myGymImageList[j]));

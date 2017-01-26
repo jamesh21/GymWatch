@@ -14,16 +14,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="25dp"
+            android:paddingLeft="10dp"
             android:text="@string/notification_text"/>
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="20dp"
             android:textOn="@string/on_switch"
             android:textOff="@string/off_switch"/>
     </LinearLayout>
@@ -31,16 +35,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:textSize="25dp"
             android:layout_weight="1"
             android:text="@string/fill_text"/>
-        <Switch
+        <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:id="@+id/fill_spinner"></Spinner>
     </LinearLayout>
 
     <LinearLayout
@@ -52,10 +61,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:textSize="25dp"
             android:text="@string/schedule_text"/>
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
 

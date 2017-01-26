@@ -7,6 +7,11 @@
         <item>My Gyms</item>
         <item>Settings</item>
     </string-array>
+    <string-array name="fill_limit_percentages">
+        <item>25%</item>
+        <item>50%</item>
+        <item>75%</item>
+    </string-array>
     <string name="notification_text">Notifications</string>
     <string name="fill_text">Fill Limit</string>
     <string name="schedule_text">Schedule</string>
