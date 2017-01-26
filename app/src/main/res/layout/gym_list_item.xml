@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:id="@+id/gym_content_container">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gym_name"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:text="YMCA"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gym_rating"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/gym_name"
+        android:text="rating"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gym_address"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/gym_rating"
+        android:text="1144 Market St, Tacoma, WA 98402"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gym_fill"
+        android:layout_below="@id/gym_address"
+        android:text="50% Full"
+        android:textSize="30dp"
+        android:paddingLeft="10dp"/>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/gym_picture"
+        android:src="@drawable/ic_menu_camera"
+        android:tint="@color/colorAccent"/>
+</RelativeLayout>
