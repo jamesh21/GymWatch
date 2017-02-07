@@ -7,6 +7,9 @@ import java.util.List;
  * Created by james on 1/25/2017.
  */
 
+/**
+ * This class is used to grab the data from the api to be displayed on the app.
+ */
 public class GymListData {
 
     private static String[] mGymNameList = {"YMCA", "24 hr Fitness", "LA Fitness", "Gold's Gym"};

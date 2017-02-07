@@ -12,10 +12,7 @@ import android.view.ViewGroup;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MyGymsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
+ * This class is for the myGyms fragment.
  */
 public class MyGymsFragment extends Fragment {
 

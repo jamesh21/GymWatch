@@ -14,8 +14,12 @@ import java.util.List;
  * Created by james on 1/25/2017.
  */
 
+/**
+ * This class is used to build all the gyms into the recycle view.
+ */
 public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
 
+    /** The list of all the gyms to the view. */
     private List<GymItem> mListData;
     private LayoutInflater mInflater;
 
@@ -32,11 +36,11 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     @Override
     public void onBindViewHolder(GymHolder holder, int position) {
         GymItem item = mListData.get(position);
-        holder.mGymName.setText(item.getmGymName());
-        holder.mGymImage.setImageResource(item.getmGymImage());
-        holder.mGymRating.setText(item.getmGymRating());
-        holder.mGymFillRate.setText(item.getmGymFill() + "% Full");
-        holder.mGymAddress.setText(item.getmGymAddress());
+        holder.mGymName.setText(item.getGymName());
+        holder.mGymImage.setImageResource(item.getGymImage());
+        holder.mGymRating.setText(item.getGymRating());
+        holder.mGymFillRate.setText(item.getGymFill() + "% Full");
+        holder.mGymAddress.setText(item.getGymAddress());
     }
 
     @Override
