@@ -1,12 +1,8 @@
 package group2.tcss450.uw.edu.gymwatch;
 
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,23 +12,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private RecyclerView mGymRecView;
-    private GymAdapter mGymAdapter;
+    private SearchView mSearch;
+    private TextView mTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        mSearch = (SearchView) findViewById(R.id.search);
+        mSearch.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mTitle.setText("");
+            }
+        });
+        mSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                mTitle.setText(R.string.my_gyms);
+                return false;
+                                       }
+        });
+        mTitle = (TextView) findViewById(R.id.fragment_title);
         //For the recycle view
-//        mGymRecView = (RecyclerView) findViewById(R.id.gym_rec_list);
-//        mGymRecView.setLayoutManager(new LinearLayoutManager(this));
-//        mGymAdapter = new GymAdapter(GymListData.getList(), this);
-//        mGymRecView.setAdapter(mGymAdapter);
         if(savedInstanceState == null) {
             if (findViewById(R.id.content_home) != null) {
                 getSupportFragmentManager().beginTransaction()
@@ -42,9 +50,6 @@ public class HomeActivity extends AppCompatActivity
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
-        //setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -99,14 +104,16 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_gyms) {
+            mSearch.setVisibility(View.VISIBLE);
+            mTitle.setText(R.string.my_gyms);
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_home, new MyGymsFragment())
                     .addToBackStack(null);
             transaction.commit();
         } else if (id == R.id.nav_setting) {
-//            Intent intent = new Intent(this, SettingsActivity.class);
-//            startActivity(intent);
+            mTitle.setText(R.string.action_settings);
+            mSearch.setVisibility(View.INVISIBLE);
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_home, new SettingsFragment())
