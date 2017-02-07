@@ -18,13 +18,19 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /** Reference to the searchview. */
     private SearchView mSearch;
+    /** Reference to the title. */
     private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //Getting a reference to the search view and adding listeners so the title will disappear
+        // when the user clicks the search icon and the title will reappear when
+        // the user exits the search
         mSearch = (SearchView) findViewById(R.id.search);
         mSearch.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +46,8 @@ public class HomeActivity extends AppCompatActivity
                                        }
         });
         mTitle = (TextView) findViewById(R.id.fragment_title);
-        //For the recycle view
+
+        //Setting up the my gyms recycle view
         if(savedInstanceState == null) {
             if (findViewById(R.id.content_home) != null) {
                 getSupportFragmentManager().beginTransaction()
@@ -103,6 +110,7 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // This part is for switching the fragments when the navagation bar is used.
         if (id == R.id.nav_gyms) {
             mSearch.setVisibility(View.VISIBLE);
             mTitle.setText(R.string.my_gyms);
