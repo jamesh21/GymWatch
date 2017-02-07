@@ -4,6 +4,7 @@ package group2.tcss450.uw.edu.gymwatch;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,28 +29,23 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
 
         //For the recycle view
-        mGymRecView = (RecyclerView) findViewById(R.id.gym_rec_list);
-        mGymRecView.setLayoutManager(new LinearLayoutManager(this));
-        mGymAdapter = new GymAdapter(GymListData.getList(), this);
-        mGymRecView.setAdapter(mGymAdapter);
+//        mGymRecView = (RecyclerView) findViewById(R.id.gym_rec_list);
+//        mGymRecView.setLayoutManager(new LinearLayoutManager(this));
+//        mGymAdapter = new GymAdapter(GymListData.getList(), this);
+//        mGymRecView.setAdapter(mGymAdapter);
+        if(savedInstanceState == null) {
+            if (findViewById(R.id.content_home) != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.content_home, new MyGymsFragment())
+                        .commit();
+            }
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         //setSupportActionBar(toolbar);
 
 
-        //Fab Button In process of setting up
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //editText.setVisibility(View.VISIBLE);
-                //search.setFocusable(true);
-                //InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                //keyboard.showSoftInput(editText,InputMethodManager.SHOW_IMPLICIT);
-
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         //String[] destinationTitles = getResources().getStringArray(R.array.destination_array);
@@ -103,10 +99,19 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_gyms) {
-            // Handle the camera action
+            FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_home, new MyGymsFragment())
+                    .addToBackStack(null);
+            transaction.commit();
         } else if (id == R.id.nav_setting) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, SettingsActivity.class);
+//            startActivity(intent);
+            FragmentTransaction transaction = getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_home, new SettingsFragment())
+                    .addToBackStack(null);
+            transaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
