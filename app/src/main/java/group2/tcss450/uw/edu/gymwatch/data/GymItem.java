@@ -1,4 +1,4 @@
-package group2.tcss450.uw.edu.gymwatch;
+package group2.tcss450.uw.edu.gymwatch.data;
 
 /**
  * Created by james on 1/25/2017.

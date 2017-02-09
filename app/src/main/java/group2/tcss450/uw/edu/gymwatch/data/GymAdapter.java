@@ -1,4 +1,4 @@
-package group2.tcss450.uw.edu.gymwatch;
+package group2.tcss450.uw.edu.gymwatch.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+
+import group2.tcss450.uw.edu.gymwatch.R;
 
 /**
  * Created by james on 1/25/2017.
@@ -23,10 +25,16 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     private List<GymItem> mListData;
     private LayoutInflater mInflater;
 
+    /**
+     * Constructor for a GymAdapter.
+     * @param theListData which represents the data of gyms to be placed in the recycle view
+     * @param theContext the context
+     */
     public GymAdapter(List<GymItem> theListData, Context theContext) {
         mListData = theListData;
         mInflater = LayoutInflater.from(theContext);
     }
+
     @Override
     public GymHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.gym_list_item, parent, false);
@@ -44,17 +52,29 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     }
 
     @Override
+    /**
+     * Returns the list size of the items to be displayed.
+     */
     public int getItemCount() {
         return mListData.size();
     }
 
+    /**
+     * Inner Class for holding the gym attributes.
+     */
     class GymHolder extends RecyclerView.ViewHolder {
 
+        /** The name of the gym. */
         private TextView mGymName;
+        /** The rating of the gym. */
         private TextView mGymRating;
+        /** The address of the gym. */
         private TextView mGymAddress;
+        /** The fill Rate of the gym. */
         private TextView mGymFillRate;
+        /** The image of the gym. */
         private ImageView mGymImage;
+        /** The container for the gym. */
         private View container;
 
         public GymHolder(View itemView) {

@@ -1,4 +1,4 @@
-package group2.tcss450.uw.edu.gymwatch;
+package group2.tcss450.uw.edu.gymwatch.data;
 
 import java.util.ArrayList;
 import java.util.List;

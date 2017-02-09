@@ -1,15 +1,17 @@
-package group2.tcss450.uw.edu.gymwatch;
+package group2.tcss450.uw.edu.gymwatch.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+
+import group2.tcss450.uw.edu.gymwatch.R;
 
 
 /**
@@ -20,7 +22,8 @@ import android.widget.Spinner;
  * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener,
+                                        View.OnClickListener {
 
     //private OnFragmentInteractionListener mListener;
 
@@ -40,8 +43,14 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        Button timeButton = (Button) view.findViewById(R.id.start_time_button);
+        timeButton.setOnClickListener(this);
+        timeButton = (Button) view.findViewById(R.id.end_time_button);
+        timeButton.setOnClickListener(this);
+
         return view;
     }
+
 
 //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
@@ -75,6 +84,18 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Bundle args = new Bundle();
+        args.putInt("button", v.getId());
+        DialogFragment timeFrag = new TimePickerFragment();
+        timeFrag.setArguments(args);
+        timeFrag.setTargetFragment(this, 0);
+        //newFragment.show(getSupportFragmentManager(), "timePicker");
+        timeFrag.show(getFragmentManager(), "timePicker");
+        System.out.println("IN HERE");
     }
 
     /**

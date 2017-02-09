@@ -1,7 +1,5 @@
-package group2.tcss450.uw.edu.gymwatch;
+package group2.tcss450.uw.edu.gymwatch.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import group2.tcss450.uw.edu.gymwatch.data.GymAdapter;
+import group2.tcss450.uw.edu.gymwatch.data.GymListData;
+import group2.tcss450.uw.edu.gymwatch.R;
 
 
 /**

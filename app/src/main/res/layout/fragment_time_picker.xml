@@ -2,13 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment">
+    tools:context="group2.tcss450.uw.edu.gymwatch.fragments.TimePickerFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/gym_rec_list">
-
-    </android.support.v7.widget.RecyclerView>
+        android:text="@string/hello_blank_fragment" />
 
 </FrameLayout>

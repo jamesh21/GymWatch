@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment">
+    tools:context="group2.tcss450.uw.edu.gymwatch.fragments.SearchResultsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
