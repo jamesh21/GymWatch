@@ -1,5 +1,6 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.SearchView;
@@ -18,16 +19,22 @@ import group2.tcss450.uw.edu.gymwatch.R;
 import group2.tcss450.uw.edu.gymwatch.fragments.SearchResultsFragment;
 import group2.tcss450.uw.edu.gymwatch.fragments.SettingsFragment;
 
-
+/**
+ * This class represents the container for the main functionality fragments of this app.
+ */
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    /** Reference to the searchview. */
+    /** Reference to the search view. */
     private SearchView mSearch;
     /** Reference to the title. */
     private TextView mTitle;
 
     @Override
+    /**
+     * Setup the home activity, initialize the instance field, and place the MyGymsFragment
+     * into the container.
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -67,56 +74,9 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.home, menu);
-//        //MenuItem searchItem = menu.findItem(R.id.search);
-//        //mSearch = (SearchView) searchItem.getActionView();
-//        mSearch = (SearchView)findViewById(R.id.search);
-//        mSearch.setOnSearchClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mTitle.setText("");
-//            }
-//        });
-//        mSearch.setOnCloseListener(new SearchView.OnCloseListener() {
-//            @Override
-//            public boolean onClose() {
-//                mTitle.setText(R.string.my_gyms);
-//                return false;
-//            }
-//        });
-//        mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                return false;
-//            }
-//        });
-//
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
+    /**
+     * This method is used to setup the listeners for the search view.
+     */
     private void setupSearchView() {
         mSearch.setOnSearchClickListener(new View.OnClickListener() {
             @Override
@@ -133,12 +93,16 @@ public class HomeActivity extends AppCompatActivity
         });
         mSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
+            /**
+             * Listens to the submit button for the search, this method will handle the transition
+             * to the results page.
+             */
             public boolean onQueryTextSubmit(String query) {
-                System.out.println(mSearch.getQuery());
                 if (mSearch.getQuery().length() != 0) {
                     mTitle.setText(R.string.results_page);
                     mSearch.setIconified(true);
                     SearchResultsFragment searchResults = new SearchResultsFragment();
+                    //Place the query into a bundle to be passed to the results fragment
                     Bundle args = new Bundle();
                     args.putSerializable("query", mSearch.getQuery().toString());
                     searchResults.setArguments(args);
@@ -159,11 +123,14 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
+    /**
+     * Handles what happens when each item in the navigation bar is clicked.
+     */
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        // This part is for switching the fragments when the navagation bar is used.
+        // This part is for switching the fragments when the navigation bar is used.
         if (id == R.id.nav_gyms) {
             mSearch.setVisibility(View.VISIBLE);
             mSearch.setIconified(true);
@@ -181,6 +148,8 @@ public class HomeActivity extends AppCompatActivity
                     .replace(R.id.content_home, new SettingsFragment())
                     .addToBackStack(null);
             transaction.commit();
+        } else if(id == R.id.nav_signout) {
+            startActivity(new Intent(this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -188,10 +157,4 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
-//    public void onFragmentInteraction(int buttonId) {
-//        switch(buttonId) {
-//            //case R.id.
-//        }
-//    }
 }

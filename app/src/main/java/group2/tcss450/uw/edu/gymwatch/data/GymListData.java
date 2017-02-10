@@ -8,7 +8,8 @@ import java.util.List;
  */
 
 /**
- * This class is used to grab the data from the api to be displayed on the app.
+ * This class is used to grab the data from the api to be displayed on the app. This is a work
+ * in progress, used for testing the layout of the my gyms recycle view at the moment.
  */
 public class GymListData {
 

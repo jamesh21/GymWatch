@@ -42,6 +42,9 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     }
 
     @Override
+    /**
+     * Method used to set the gym attributes.
+     */
     public void onBindViewHolder(GymHolder holder, int position) {
         GymItem item = mListData.get(position);
         holder.mGymName.setText(item.getGymName());
@@ -77,6 +80,10 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         /** The container for the gym. */
         private View container;
 
+        /**
+         * Constructor for a GymHolder object.
+         * @param itemView for the items
+         */
         public GymHolder(View itemView) {
             super(itemView);
 

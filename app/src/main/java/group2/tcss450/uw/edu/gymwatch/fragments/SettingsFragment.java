@@ -14,51 +14,38 @@ import android.widget.Spinner;
 import group2.tcss450.uw.edu.gymwatch.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SettingsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SettingsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener,
-                                        View.OnClickListener {
+                                        View.OnClickListener, TimePickerFragment.OnAddFriendListener {
 
     //private OnFragmentInteractionListener mListener;
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
-
-
+    private View mView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        Spinner spinner = (Spinner) view.findViewById(R.id.fill_spinner);
+        mView = inflater.inflate(R.layout.fragment_settings, container, false);
+        Spinner spinner = (Spinner) mView.findViewById(R.id.fill_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.fill_limit_percentages, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        Button timeButton = (Button) view.findViewById(R.id.start_time_button);
+        Button timeButton = (Button) mView.findViewById(R.id.start_time_button);
         timeButton.setOnClickListener(this);
-        timeButton = (Button) view.findViewById(R.id.end_time_button);
+        timeButton = (Button) mView.findViewById(R.id.end_time_button);
         timeButton.setOnClickListener(this);
 
-        return view;
+        return mView;
     }
 
 
-//    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
 //        }
 //    }
-
+//
 //    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
@@ -69,7 +56,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 //                    + " must implement OnFragmentInteractionListener");
 //        }
 //    }
-
+//
 //    @Override
 //    public void onDetach() {
 //        super.onDetach();
@@ -98,18 +85,37 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         System.out.println("IN HERE");
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void onAddFriendSubmit(int buttonId, int hour, int minute) {
+        switch(buttonId) {
+            case R.id.start_time_button:
+                Button startButton = (Button) mView.findViewById(R.id.start_time_button);
+                startButton.setText(hour + " : " + minute);
+                break;
+            case R.id.end_time_button:
+                Button endButton = (Button) mView.findViewById(R.id.end_time_button);
+                endButton.setText(hour + " : " + minute);
+                break;
+        }
+    }
+
+//    @Override
+//    public void onFragmentInteraction(int buttonId, int hour, int minute) {
+//        switch(buttonId) {
+//            case R.id.start_time_button:
+//                Button startButton = (Button) mView.findViewById(R.id.start_time_button);
+//                startButton.setText(hour + " : " + minute);
+//                break;
+//            case R.id.end_time_button:
+//                Button endButton = (Button) mView.findViewById(R.id.end_time_button);
+//                endButton.setText(hour + " : " + minute);
+//                break;
+//        }
+//    }
+
+
 //    public interface OnFragmentInteractionListener {
 //        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
+//        void onFragmentInteraction(int buttonId, int hour, int minute);
 //    }
 }

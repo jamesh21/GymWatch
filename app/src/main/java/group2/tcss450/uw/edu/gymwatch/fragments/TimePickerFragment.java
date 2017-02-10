@@ -4,31 +4,24 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.text.format.DateFormat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-import group2.tcss450.uw.edu.gymwatch.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TimePickerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
 public class TimePickerFragment extends DialogFragment
                                     implements TimePickerDialog.OnTimeSetListener {
 
     //private OnFragmentInteractionListener mListener;
     private int mButtonPressed;
-    private SettingsFragment mSettings;
+    private OnAddFriendListener callback;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        callback = (OnAddFriendListener) getTargetFragment();
+    }
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -40,18 +33,17 @@ public class TimePickerFragment extends DialogFragment
             System.out.println("NOT EMPTY");
             mButtonPressed = bundle.getInt("button");
         }
-        mSettings = (SettingsFragment) getTargetFragment();
+        //mSettings = (SettingsFragment) getTargetFragment();
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_time_picker, container, false);
-    }
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        return inflater.inflate(R.layout.fragment_time_picker, container, false);
+//    }
 
-//    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {
 //            mListener.onFragmentInteraction(uri);
@@ -77,7 +69,8 @@ public class TimePickerFragment extends DialogFragment
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
+        System.out.println("GOt in here!!!!!!!!!");
+        callback.onAddFriendSubmit(mButtonPressed,hourOfDay, minute);
     }
 
 //    /**
@@ -91,7 +84,10 @@ public class TimePickerFragment extends DialogFragment
 //     * >Communicating with Other Fragments</a> for more information.
 //     */
 //    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
 //        void onFragmentInteraction(int buttonId);
 //    }
+
+    public interface OnAddFriendListener {
+        void onAddFriendSubmit(int buttonId, int hour, int minute);
+    }
 }

@@ -21,18 +21,24 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import group2.tcss450.uw.edu.gymwatch.R;
-import group2.tcss450.uw.edu.gymwatch.activities.HomeActivity;
 
+/**
+ * This Activity Class handles the registration activity.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
+    /**The field for the URL that this activity connects to. */
     private static final String Part_URL
             = "http://cssgate.insttech.washington.edu/" +
             "~xufang/registertest.php";
 
+    /**Field for the response which is returned form the web server. */
     private String mResponse;
 
+    /**Reference to the register button. */
     private Button mButton;
 
+    /**Reference to the registration activity.*/
     private Activity mActivity;
 
     @Override
@@ -44,6 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
         mActivity = this;
     }
 
+    /**
+     * Method to handle the button click from the user for the registration.
+     * @param view the view that calls this method
+     */
     public void buttonClick(View view) {
         AsyncTask<String, Void, String> task = null;
         String user = ((EditText) findViewById(R.id.editTextUsername)).getText().toString();
@@ -78,6 +88,9 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Private helper method for checking the input for the registration form.
+     */
     private void checker() {
         if (mResponse.equals("username already taken")) {
             Toast.makeText(getApplicationContext(), ""+ mResponse
@@ -93,19 +106,24 @@ public class RegisterActivity extends AppCompatActivity {
                     .show();
         }else if (mResponse.equals("Account created successfully")) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("Creating Account successfully! Please remember your username and password" +
-                    "Click Continue to auto login using your new account!").setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(mActivity, HomeActivity.class));
-                    dialog.dismiss();
-                }
+            alert.setMessage("Creating Account successfully! Please remember your username and " +
+                    "password Click Continue to auto login using your new account!").
+                    setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(mActivity, HomeActivity.class));
+                            dialog.dismiss();
+                        }
             }).create();
             alert.show();
         }
         mResponse = "";
     }
 
+    /**
+     * Inner AsyncTask class, handle the internet connection with the web server. Passing
+     * parameters to the web server and get the response back.
+     */
     private class GetWebServiceTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -113,6 +131,11 @@ public class RegisterActivity extends AppCompatActivity {
             mButton.setEnabled(false);
         }
 
+        /**
+         * Perform web connection, passing parameters and retrieve response back by POST
+         * @param strings includes destination URL, and parameters we want to pass.
+         * @return response is the string we get back from the web server.
+         */
         @Override
         protected String doInBackground(String... strings) {
             if (strings.length != 3) {
@@ -148,9 +171,15 @@ public class RegisterActivity extends AppCompatActivity {
             }
             return response;
         }
+
+        /**
+         * This method checks if the response is valid, If it is, store the response
+         * in to the field mResponse.
+         * @param result the response string we  get back from the server.
+         */
         @Override
         protected void onPostExecute(String result) {
-// Something wrong with the network or the URL.
+            // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG)
                         .show();
