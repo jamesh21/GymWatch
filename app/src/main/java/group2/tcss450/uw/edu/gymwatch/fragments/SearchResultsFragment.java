@@ -26,7 +26,7 @@ public class SearchResultsFragment extends Fragment {
     /** This is used for the google place api. */
     private static String PARTIAL_URL
             = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
-            "json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=";
+            "json?location=-33.8670522,151.1957362&radius=500&type=gym&keyword=";
 
     /** Reference to the title bar. */
     private TextView mText;
@@ -38,7 +38,7 @@ public class SearchResultsFragment extends Fragment {
             mText = (TextView) getActivity().findViewById(R.id.display_results);
             AsyncTask<String, Void, String> task = null;
             PARTIAL_URL += getArguments().getString("query") +
-                    "&key=AIzaSyAsOBJx3muOOytqQo4k5WmcJr92xGvl5Sw%5Cn";//Replace with API Key
+                    "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";//Replace with API Key
             task = new TestWebServiceTask();
             task.execute(PARTIAL_URL);
         }
