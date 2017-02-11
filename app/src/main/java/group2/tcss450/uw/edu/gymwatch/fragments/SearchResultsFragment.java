@@ -22,9 +22,13 @@ import group2.tcss450.uw.edu.gymwatch.R;
  * matched the search.
  */
 public class SearchResultsFragment extends Fragment {
+
+    /** This is used for the google place api. */
     private static String PARTIAL_URL
             = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
             "json?location=-33.8670522,151.1957362&radius=500&type=restaurant&keyword=";
+
+    /** Reference to the title bar. */
     private TextView mText;
 
     @Override
@@ -51,8 +55,15 @@ public class SearchResultsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_search_results, container, false);
     }
 
+    /**
+     * This Inner class is used to make calls to the web service to get the search results.
+     */
     private class TestWebServiceTask extends AsyncTask<String, Void, String> {
+
         @Override
+        /**
+         * Method for grabbing the search results in the background.
+         */
         protected String doInBackground(String... strings) {
             String response = "";
             HttpURLConnection urlConnection = null;

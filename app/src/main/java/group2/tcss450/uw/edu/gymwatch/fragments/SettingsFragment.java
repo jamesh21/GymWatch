@@ -15,12 +15,16 @@ import group2.tcss450.uw.edu.gymwatch.R;
 
 
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener,
-                                        View.OnClickListener, TimePickerFragment.OnAddFriendListener {
+                                        View.OnClickListener,
+                                                TimePickerFragment.DialogFragListener{
 
-    //private OnFragmentInteractionListener mListener;
-
+    /** Reference to the settings view. */
     private View mView;
+
     @Override
+    /**
+     * This method initializes all the widgets within the settings fragment.
+     */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -40,29 +44,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     }
 
 
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -74,48 +55,40 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     }
 
     @Override
+    /**
+     * This onClick method will display a time picker dialog fragment.
+     */
     public void onClick(View v) {
         Bundle args = new Bundle();
         args.putInt("button", v.getId());
         DialogFragment timeFrag = new TimePickerFragment();
         timeFrag.setArguments(args);
         timeFrag.setTargetFragment(this, 0);
-        //newFragment.show(getSupportFragmentManager(), "timePicker");
         timeFrag.show(getFragmentManager(), "timePicker");
-        System.out.println("IN HERE");
     }
 
     @Override
-    public void onAddFriendSubmit(int buttonId, int hour, int minute) {
+    /**
+     * This method is used to set the time of the button passed.
+     */
+    public void toDialogFragToSettings(int buttonId, int hour, int minute) {
         switch(buttonId) {
             case R.id.start_time_button:
                 Button startButton = (Button) mView.findViewById(R.id.start_time_button);
-                startButton.setText(hour + " : " + minute);
+                if (minute < 10) {
+                    startButton.setText(hour + " : 0" + minute);
+                } else {
+                    startButton.setText(hour + " : " + minute);
+                }
                 break;
             case R.id.end_time_button:
                 Button endButton = (Button) mView.findViewById(R.id.end_time_button);
-                endButton.setText(hour + " : " + minute);
+                if (minute < 10) {
+                    endButton.setText(hour + " : 0" + minute);
+                } else {
+                    endButton.setText(hour + " : " + minute);
+                }
                 break;
         }
     }
-
-//    @Override
-//    public void onFragmentInteraction(int buttonId, int hour, int minute) {
-//        switch(buttonId) {
-//            case R.id.start_time_button:
-//                Button startButton = (Button) mView.findViewById(R.id.start_time_button);
-//                startButton.setText(hour + " : " + minute);
-//                break;
-//            case R.id.end_time_button:
-//                Button endButton = (Button) mView.findViewById(R.id.end_time_button);
-//                endButton.setText(hour + " : " + minute);
-//                break;
-//        }
-//    }
-
-
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(int buttonId, int hour, int minute);
-//    }
 }

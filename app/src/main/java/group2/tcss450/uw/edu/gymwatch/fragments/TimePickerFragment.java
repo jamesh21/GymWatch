@@ -13,16 +13,21 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment
                                     implements TimePickerDialog.OnTimeSetListener {
 
-    //private OnFragmentInteractionListener mListener;
+    /** Reference of the button which opened this fragment.*/
     private int mButtonPressed;
-    private OnAddFriendListener callback;
+    /** Reference to the fragment that opened this time picker. */
+    private DialogFragListener mCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        callback = (OnAddFriendListener) getTargetFragment();
+        mCallback = (DialogFragListener) getTargetFragment();
     }
+
     @Override
+    /**
+     * Method is for creating a new time picker dialog.
+     **/
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
@@ -30,64 +35,30 @@ public class TimePickerFragment extends DialogFragment
         int minute = c.get(Calendar.MINUTE);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            System.out.println("NOT EMPTY");
             mButtonPressed = bundle.getInt("button");
         }
-        //mSettings = (SettingsFragment) getTargetFragment();
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
     }
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        return inflater.inflate(R.layout.fragment_time_picker, container, false);
-//    }
-
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        System.out.println("GOt in here!!!!!!!!!");
-        callback.onAddFriendSubmit(mButtonPressed,hourOfDay, minute);
+        mCallback.toDialogFragToSettings(mButtonPressed,hourOfDay, minute);
     }
 
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        void onFragmentInteraction(int buttonId);
-//    }
+    /**
+     * This interface is a listener which communicates from the dialog fragment to
+     * the settings fragment
+     */
+    public interface DialogFragListener {
 
-    public interface OnAddFriendListener {
-        void onAddFriendSubmit(int buttonId, int hour, int minute);
+        /**
+         * This method is for interaction between the Dialog Fragment and the Settings.
+         * @param buttonId that opened the dialog fragment
+         * @param hour the hour to be set in the dialog fragment
+         * @param minute the minute to be set in the dialog fragment
+         */
+        void toDialogFragToSettings(int buttonId, int hour, int minute);
     }
 }

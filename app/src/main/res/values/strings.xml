@@ -26,4 +26,8 @@
     <string name="username">Username:</string>
     <string name="password">Password:</string>
     <string name="sign_out">Sign Out</string>
+    <string name="caps_password">PASSWORD</string>
+    <string name="caps_username">USERNAME</string>
+    <string name="caps_confirm_password">CONFIRM PASSWORD</string>
+    <string name="register">Register</string>
 </resources>

@@ -61,7 +61,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/start_time_button"/>
+            android:id="@+id/start_time_button"
+            android:text="12:00"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +70,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/end_time_button" />
+            android:id="@+id/end_time_button"
+            android:text="24:00"/>
     </LinearLayout>
 
 </LinearLayout>
