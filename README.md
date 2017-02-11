@@ -1,8 +1,8 @@
 # GymWatch
-
 GymWatch Project Phase 1 README
 
 Features Implemented
+   
     1) The ability to login as a user.
     2) The ability to register as a new user.
     3) The home page of the app which will be used as a my favorites list
@@ -17,6 +17,7 @@ Features Implemented
     6) The ability to sign out of the app.
 
 Use cases Implemented
+    
      1) Registration use case has been fully implemented.
      2) Login use case has been fully implemented.
      3) All other use cases only have partial implementation.
