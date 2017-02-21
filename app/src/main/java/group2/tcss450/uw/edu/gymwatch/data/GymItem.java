@@ -10,15 +10,15 @@ package group2.tcss450.uw.edu.gymwatch.data;
 public class GymItem {
 
     /** Name of the gyme. */
-    private String mGymName;
+    String mGymName;
     /** Rating for the gym. */
-    private String mGymRating;
+    String mGymRating;
     /** Address for the gym. */
-    private String mGymAddress;
+    String mGymAddress;
     /** Fill Rate for the gym. */
-    private String mGymFill;
+    String mGymFill;
     /** Image of the gym. */
-    private int mGymImage;
+    int mGymImage;
 
     /**
      * Constructor for a gym item.
@@ -36,6 +36,50 @@ public class GymItem {
         mGymImage = theGymImage;
         mGymRating = theGymRating;
 
+    }
+
+    /**
+     * Getting for Gym Name.
+     * @return gym name
+     */
+    public void setGymName(String gymName) {
+        mGymName = gymName;
+    }
+
+
+    /**
+     * Getter for gym rating.
+     * @return gym rating
+     */
+    public void setGymRating(String gymRating) {
+        mGymRating = gymRating;
+    }
+
+
+    /**
+     * Getter for gym address.
+     * @return gym address
+     */
+    public void setGymAddress(String gymAddress) {
+        mGymAddress = gymAddress;
+    }
+
+
+    /**
+     * Getter for gym fill rate.
+     * @return gym fill rate
+     */
+    public void setGymFill(String gymFill) {
+        mGymFill = gymFill;
+    }
+
+
+    /**
+     * Getting for gym image.
+     * @return gym image
+     */
+    public void setGymImage(String gymImage) {
+        //Will add later
     }
 
     /**

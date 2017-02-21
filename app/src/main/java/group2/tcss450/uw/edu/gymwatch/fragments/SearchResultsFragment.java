@@ -1,21 +1,34 @@
 package group2.tcss450.uw.edu.gymwatch.fragments;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.data.GymItem;
+import group2.tcss450.uw.edu.gymwatch.data.JSONParser;
 
 /**
  * This Class represents the search results fragment of the app, it will display all the gyms
@@ -24,9 +37,13 @@ import group2.tcss450.uw.edu.gymwatch.R;
 public class SearchResultsFragment extends Fragment {
 
     /** This is used for the google place api. */
-    private static String PARTIAL_URL
-            = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
-            "json?location=-33.8670522,151.1957362&radius=500&type=gym&keyword=";
+    private static String PARTIAL_URL;
+    private static String final_search;
+    double latitude = 0.0, longitude = 0.0;
+    private static final int location_permission_request_code = 1;
+    LocationManager lm;
+    LocationListener locationListener;
+    Location location;
 
     /** Reference to the title bar. */
     private TextView mText;
@@ -34,14 +51,23 @@ public class SearchResultsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (getArguments() != null) {
+        if(getArguments() != null) {
+            handleLocation();
             mText = (TextView) getActivity().findViewById(R.id.display_results);
             AsyncTask<String, Void, String> task = null;
             PARTIAL_URL += getArguments().getString("query") +
                     "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";//Replace with API Key
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + getArguments().getString("query"));
             task = new TestWebServiceTask();
             task.execute(PARTIAL_URL);
         }
+
+        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        //Fuck android. :)
+        //lm.removeUpdates(locationListener);
     }
 
     @Override
@@ -53,6 +79,90 @@ public class SearchResultsFragment extends Fragment {
         search.setIconified(true);
         title.setText(R.string.results_page);
         return inflater.inflate(R.layout.fragment_search_results, container, false);
+    }
+
+    /**
+     * Handles all location details.
+     * Checks for location permissions, settings and sets location data and
+     * search string.
+     */
+    private void handleLocation() {
+        //We call getActivity() because Location manager needs context, and Fragments don't extend Contexts; the activity it resides in does.
+
+        //if (getArguments() != null) {
+            //Check if the user has granted us the required permissions
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                //Request Permission for Coarse Location
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                        location_permission_request_code);
+            } else {
+                lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                //Location Listener helps get the latest location based on below methods.
+                //Check if the GPS is on
+                boolean enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                if (!enabled) {
+                    Toast.makeText(getActivity(), "Enable GPS", Toast.LENGTH_SHORT).show();
+                } else {
+                    locationListener = new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            longitude = location.getLongitude();
+                            latitude = location.getLatitude();
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s) {
+
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s) {
+
+                        }
+                    };
+                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 100, locationListener);
+                    location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    longitude = location.getLongitude();
+                    latitude = location.getLatitude();
+                    Toast.makeText(getActivity(), "Long: " + longitude + ", Lat: " + latitude, Toast.LENGTH_SHORT).show();
+                    PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+                            "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
+                }
+
+            }
+
+
+        }
+
+
+    private void printGym(GymItem item) {
+        mText.setText(item.getGymName() + "\n");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Toast.makeText(getActivity(), "Unable to get Location", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     /**
@@ -88,14 +198,20 @@ public class SearchResultsFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String result) {
+            protected void onPostExecute(String result) {
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
                 //Toast.makeText(SearchResultsFragment.this, result, Toast.LENGTH_LONG)
                 //     .show();
                 return;
             }
-            mText.setText(result);
+            //mText.setText(result);
+            //Gives the result string to a JSONParser object which will parse the string.
+            JSONParser parser = new JSONParser(result);
+            ArrayList<String> res = parser.getGyms();
+            for(String s : res) {
+                mText.append(s + "\n");
+            }
         }
     }
 }

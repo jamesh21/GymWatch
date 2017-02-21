@@ -62,6 +62,8 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
     }
 
     @Override
@@ -99,12 +101,12 @@ public class HomeActivity extends AppCompatActivity
              */
             public boolean onQueryTextSubmit(String query) {
                 if (mSearch.getQuery().length() != 0) {
-                    mTitle.setText(R.string.results_page);
+                    mTitle.setText("Results");
                     mSearch.setIconified(true);
                     SearchResultsFragment searchResults = new SearchResultsFragment();
                     //Place the query into a bundle to be passed to the results fragment
                     Bundle args = new Bundle();
-                    args.putSerializable("query", mSearch.getQuery().toString());
+                    args.putSerializable("query", query);
                     searchResults.setArguments(args);
                     FragmentTransaction transaction = getSupportFragmentManager().
                             beginTransaction().
