@@ -23,6 +23,7 @@ public class GymListData {
             android.R.drawable.ic_dialog_map, android.R.drawable.ic_btn_speak_now,
             android.R.drawable.ic_dialog_email};
 
+
     /**
      * This method is used to get all the gyms to display on the screen
      * @return
