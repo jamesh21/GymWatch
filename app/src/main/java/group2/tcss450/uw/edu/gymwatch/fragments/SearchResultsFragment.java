@@ -8,6 +8,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
@@ -43,7 +44,7 @@ public class SearchResultsFragment extends Fragment {
     private static final int location_permission_request_code = 1;
     LocationManager lm;
     LocationListener locationListener;
-    Location location;
+    Location loc;
 
     /** Reference to the title bar. */
     private TextView mText;
@@ -100,39 +101,36 @@ public class SearchResultsFragment extends Fragment {
                 lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 //Location Listener helps get the latest location based on below methods.
                 //Check if the GPS is on
-                boolean enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                if (!enabled) {
-                    Toast.makeText(getActivity(), "Enable GPS", Toast.LENGTH_SHORT).show();
+                boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                Location netLoc = null, gpsLoc = null, finalLoc = null;
+                if(!gps_enabled && !network_enabled) {
+                    Toast.makeText(getActivity(), "Location Retrieval Failed", Toast.LENGTH_SHORT).show();
+                } else if (gps_enabled && network_enabled) {
+                    gpsLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    netLoc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
+                if(gpsLoc != null && netLoc != null) {
+                    if (gpsLoc.getAccuracy() > netLoc.getAccuracy())//Check which one is more accurate
+                        finalLoc = netLoc;
+                    else
+                        finalLoc = gpsLoc;
                 } else {
-                    locationListener = new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            longitude = location.getLongitude();
-                            latitude = location.getLatitude();
-                        }
+                    if (gpsLoc != null) {
+                        finalLoc = gpsLoc;
+                    } else if (netLoc != null) {
+                        finalLoc = netLoc;
+                    }
+                }
+                if(finalLoc != null) {
+                    latitude = finalLoc.getLatitude();
+                    longitude = finalLoc.getLongitude();
+                    //Toast.makeText(getActivity(), "Long: " + longitude + ", Lat: " + latitude, Toast.LENGTH_SHORT).show();
+                        PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+                                "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
+                } else {
+                    Toast.makeText(getActivity(), "Location Retrieval Failed", Toast.LENGTH_SHORT).show();
 
-                        @Override
-                        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String s) {
-
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String s) {
-
-                        }
-                    };
-                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 100, locationListener);
-                    location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    longitude = location.getLongitude();
-                    latitude = location.getLatitude();
-                    Toast.makeText(getActivity(), "Long: " + longitude + ", Lat: " + latitude, Toast.LENGTH_SHORT).show();
-                    PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
-                            "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
                 }
 
             }

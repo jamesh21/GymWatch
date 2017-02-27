@@ -7,6 +7,7 @@ android {
         applicationId "group2.tcss450.uw.edu.gymwatch"
         minSdkVersion 15
         targetSdkVersion 25
+        compileSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -19,12 +20,17 @@ android {
         }
     }
 }
+ext {
+    supportLibVersion = '25.1.1'  // variable that can be referenced to keep support libs consistent
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:design:${supportLibVersion}"
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
     compile 'com.android.support:support-v4:25.1.1'
