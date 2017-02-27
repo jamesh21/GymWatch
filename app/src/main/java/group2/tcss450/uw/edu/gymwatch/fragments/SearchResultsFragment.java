@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +30,9 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.data.GymAdapter;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
+import group2.tcss450.uw.edu.gymwatch.data.GymListData;
 import group2.tcss450.uw.edu.gymwatch.data.JSONParser;
 
 /**
@@ -46,6 +50,8 @@ public class SearchResultsFragment extends Fragment {
     LocationListener locationListener;
     Location loc;
 
+    private View mView;
+
     /** Reference to the title bar. */
     private TextView mText;
 
@@ -54,11 +60,10 @@ public class SearchResultsFragment extends Fragment {
         super.onStart();
         if(getArguments() != null) {
             handleLocation();
-            mText = (TextView) getActivity().findViewById(R.id.display_results);
+            //mText = (TextView) getActivity().findViewById(R.id.display_results);
             AsyncTask<String, Void, String> task = null;
             PARTIAL_URL += getArguments().getString("query") +
                     "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";//Replace with API Key
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!" + getArguments().getString("query"));
             task = new TestWebServiceTask();
             task.execute(PARTIAL_URL);
         }
@@ -79,7 +84,8 @@ public class SearchResultsFragment extends Fragment {
         search.setVisibility(View.VISIBLE);
         search.setIconified(true);
         title.setText(R.string.results_page);
-        return inflater.inflate(R.layout.fragment_search_results, container, false);
+        mView = inflater.inflate(R.layout.fragment_search_results, container, false);
+        return mView;
     }
 
     /**
@@ -206,10 +212,11 @@ public class SearchResultsFragment extends Fragment {
             //mText.setText(result);
             //Gives the result string to a JSONParser object which will parse the string.
             JSONParser parser = new JSONParser(result);
-            ArrayList<String> res = parser.getGyms();
-            for(String s : res) {
-                mText.append(s + "\n");
-            }
+            ArrayList<GymItem> results = parser.getGyms();
+            RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
+            gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            GymAdapter gymAdapter = new GymAdapter(results, getActivity());
+            gymRecView.setAdapter(gymAdapter);
         }
     }
 }

@@ -26,10 +26,10 @@ public class MyGymsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_gyms, container, false);
-        RecyclerView gymRecView = (RecyclerView) view.findViewById(R.id.gym_rec_list);
-        gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        GymAdapter gymAdapter = new GymAdapter(GymListData.getList(), getActivity());
-        gymRecView.setAdapter(gymAdapter);
+//        RecyclerView gymRecView = (RecyclerView) view.findViewById(R.id.gym_rec_list);
+//        gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        GymAdapter gymAdapter = new GymAdapter(GymListData.getList(), getActivity());
+//        gymRecView.setAdapter(gymAdapter);
         return view;
     }
 
