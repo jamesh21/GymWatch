@@ -4,21 +4,22 @@ package group2.tcss450.uw.edu.gymwatch.data;
  * Created by james on 1/25/2017.
  */
 
+
 /**
  * This class represents a single gym and all the information regarding that gym.
  */
 public class GymItem {
 
     /** Name of the gyme. */
-    String mGymName;
+    private String mGymName;
     /** Rating for the gym. */
-    String mGymRating;
+    private String mGymRating;
     /** Address for the gym. */
-    String mGymAddress;
+    private String mGymAddress;
     /** Fill Rate for the gym. */
-    String mGymFill;
-    /** Image of the gym. */
-    int mGymImage;
+    private String mGymFill;
+    /** URL for the image of the gym. */
+    private String mGymImage;
 
     /**
      * Constructor for a gym item.
@@ -29,7 +30,7 @@ public class GymItem {
      * @param theGymImage image of the gym
      */
     public GymItem(String theGymName, String theGymRating, String theGymAddress,
-                   String theGymFill, int theGymImage) {
+                   String theGymFill, String theGymImage) {
         mGymName = theGymName;
         mGymAddress = theGymAddress;
         mGymFill = theGymFill;
@@ -122,7 +123,7 @@ public class GymItem {
      * Getting for gym image.
      * @return gym image
      */
-    public int getGymImage() {
+    public String getGymImage() {
         return mGymImage;
     }
 

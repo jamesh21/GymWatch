@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     /** The list of all the gyms to the view. */
     private List<GymItem> mListData;
     private LayoutInflater mInflater;
-
+    private Context mContext;
     /**
      * Constructor for a GymAdapter.
      * @param theListData which represents the data of gyms to be placed in the recycle view
@@ -33,11 +36,13 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     public GymAdapter(List<GymItem> theListData, Context theContext) {
         mListData = theListData;
         mInflater = LayoutInflater.from(theContext);
+        mContext = theContext;
     }
 
     @Override
     public GymHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.gym_list_item, parent, false);
+
         return new GymHolder(view);
     }
 
@@ -48,8 +53,12 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     public void onBindViewHolder(GymHolder holder, int position) {
         GymItem item = mListData.get(position);
         holder.mGymName.setText(item.getGymName());
-        holder.mGymImage.setImageResource(item.getGymImage());
-        holder.mGymRating.setText(item.getGymRating());
+
+        //holder.mGymImage.setImageDrawable(item.getGymImage());
+        Picasso.with(mContext)
+                .load(item.getGymImage())
+                .into(holder.mGymImage);
+        holder.mGymRating.setRating(Float.parseFloat(item.getGymRating()));
         holder.mGymFillRate.setText(item.getGymFill() + "% Full");
         holder.mGymAddress.setText(item.getGymAddress());
     }
@@ -70,7 +79,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         /** The name of the gym. */
         private TextView mGymName;
         /** The rating of the gym. */
-        private TextView mGymRating;
+        private RatingBar mGymRating;
         /** The address of the gym. */
         private TextView mGymAddress;
         /** The fill Rate of the gym. */
@@ -90,7 +99,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             mGymName = (TextView)itemView.findViewById(R.id.gym_name);
             mGymAddress = (TextView)itemView.findViewById(R.id.gym_address);
             mGymFillRate = (TextView)itemView.findViewById(R.id.gym_fill);
-            mGymRating = (TextView)itemView.findViewById(R.id.gym_rating);
+            mGymRating = (RatingBar) itemView.findViewById(R.id.gym_rating);
             mGymImage = (ImageView)itemView.findViewById(R.id.gym_picture);
             container = itemView.findViewById(R.id.gym_content_container);
         }
