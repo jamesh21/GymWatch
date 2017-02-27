@@ -111,7 +111,7 @@ public class SearchResultsFragment extends Fragment {
                 boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                 Location netLoc = null, gpsLoc = null, finalLoc = null;
                 if(!gps_enabled && !network_enabled) {
-                    Toast.makeText(getActivity(), "Location Retrieval Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Check GPS", Toast.LENGTH_SHORT).show();
                 } else if (gps_enabled && network_enabled) {
                     gpsLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     netLoc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
