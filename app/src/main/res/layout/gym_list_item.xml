@@ -12,35 +12,34 @@
         android:paddingLeft="10dp"
         android:textSize="20dp"
         android:text="YMCA"/>
-    <TextView
+    <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/gym_rating"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_below="@+id/gym_name"
         android:paddingLeft="10dp"
-        android:layout_below="@id/gym_name"
-        android:text="rating"/>
+        android:id="@+id/gym_rating"
+        android:numStars="5"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gym_address"
+        android:textSize="12dp"
         android:paddingLeft="10dp"
-        android:layout_below="@id/gym_rating"
-        android:text="1144 Market St, Tacoma, WA 98402"/>
+        android:layout_below="@id/gym_rating"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gym_fill"
+        android:paddingTop="5dp"
         android:layout_below="@id/gym_address"
-        android:text="50% Full"
         android:textSize="30dp"
         android:paddingLeft="10dp"/>
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:layout_alignParentRight="true"
-        android:id="@+id/gym_picture"
-        android:src="@drawable/ic_menu_camera"
-        android:tint="@color/colorAccent"/>
+        android:id="@+id/gym_picture"/>
 </RelativeLayout>
