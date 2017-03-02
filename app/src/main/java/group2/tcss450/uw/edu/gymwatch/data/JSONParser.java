@@ -17,12 +17,11 @@ public class JSONParser {
     //Tags for reading each result's data
     private static final String TAG_RESULTS = "results";
     private static final String TAG_NAME = "name";
-    private static final String TAG_ID = "place_id";
-    private static final String TAG_ICON = "icon";
     private static final String TAG_OPEN_HOURS = "opening_hours";
     private static final String TAG_PHOTOS = "photos";
     private static final String TAG_RATINGS = "rating";
     private static final String TAG_ADDRESS = "vicinity";
+    private static final String TAG_PLACE_ID = "place_id";
 
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
@@ -58,14 +57,17 @@ public class JSONParser {
         //Can change to 20 for more results, but ten seems ok for now.
         try {
             JSONArray places = json.getJSONArray(TAG_RESULTS);
+
             // Going through each gym result and buidling a gym item object
             for (int i = 0; i < places.length(); i++) {
                 JSONObject object = places.getJSONObject(i);
+                String placeId = object.getString(TAG_PLACE_ID);
                 String name = object.getString(TAG_NAME);
                 //String hours = object.getString(TAG_OPEN_HOURS);
                 String rating = object.getString(TAG_RATINGS);
                 String address = object.getString(TAG_ADDRESS);
                 String image;
+
                 if (object.has(TAG_PHOTOS)) {
                     JSONArray photo = object.getJSONArray(TAG_PHOTOS);
                     JSONObject images = photo.getJSONObject(0);
@@ -74,7 +76,7 @@ public class JSONParser {
                 } else { // if no image are available
                     image = NO_IMAGE;
                 }
-                GymItem gym = new GymItem(name, rating, address, "50", image);
+                GymItem gym = new GymItem(name, rating, address, "50", image, placeId);
                 gymList.add(gym);
             }
         } catch (JSONException e) {

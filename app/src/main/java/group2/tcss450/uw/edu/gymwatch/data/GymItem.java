@@ -21,6 +21,8 @@ public class GymItem {
     /** URL for the image of the gym. */
     private String mGymImage;
 
+    private String mGymID;
+
     /**
      * Constructor for a gym item.
      * @param theGymName name of the gym
@@ -30,12 +32,13 @@ public class GymItem {
      * @param theGymImage image of the gym
      */
     public GymItem(String theGymName, String theGymRating, String theGymAddress,
-                   String theGymFill, String theGymImage) {
+                   String theGymFill, String theGymImage, String theGymID) {
         mGymName = theGymName;
         mGymAddress = theGymAddress;
         mGymFill = theGymFill;
         mGymImage = theGymImage;
         mGymRating = theGymRating;
+        mGymID = theGymID;
 
     }
 

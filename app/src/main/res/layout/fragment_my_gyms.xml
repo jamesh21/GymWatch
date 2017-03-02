@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     tools:context="group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment">
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:id="@+id/gym_rec_list">-->
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gym_home_list">
 
-    <!--</android.support.v7.widget.RecyclerView>-->
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

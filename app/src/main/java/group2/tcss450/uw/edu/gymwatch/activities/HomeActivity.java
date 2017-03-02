@@ -3,6 +3,8 @@ package group2.tcss450.uw.edu.gymwatch.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -14,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import group2.tcss450.uw.edu.gymwatch.data.GymAdapter;
+import group2.tcss450.uw.edu.gymwatch.data.GymListData;
 import group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment;
 import group2.tcss450.uw.edu.gymwatch.R;
 import group2.tcss450.uw.edu.gymwatch.fragments.SearchResultsFragment;
@@ -63,6 +67,10 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+//        RecyclerView gymRecView = (RecyclerView) findViewById(R.id.gym_home_list);
+//        gymRecView.setLayoutManager(new LinearLayoutManager(this));
+//        GymAdapter gymAdapter = new GymAdapter(GymListData.getList(), this);
+//        gymRecView.setAdapter(gymAdapter);
 
     }
 
