@@ -22,6 +22,7 @@ public class JSONParser {
     private static final String TAG_RATINGS = "rating";
     private static final String TAG_ADDRESS = "vicinity";
     private static final String TAG_PLACE_ID = "place_id";
+    private static final String TAG_PHONE_NUM = "formatted_phone_number";
 
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
