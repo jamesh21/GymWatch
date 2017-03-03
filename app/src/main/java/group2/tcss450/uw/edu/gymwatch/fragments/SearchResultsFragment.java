@@ -2,6 +2,7 @@ package group2.tcss450.uw.edu.gymwatch.fragments;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -19,8 +20,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,9 +28,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.activities.GymDetailActivity;
 import group2.tcss450.uw.edu.gymwatch.data.GymAdapter;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
-import group2.tcss450.uw.edu.gymwatch.data.GymListData;
+import group2.tcss450.uw.edu.gymwatch.data.ItemClickSupport;
 import group2.tcss450.uw.edu.gymwatch.data.JSONParser;
 
 /**
@@ -45,9 +45,9 @@ public class SearchResultsFragment extends Fragment {
     private static String final_search;
     double latitude = 0.0, longitude = 0.0;
     private static final int location_permission_request_code = 1;
-    LocationManager lm;
-    LocationListener locationListener;
-    Location location;
+    private LocationManager lm;
+    private LocationListener locationListener;
+    private ArrayList<GymItem> results = new ArrayList<>();
 
     private View mView;
 
@@ -71,9 +71,9 @@ public class SearchResultsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        //Fuck android. :)
-        //lm.removeUpdates(locationListener);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,50 +105,89 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
                 //Location Listener helps get the latest location based on below methods.
+                locationListener = new LocationListener() {
+                    @Override
+                    public void onLocationChanged(Location location) {
+
+                    }
+
+                    @Override
+                    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                    }
+
+                    @Override
+                    public void onProviderEnabled(String s) {
+
+                    }
+
+                    @Override
+                    public void onProviderDisabled(String s) {
+
+                    }
+                };
                 //Check if the GPS is on
-                boolean enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                if (!enabled) {
-                    Toast.makeText(getActivity(), "Enable GPS", Toast.LENGTH_SHORT).show();
+                boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                Location netLoc = null, gpsLoc = null, finalLoc = null;
+                if(!gps_enabled && !network_enabled) {
+                    Toast.makeText(getActivity(), "Enable GPS/Network", Toast.LENGTH_SHORT).show();
+                } else if (gps_enabled || network_enabled) {
+                    if(gps_enabled) {
+                        gpsLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    }
+                    if(network_enabled) {
+                        netLoc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
+                }
+                if(gpsLoc != null && netLoc != null) {
+                    if (gpsLoc.getAccuracy() > netLoc.getAccuracy())//Check which one is more accurate
+                        finalLoc = netLoc;
+                    else
+                        finalLoc = gpsLoc;
                 } else {
-                    locationListener = new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            longitude = location.getLongitude();
-                            latitude = location.getLatitude();
-                        }
+                    if (gpsLoc != null) {
+                        finalLoc = gpsLoc;
+                        Toast.makeText(getActivity(), "Using GPS", Toast.LENGTH_SHORT).show();
+                    } else if (netLoc != null) {
+                        finalLoc = netLoc;
+                        Toast.makeText(getActivity(), "Using Network", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if(finalLoc != null) {
+                    latitude = finalLoc.getLatitude();
+                    longitude = finalLoc.getLongitude();
+                        PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+                                "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
+                } else {
+                    Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
 
-                        @Override
-                        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String s) {
-
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String s) {
-
-                        }
-                    };
-                    lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2, 100, locationListener);
-                    location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    longitude = location.getLongitude();
-                    latitude = location.getLatitude();
-                    Toast.makeText(getActivity(), "Long: " + longitude + ", Lat: " + latitude, Toast.LENGTH_SHORT).show();
-                    PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
-                            "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
                 }
 
             }
 
 
         }
+    private void populateView(final ArrayList<GymItem> results) {
+        RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
+        gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GymAdapter gymAdapter = new GymAdapter(results, getActivity());
+        gymRecView.setAdapter(gymAdapter);
+        ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Toast.makeText(getActivity(), "Name: " + results.get(position).getGymName(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getActivity(), GymDetailActivity.class);
+                i.putExtra("Gym", results.get(position));
+                startActivity(i);
+            }
+        });
+    }
 
-
-    private void printGym(GymItem item) {
-        mText.setText(item.getGymName() + "\n");
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateView(results);
     }
 
     @Override
@@ -170,6 +209,7 @@ public class SearchResultsFragment extends Fragment {
             // permissions this app might request
         }
     }
+
 
     /**
      * This Inner class is used to make calls to the web service to get the search results.
@@ -214,11 +254,20 @@ public class SearchResultsFragment extends Fragment {
             //mText.setText(result);
             //Gives the result string to a JSONParser object which will parse the string.
             JSONParser parser = new JSONParser(result);
-            ArrayList<GymItem> results = parser.getGyms();
+            results = parser.getGyms();
             RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
             gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
             GymAdapter gymAdapter = new GymAdapter(results, getActivity());
             gymRecView.setAdapter(gymAdapter);
+            ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                @Override
+                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                    Toast.makeText(getActivity(), "Name: " + results.get(position).getGymName(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getActivity(), GymDetailActivity.class);
+                    i.putExtra("Gym", results.get(position));
+                    startActivity(i);
+                }
+            });
         }
     }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="group2.tcss450.uw.edu.gymwatch.activities.GymDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="true"
+            app:maxLines="3">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:title="@string/app_name"/>
+
+        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/detailView_main">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="28sp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="This is a super text"
+                    android:id="@+id/gym_address_detail"
+                    android:padding="@dimen/activity_horizontal_margin" />
+                <RatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_below="@id/gym_address_detail"
+                    android:numStars="5"
+                    android:id="@+id/gym_rating_detail"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/gym_fill_detail"
+                    android:text="55"
+                    android:textSize="40sp"
+                    android:padding="20dp"
+                    android:lineSpacingExtra="8dp"
+                    android:layout_alignBaseline="@+id/gym_address_detail"
+                    android:layout_alignBottom="@+id/gym_address_detail"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchorGravity="center_vertical|right"
+        android:layout_gravity="bottom|right" />
+
+</android.support.design.widget.CoordinatorLayout>

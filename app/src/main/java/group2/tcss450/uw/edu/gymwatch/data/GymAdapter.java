@@ -46,12 +46,15 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         return new GymHolder(view);
     }
 
+
+
     @Override
     /**
      * Method used to set the gym attributes.
      */
     public void onBindViewHolder(GymHolder holder, int position) {
         GymItem item = mListData.get(position);
+        item.setmGymPosition(position);
         holder.mGymName.setText(item.getGymName());
 
         //holder.mGymImage.setImageDrawable(item.getGymImage());
@@ -103,5 +106,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             mGymImage = (ImageView)itemView.findViewById(R.id.gym_picture);
             container = itemView.findViewById(R.id.gym_content_container);
         }
+
+
     }
 }

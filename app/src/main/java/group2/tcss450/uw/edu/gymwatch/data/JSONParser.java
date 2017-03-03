@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class JSONParser {
     private JSONObject json;
+    GymItem gym;
     //Tags for reading each result's data
     private static final String TAG_RESULTS = "results";
     private static final String TAG_NAME = "name";
@@ -62,14 +63,8 @@ public class JSONParser {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        mResponse = "";
     }
 
-    public void getTime() {
-        Calendar c = Calendar.getInstance(Locale.getDefault());
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-
-    }
     /**
      * Parses the JSON Object into an ArrayList of GymItems
      *
