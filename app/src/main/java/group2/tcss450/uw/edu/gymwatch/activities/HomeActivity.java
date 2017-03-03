@@ -34,6 +34,8 @@ public class HomeActivity extends AppCompatActivity
     /** Reference to the title. */
     private TextView mTitle;
 
+    private String mUsername;
+
     @Override
     /**
      * Setup the home activity, initialize the instance field, and place the MyGymsFragment
@@ -46,13 +48,19 @@ public class HomeActivity extends AppCompatActivity
         //Getting a reference to the search view and adding listeners so the title will disappear
         mSearch = (SearchView) findViewById(R.id.search);
         mTitle = (TextView) findViewById(R.id.fragment_title);
+        mUsername = getIntent().getStringExtra("username");
+        System.out.println("In home " + mUsername);
         setupSearchView();
 
         //Setting up the my gyms recycle view
         if(savedInstanceState == null) {
             if (findViewById(R.id.content_home) != null) {
+                Bundle bundle = new Bundle();
+                bundle.putString("username", mUsername);
+                MyGymsFragment gymsFragment = new MyGymsFragment();
+                gymsFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.content_home, new MyGymsFragment())
+                        .add(R.id.content_home, gymsFragment)
                         .commit();
             }
         }
@@ -145,11 +153,19 @@ public class HomeActivity extends AppCompatActivity
             mSearch.setVisibility(View.VISIBLE);
             mSearch.setIconified(true);
             mTitle.setText(R.string.my_gyms);
-            FragmentTransaction transaction = getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_home, new MyGymsFragment())
-                    .addToBackStack(null);
-            transaction.commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("username", mUsername);
+            MyGymsFragment gymsFragment = new MyGymsFragment();
+            gymsFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content_home, gymsFragment)
+                    .addToBackStack(null)
+                    .commit();
+//            FragmentTransaction transaction = getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.content_home, new MyGymsFragment())
+//                    .addToBackStack(null);
+//            transaction.commit();
         } else if (id == R.id.nav_setting) {
             mTitle.setText(R.string.action_settings);
             mSearch.setVisibility(View.INVISIBLE);

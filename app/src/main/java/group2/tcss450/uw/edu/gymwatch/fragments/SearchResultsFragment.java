@@ -154,15 +154,15 @@ public class SearchResultsFragment extends Fragment {
                         Toast.makeText(getActivity(), "Using Network", Toast.LENGTH_SHORT).show();
                     }
                 }
-//                if(finalLoc != null) {
-//                    latitude = finalLoc.getLatitude();
-//                    longitude = finalLoc.getLongitude();
-//                        PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
-//                                "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
-//                } else {
-//                    Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
+                if(finalLoc != null) {
+                    latitude = finalLoc.getLatitude();
+                    longitude = finalLoc.getLongitude();
+                        PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+                                "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
+                } else {
+                    Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
 
-               // }
+                }
 
             }
 
@@ -249,10 +249,12 @@ public class SearchResultsFragment extends Fragment {
             if (result.startsWith("Unable to")) {
                 //Toast.makeText(SearchResultsFragment.this, result, Toast.LENGTH_LONG)
                 //     .show();
+                System.out.println("HELLO");
                 return;
             }
             //mText.setText(result);
             //Gives the result string to a JSONParser object which will parse the string.
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
             RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);

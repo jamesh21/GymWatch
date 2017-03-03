@@ -31,12 +31,9 @@ public class JSONParser {
     //Tags for reading each result's data
     private static final String TAG_RESULTS = "results";
     private static final String TAG_NAME = "name";
-    private static final String TAG_OPEN_HOURS = "opening_hours";
     private static final String TAG_PHOTOS = "photos";
     private static final String TAG_RATINGS = "rating";
     private static final String TAG_ADDRESS = "vicinity";
-    private static final String TAG_PLACE_ID = "place_id";
-    private static final String TAG_PHONE_NUM = "formatted_phone_number";
 
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
@@ -80,9 +77,7 @@ public class JSONParser {
             for (int i = 0; i < places.length(); i++) {
                 String str_result= new StaticWebServiceTask().execute(FAKE_DATA).get();
                 JSONObject object = places.getJSONObject(i);
-                String placeId = object.getString(TAG_PLACE_ID);
                 String name = object.getString(TAG_NAME);
-                //String hours = object.getString(TAG_OPEN_HOURS);
                 String rating = object.getString(TAG_RATINGS);
                 String address = object.getString(TAG_ADDRESS);
                 String image;
@@ -94,10 +89,6 @@ public class JSONParser {
                 } else { // if no image are available
                     image = NO_IMAGE;
                 }
-                System.out.println(name);
-                System.out.println(rating);
-                System.out.println(address);
-                Log.d("Result", name);
                 GymItem gym = new GymItem(name, rating, address, str_result, image);
                 gymList.add(gym);
             }

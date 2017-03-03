@@ -32,13 +32,13 @@ public class GymListData {
      * This method is used to get all the gyms to display on the screen
      * @return
      */
-    public static List<GymItem> getList() {
+    public static List<GymItem> getList(String username) {
         List<GymItem> data = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             //Making a fake list of gyms to display onto the screen
             for (int j = 0; j < mGymNameList.length;j++) {
                 data.add(new GymItem(mGymNameList[j], "5", mGymAddressList[j],
-                        mGymFillList[j], "hello" , "id"));
+                        mGymFillList[j], "hello"));
             }
         }
         return data;

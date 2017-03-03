@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,11 @@ public class MyGymsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        String username = getArguments().getString("username");
         View view = inflater.inflate(R.layout.fragment_my_gyms, container, false);
         RecyclerView gymRecView = (RecyclerView) view.findViewById(R.id.gym_home_list);
         gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        GymAdapter gymAdapter = new GymAdapter(GymListData.getList(), getActivity());
+        GymAdapter gymAdapter = new GymAdapter(GymListData.getList(username), getActivity());
         gymRecView.setAdapter(gymAdapter);
         return view;
     }

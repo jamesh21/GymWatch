@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     /**Field for the reponse gets back from the web server. */
     private String mResponse;
 
+    private String mUsername;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void buttonClick(View view) {
         AsyncTask<String, Void, String> task = null;
-        String user = ((EditText) findViewById(R.id.editTextusername)).getText().toString();
+        mUsername = ((EditText) findViewById(R.id.editTextusername)).getText().toString();
         //get the string password from the editText.
         String password = ((EditText) findViewById(R.id.editTextpassword)).getText().toString();
         switch (view.getId()) {
@@ -58,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     //when the user did enter something as password.
                     task = new PostWebServiceTask();
-                    task.execute(PARTIAL_URL, user, password);
+                    task.execute(PARTIAL_URL, mUsername, password);
                 }
                 break;
             default:
@@ -90,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
         //start next activity here
         else if (mResponse.equals("correct password")) {
             Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("username", mUsername);
             startActivity(intent);
 
         } else {
