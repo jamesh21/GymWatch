@@ -5,10 +5,14 @@ package group2.tcss450.uw.edu.gymwatch.data;
  */
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+
 /**
  * This class represents a single gym and all the information regarding that gym.
  */
-public class GymItem {
+public class GymItem implements Parcelable{
 
     /** Name of the gyme. */
     private String mGymName;
@@ -20,6 +24,8 @@ public class GymItem {
     private String mGymFill;
     /** URL for the image of the gym. */
     private String mGymImage;
+    /**Position of the GymItem in the Recycler View**/
+    private int mGymPosition;
 
     private String mGymID;
 
@@ -129,5 +135,51 @@ public class GymItem {
     public String getGymImage() {
         return mGymImage;
     }
+    /**
+     * Getting for gym position in list.
+     * @return gym position
+     */
+    public int getmGymPosition() {return mGymPosition;};
+    /**
+     * Setting gym position.
+     */
+    public void setmGymPosition(int pos) {mGymPosition = pos;}
 
+    /**Parcel Part**/
+    public GymItem(Parcel in) {
+        mGymName = in.readString();
+        mGymAddress = in.readString();
+        mGymRating = in.readString();
+        mGymFill = in.readString();
+        mGymImage = in.readString();
+        mGymPosition = in.readInt();
+    }
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mGymName);
+        dest.writeString(mGymAddress);
+        dest.writeString(mGymRating);
+        dest.writeString(mGymFill);
+        dest.writeString(mGymImage);
+        dest.writeInt(mGymPosition);
+
+    }
+
+    public static final Parcelable.Creator<GymItem> CREATOR = new Parcelable.Creator<GymItem>() {
+
+        @Override
+        public GymItem createFromParcel(Parcel source) {
+            return new GymItem(source);
+        }
+
+        @Override
+        public GymItem[] newArray(int size) {
+            return new GymItem[size];
+        }
+    };
 }
