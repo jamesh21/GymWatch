@@ -108,7 +108,6 @@ public class SearchResultsFragment extends Fragment {
                 locationListener = new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-
                     }
 
                     @Override
@@ -126,6 +125,7 @@ public class SearchResultsFragment extends Fragment {
 
                     }
                 };
+
                 //Check if the GPS is on
                 boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -160,6 +160,9 @@ public class SearchResultsFragment extends Fragment {
                         PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
                                 "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
                 } else {
+                    System.out.println("final lock " + finalLoc);
+                    System.out.println("gpsLoc = " +gpsLoc);
+                    System.out.println("netloc = " + netLoc);
                     Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
 
                 }
