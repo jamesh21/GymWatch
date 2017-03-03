@@ -93,6 +93,10 @@ public class JSONParser {
                 } else { // if no image are available
                     image = NO_IMAGE;
                 }
+                System.out.println(name);
+                System.out.println(rating);
+                System.out.println(address);
+                Log.d("Result", name);
                 GymItem gym = new GymItem(name, rating, address, str_result, image);
                 gymList.add(gym);
             }
