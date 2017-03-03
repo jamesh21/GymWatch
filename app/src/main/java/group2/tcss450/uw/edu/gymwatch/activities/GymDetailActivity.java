@@ -69,7 +69,7 @@ public class GymDetailActivity extends AppCompatActivity {
         gym_Ratingbar.setRating(Float.parseFloat(gymRating));
 
         TextView gym_Fill = (TextView) findViewById(R.id.gym_fill_detail);
-        gym_Address.setText(gym.getGymFill());
+        gym_Fill.setText(gym.getGymFill());
 
 
 

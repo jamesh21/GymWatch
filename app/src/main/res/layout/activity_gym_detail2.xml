@@ -66,11 +66,10 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/gym_fill_detail"
                     android:text="55"
-                    android:textSize="40sp"
+                    android:textSize="50sp"
                     android:padding="20dp"
                     android:lineSpacingExtra="8dp"
                     android:layout_alignBaseline="@+id/gym_address_detail"
-                    android:layout_alignBottom="@+id/gym_address_detail"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
