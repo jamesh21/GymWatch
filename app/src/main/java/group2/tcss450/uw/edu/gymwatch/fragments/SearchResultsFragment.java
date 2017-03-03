@@ -154,15 +154,15 @@ public class SearchResultsFragment extends Fragment {
                         Toast.makeText(getActivity(), "Using Network", Toast.LENGTH_SHORT).show();
                     }
                 }
-                if(finalLoc != null) {
-                    latitude = finalLoc.getLatitude();
-                    longitude = finalLoc.getLongitude();
-                        PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
-                                "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
-                } else {
-                    Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
+//                if(finalLoc != null) {
+//                    latitude = finalLoc.getLatitude();
+//                    longitude = finalLoc.getLongitude();
+//                        PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
+//                                "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
+//                } else {
+//                    Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
 
-                }
+               // }
 
             }
 

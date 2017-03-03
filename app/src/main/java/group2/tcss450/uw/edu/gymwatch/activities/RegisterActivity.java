@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "the password you have entered do not match"
                             , Toast.LENGTH_LONG)
                             .show();
-                } else if(user.length() > 25) {
+                } else if(user.length() > 25 || user.length() < 4) {
                     Toast.makeText(getApplicationContext(), "username has to be less than 25 characters"
                             , Toast.LENGTH_LONG)
                             .show();

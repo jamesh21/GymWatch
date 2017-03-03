@@ -4,14 +4,6 @@
     android:layout_height="140dp"
     android:id="@+id/gym_content_container">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/gym_name"
-        android:paddingTop="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="20dp"
-        android:text="YMCA"/>
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,11 +27,26 @@
         android:layout_below="@id/gym_address"
         android:textSize="30dp"
         android:paddingLeft="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gym_name"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:text="YMCA"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
+        android:id="@+id/gym_picture"
+        android:layout_alignBottom="@+id/gym_fill"
         android:layout_alignParentRight="true"
-        android:id="@+id/gym_picture"/>
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
