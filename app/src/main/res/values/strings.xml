@@ -33,6 +33,9 @@
     <string name="title_activity_gym_detail">GymDetailActivity</string>
     <string name="SHARED_PREFS">group2.tcss450.uw.edu.gymwatch_preferences</string>
     <string name="POSITION">pos</string>
+    <string name="NOTIFICATION">notification</string>
+    <string name="START_TIME">start</string>
+    <string name="END_TIME">end</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

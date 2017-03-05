@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -34,9 +35,9 @@ public class HomeActivity extends AppCompatActivity
 
     private String mUsername;
 
-    private SharedPreferences mPrefs;
+    //private SharedPreferences mPrefs;
 
-    private int settingsSpinnerPos;
+    //private int settingsSpinnerPos;
     @Override
     /**
      * Setup the home activity, initialize the instance field, and place the MyGymsFragment
@@ -46,14 +47,13 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        settingsSpinnerPos = mPrefs.getInt(getString(R.string.POSITION), 0);
+//        SharedPreferences prefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+//        settingsSpinnerPos = prefs.getInt(getString(R.string.POSITION), 0);
 
         //Getting a reference to the search view and adding listeners so the title will disappear
         mSearch = (SearchView) findViewById(R.id.search);
         mTitle = (TextView) findViewById(R.id.fragment_title);
         mUsername = getIntent().getStringExtra("username");
-        System.out.println("In home " + mUsername);
         setupSearchView();
 
         //Setting up the my gyms recycle view
@@ -78,11 +78,6 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-//        RecyclerView gymRecView = (RecyclerView) findViewById(R.id.gym_home_list);
-//        gymRecView.setLayoutManager(new LinearLayoutManager(this));
-//        GymAdapter gymAdapter = new GymAdapter(GymListData.getList(), this);
-//        gymRecView.setAdapter(gymAdapter);
 
     }
 
@@ -165,17 +160,23 @@ public class HomeActivity extends AppCompatActivity
                     .replace(R.id.content_home, gymsFragment)
                     .addToBackStack(null)
                     .commit();
-//            FragmentTransaction transaction = getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.content_home, new MyGymsFragment())
-//                    .addToBackStack(null);
-//            transaction.commit();
         } else if (id == R.id.nav_setting) {
+            SharedPreferences pref = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+            //pref.edit().clear().apply();
+            int position = pref.getInt(getString(R.string.POSITION), 0);
+            boolean notification = pref.getBoolean(getString(R.string.NOTIFICATION), false);
+            String startTime = pref.getString(getString(R.string.START_TIME), "12:00");
+            String endTime = pref.getString(getString(R.string.END_TIME), "24:00");
+            System.out.println( "!!!!! " + startTime);
+            System.out.println("!!!!!!!!! " + endTime);
             mTitle.setText(R.string.action_settings);
             mSearch.setVisibility(View.INVISIBLE);
             SettingsFragment settings = new SettingsFragment();
             Bundle args = new Bundle();
-            args.putInt(getString(R.string.POSITION), settingsSpinnerPos);
+            args.putInt(getString(R.string.POSITION), position);
+            args.putBoolean(getString(R.string.NOTIFICATION), notification);
+            args.putString(getString(R.string.START_TIME), startTime);
+            args.putString(getString(R.string.END_TIME), endTime);
             settings.setArguments(args);
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction()

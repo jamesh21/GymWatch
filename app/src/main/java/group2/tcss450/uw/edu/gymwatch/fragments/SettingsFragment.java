@@ -1,27 +1,33 @@
 package group2.tcss450.uw.edu.gymwatch.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.Switch;
 
 import group2.tcss450.uw.edu.gymwatch.R;
 
 
 public class SettingsFragment extends Fragment implements AdapterView.OnItemSelectedListener,
                                         View.OnClickListener,
-                                                TimePickerFragment.DialogFragListener{
+                                                TimePickerFragment.DialogFragListener,
+                                                CompoundButton.OnCheckedChangeListener {
 
     /** Reference to the settings view. */
     private View mView;
-//    private SharedPreferences mPrefs;
 
+    private SharedPreferences mPrefs;
     @Override
     /**
      * This method initializes all the widgets within the settings fragment.
@@ -29,18 +35,33 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mPrefs = getActivity().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        Bundle args = getArguments();
+        int position = args.getInt(getString(R.string.POSITION));
+        boolean isChecked = args.getBoolean(getString(R.string.NOTIFICATION));
+        String startTime = args.getString(getString(R.string.START_TIME));
+        String endTime = args.getString(getString(R.string.END_TIME));
+
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
+        //Setting the saved instance of the notification switch
+        Switch notificationSwitch = (Switch) mView.findViewById(R.id.notification_switch);
+        notificationSwitch.setOnCheckedChangeListener(this);
+        notificationSwitch.setChecked(isChecked);
+        //Setting the saved instance of the position for the spinner
         Spinner spinner = (Spinner) mView.findViewById(R.id.fill_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.fill_limit_percentages, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        //mPrefs = getPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-        Button timeButton = (Button) mView.findViewById(R.id.start_time_button);
-        timeButton.setOnClickListener(this);
-        timeButton = (Button) mView.findViewById(R.id.end_time_button);
-        timeButton.setOnClickListener(this);
+        spinner.setSelection(position);
+
+        Button startButton = (Button) mView.findViewById(R.id.start_time_button);
+        startButton.setOnClickListener(this);
+        startButton.setText(startTime);
+        Button finishButton = (Button) mView.findViewById(R.id.end_time_button);
+        finishButton.setOnClickListener(this);
+        finishButton.setText(endTime);
 
         return mView;
     }
@@ -48,6 +69,10 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //SharedPreferences.Editor editor = mPrefs.edit();
+        //editor.putInt(getString(R.string.POSITION), position);
+        //editor.commit();
+        mPrefs.edit().putInt(getString(R.string.POSITION), position).apply();
 
     }
 
@@ -77,20 +102,36 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         switch(buttonId) {
             case R.id.start_time_button:
                 Button startButton = (Button) mView.findViewById(R.id.start_time_button);
+                String startText;
                 if (minute < 10) {
-                    startButton.setText(hour + " : 0" + minute);
+                    startText = hour + " : 0" + minute;
+                    startButton.setText(startText);
                 } else {
-                    startButton.setText(hour + " : " + minute);
+                    startText = hour + " : " + minute;
+                    startButton.setText(startText);
                 }
+                mPrefs.edit().putString(getString(R.string.START_TIME), startText).apply();
                 break;
             case R.id.end_time_button:
                 Button endButton = (Button) mView.findViewById(R.id.end_time_button);
+                String endText;
                 if (minute < 10) {
-                    endButton.setText(hour + " : 0" + minute);
+                    endText = hour + " : 0" + minute;
+                    endButton.setText(endText);
                 } else {
-                    endButton.setText(hour + " : " + minute);
+                    endText = hour + " : " + minute;
+                    endButton.setText(endText);
                 }
+                mPrefs.edit().putString(getString(R.string.END_TIME), endText).apply();
                 break;
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//        SharedPreferences.Editor editor = mPrefs.edit();
+//        editor.putBoolean(getString(R.string.POSITION), isChecked);
+//        editor.commit();
+        mPrefs.edit().putBoolean(getString(R.string.NOTIFICATION), isChecked).apply();
     }
 }

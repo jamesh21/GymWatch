@@ -262,7 +262,6 @@ public class SearchResultsFragment extends Fragment {
             }
             //mText.setText(result);
             //Gives the result string to a JSONParser object which will parse the string.
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
             RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
