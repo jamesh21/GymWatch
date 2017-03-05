@@ -8,37 +8,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="17dp"
         android:paddingBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="25dp"
-            android:paddingLeft="10dp"
+            android:textSize="20dp"
+            android:paddingLeft="15dp"
             android:paddingTop="10dp"
             android:text="@string/notification_text"/>
-        <Switch
+        <CheckBox
             android:id="@+id/notification_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="20dp"
-            android:textOn="@string/on_switch"
-            android:textOff="@string/off_switch"/>
+            android:paddingRight="20dp" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingTop="20dp"
         android:paddingBottom="20dp">
 
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:textSize="25dp"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"
             android:layout_weight="1"
             android:text="@string/fill_text"/>
         <Spinner
@@ -47,21 +52,29 @@
             android:id="@+id/fill_spinner"></Spinner>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:textSize="25dp"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"
             android:text="@string/schedule_text"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/start_time_button"
             android:text="12:00"/>
         <TextView
@@ -71,8 +84,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/end_time_button"
             android:text="24:00"/>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

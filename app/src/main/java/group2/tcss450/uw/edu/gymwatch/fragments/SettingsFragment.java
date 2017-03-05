@@ -5,16 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
-import android.widget.Switch;
 
 import group2.tcss450.uw.edu.gymwatch.R;
 
@@ -44,7 +43,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         //Setting the saved instance of the notification switch
-        Switch notificationSwitch = (Switch) mView.findViewById(R.id.notification_switch);
+        CheckBox notificationSwitch = (CheckBox) mView.findViewById(R.id.notification_switch);
         notificationSwitch.setOnCheckedChangeListener(this);
         notificationSwitch.setChecked(isChecked);
         //Setting the saved instance of the position for the spinner
