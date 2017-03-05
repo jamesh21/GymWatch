@@ -44,13 +44,23 @@ public class GymListData {
 
     private static final String PARTIAL_URL
             = "http://cssgate.insttech.washington.edu/~xufang/getGymsFromDB.php";
+    /** The URL for getting google images. */
+    private static String IMAGE_URL = "https://maps.googleapis.com/maps/api/place" +
+            "/photo?maxwidth=400&photoreference=";
+
+    /** API KEY for this app. */
+    private static String API_KEY = "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";
+
+    private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
+    /** This URL is used for when there are no pictures available for that gym. */
+
+    private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/" +
+            "thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";
 
     private static final String TAG_NAME = "gymname";
     private static final String TAG_IMAGE = "imageurl";
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_RATING = "rating";
-    private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
-
     private static List<GymItem> mUserGyms;
     /**
      * This method is used to get all the gyms to display on the screen
@@ -61,14 +71,6 @@ public class GymListData {
         mUserGyms = new ArrayList<>();
         AsyncTask<String, Void, String> task = gymData.new GetGymsFromDBTask();
         task.execute(PARTIAL_URL, username);
-
-//        for (int i = 0; i < 5; i++) {
-//            //Making a fake list of gyms to display onto the screen
-//            for (int j = 0; j < mGymNameList.length;j++) {
-//                data.add(new GymItem(mGymNameList[j], "5", mGymAddressList[j],
-//                        mGymFillList[j], "hello"));
-//            }
-//        }
         return mUserGyms;
     }
 
@@ -124,13 +126,6 @@ public class GymListData {
          */
         @Override
         protected void onPostExecute(String result) {
-            // Something wrong with the network or the URL.
-//            if (result.startsWith("Unable to")) {
-//                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG)
-//                        .show();
-//                return;
-//            }
-            //List<GymItem> usersGyms = new ArrayList<>();
             try {
                 JSONArray json = new JSONArray(result);
                 for (int i = 0; i < json.length(); i++) {
@@ -138,7 +133,16 @@ public class GymListData {
                     JSONObject gym = json.getJSONObject(i);
                     String gymName = gym.getString(TAG_NAME);
                     String gymAddress = gym.getString(TAG_ADDRESS);
-                    String gymImage = gym.getString(TAG_IMAGE);
+                    String photoReference = gym.getString(TAG_IMAGE);
+                    String gymImage;
+//                    if (gym.has(TAG_IMAGE)) {
+//                        gymImage = IMAGE_URL + gym.getString(TAG_IMAGE) + API_KEY;
+//                    } else {
+//                        gymImage = NO_IMAGE;
+//                    }
+                    gymImage = IMAGE_URL + photoReference + API_KEY;
+                    //gymImage = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CnRnAAAAF-LjFR1ZV93eawe1cU_3QNMCNmaGkowY7CnOf-kcNmPhNnPEG9W979jOuJJ1sGr75rhD5hqKzjD8vbMbSsRnq_Ni3ZIGfY6hKWmsOf3qHKJInkm4h55lzvLAXJVc-Rr4kI9O1tmIblblUpg2oqoq8RIQRMQJhFsTr5s9haxQ07EQHxoUO0ICubVFGYfJiMUPor1GnIWb5i8&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";
+                    System.out.println("!!!!!!!!! " + gymImage);
                     String gymRating = gym.getString(TAG_RATING);
                     GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage);
                     mUserGyms.add(currentGym);
