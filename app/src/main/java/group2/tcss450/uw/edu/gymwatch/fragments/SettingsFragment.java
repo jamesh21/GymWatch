@@ -20,6 +20,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     /** Reference to the settings view. */
     private View mView;
+//    private SharedPreferences mPrefs;
 
     @Override
     /**
@@ -35,6 +36,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        //mPrefs = getPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
         Button timeButton = (Button) mView.findViewById(R.id.start_time_button);
         timeButton.setOnClickListener(this);
         timeButton = (Button) mView.findViewById(R.id.end_time_button);

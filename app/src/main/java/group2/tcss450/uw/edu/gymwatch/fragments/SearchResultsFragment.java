@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -173,7 +174,11 @@ public class SearchResultsFragment extends Fragment {
         }
     private void populateView(final ArrayList<GymItem> results) {
         RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
+                (gymRecView.getContext(), linearLayoutManager.getOrientation());
         gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        gymRecView.addItemDecoration(dividerItemDecoration);
         GymAdapter gymAdapter = new GymAdapter(results, getActivity());
         gymRecView.setAdapter(gymAdapter);
         ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {

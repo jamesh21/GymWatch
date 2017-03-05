@@ -31,6 +31,8 @@
     <string name="caps_confirm_password">CONFIRM PASSWORD</string>
     <string name="register">Register</string>
     <string name="title_activity_gym_detail">GymDetailActivity</string>
+    <string name="SHARED_PREFS">group2.tcss450.uw.edu.gymwatch_preferences</string>
+    <string name="POSITION">pos</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

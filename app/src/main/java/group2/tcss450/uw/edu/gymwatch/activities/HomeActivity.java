@@ -1,25 +1,23 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import group2.tcss450.uw.edu.gymwatch.data.GymAdapter;
-import group2.tcss450.uw.edu.gymwatch.data.GymListData;
-import group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment;
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment;
 import group2.tcss450.uw.edu.gymwatch.fragments.SearchResultsFragment;
 import group2.tcss450.uw.edu.gymwatch.fragments.SettingsFragment;
 
@@ -36,6 +34,9 @@ public class HomeActivity extends AppCompatActivity
 
     private String mUsername;
 
+    private SharedPreferences mPrefs;
+
+    private int settingsSpinnerPos;
     @Override
     /**
      * Setup the home activity, initialize the instance field, and place the MyGymsFragment
@@ -44,6 +45,9 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        mPrefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        settingsSpinnerPos = mPrefs.getInt(getString(R.string.POSITION), 0);
 
         //Getting a reference to the search view and adding listeners so the title will disappear
         mSearch = (SearchView) findViewById(R.id.search);
@@ -169,9 +173,13 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_setting) {
             mTitle.setText(R.string.action_settings);
             mSearch.setVisibility(View.INVISIBLE);
+            SettingsFragment settings = new SettingsFragment();
+            Bundle args = new Bundle();
+            args.putInt(getString(R.string.POSITION), settingsSpinnerPos);
+            settings.setArguments(args);
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content_home, new SettingsFragment())
+                    .replace(R.id.content_home, settings)
                     .addToBackStack(null);
             transaction.commit();
         } else if(id == R.id.nav_signout) {

@@ -3,17 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="140dp"
     android:id="@+id/gym_content_container">
-
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?android:attr/ratingBarStyleSmall"
-        android:layout_below="@+id/gym_name"
         android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
         android:id="@+id/gym_rating"
-        android:numStars="5"/>
+        android:numStars="5"
+        android:stepSize="0.1"
+        android:layout_below="@+id/gym_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/gym_address"
         android:textSize="12dp"
@@ -23,13 +26,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/gym_fill"
-        android:paddingTop="5dp"
         android:layout_below="@id/gym_address"
         android:textSize="30dp"
         android:paddingLeft="10dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/gym_name"
         android:paddingTop="10dp"
