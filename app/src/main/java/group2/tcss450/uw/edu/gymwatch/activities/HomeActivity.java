@@ -12,12 +12,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
 import group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment;
 import group2.tcss450.uw.edu.gymwatch.fragments.SearchResultsFragment;
 import group2.tcss450.uw.edu.gymwatch.fragments.SettingsFragment;
@@ -88,6 +88,7 @@ public class HomeActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            mTitle.setText(R.string.my_gyms);
         }
     }
 
@@ -161,14 +162,13 @@ public class HomeActivity extends AppCompatActivity
                     .addToBackStack(null)
                     .commit();
         } else if (id == R.id.nav_setting) {
-            SharedPreferences pref = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-            //pref.edit().clear().apply();
+            SharedPreferences pref = getSharedPreferences(getString(R.string.SHARED_PREFS),
+                                                Context.MODE_PRIVATE);
             int position = pref.getInt(getString(R.string.POSITION), 0);
             boolean notification = pref.getBoolean(getString(R.string.NOTIFICATION), false);
             String startTime = pref.getString(getString(R.string.START_TIME), "12:00");
             String endTime = pref.getString(getString(R.string.END_TIME), "24:00");
-            System.out.println( "!!!!! " + startTime);
-            System.out.println("!!!!!!!!! " + endTime);
+
             mTitle.setText(R.string.action_settings);
             mSearch.setVisibility(View.INVISIBLE);
             SettingsFragment settings = new SettingsFragment();
@@ -180,11 +180,13 @@ public class HomeActivity extends AppCompatActivity
             settings.setArguments(args);
             FragmentTransaction transaction = getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.content_home, settings)
-                    .addToBackStack(null);
+                    .replace(R.id.content_home, settings).addToBackStack(null);
             transaction.commit();
         } else if(id == R.id.nav_signout) {
-            startActivity(new Intent(this, LoginActivity.class));
+            Intent signOut = new Intent(this, LoginActivity.class);
+            signOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            LoginSavePreference.setUser(this, "");
+            startActivity(signOut);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

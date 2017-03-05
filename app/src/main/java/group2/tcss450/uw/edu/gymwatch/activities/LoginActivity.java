@@ -2,8 +2,8 @@ package group2.tcss450.uw.edu.gymwatch.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
 
 /**
  * This Activity Class handles log in activity.
@@ -38,6 +39,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        if (!LoginSavePreference.getUser(this).isEmpty()) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra("username", LoginSavePreference.getUser(this));
+            startActivity(intent);
+        }
         mResponse = "";
     }
 
@@ -91,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         }
         //start next activity here
         else if (mResponse.equals("correct password")) {
+            LoginSavePreference.setUser(this, mUsername);
             Intent intent = new Intent(this, HomeActivity.class);
             intent.putExtra("username", mUsername);
             startActivity(intent);

@@ -57,7 +57,6 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         item.setmGymPosition(position);
         holder.mGymName.setText(item.getGymName());
 
-        //holder.mGymImage.setImageDrawable(item.getGymImage());
         Picasso.with(mContext)
                 .load(item.getGymImage())
                 .into(holder.mGymImage);

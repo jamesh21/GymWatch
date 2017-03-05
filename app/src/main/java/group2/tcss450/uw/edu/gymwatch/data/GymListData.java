@@ -9,7 +9,6 @@ package group2.tcss450.uw.edu.gymwatch.data;
  */
 
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,16 +31,6 @@ import java.util.concurrent.ExecutionException;
  */
 public class GymListData {
 
-//    private static String[] mGymNameList = {"YMCA", "24 hr Fitness", "LA Fitness", "Gold's Gym"};
-//    private static String[] mGymAddressList = {"1144 Market St, Tacoma, WA 98402",
-//            "1144 Market St, Tacoma, WA 98402", "1144 Market St, Tacoma, WA 98402",
-//            "1144 Market St, Tacoma, WA 98402"};
-//    private static String[] mGymFillList = {"75", "80", "25", "90"};
-//    private static float[] mGymRatingList = {2.0f, 5.0f, 3.0f, 2.5f};
-//    private static int[] myGymImageList = {android.R.drawable.ic_dialog_alert,
-//            android.R.drawable.ic_dialog_map, android.R.drawable.ic_btn_speak_now,
-//            android.R.drawable.ic_dialog_email};
-
     private static final String PARTIAL_URL
             = "http://cssgate.insttech.washington.edu/~xufang/getGymsFromDB.php";
     /** The URL for getting google images. */
@@ -51,7 +40,8 @@ public class GymListData {
     /** API KEY for this app. */
     private static String API_KEY = "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";
 
-    private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
+    private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/" +
+                                                "fakeData.php";
     /** This URL is used for when there are no pictures available for that gym. */
 
     private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/" +
@@ -135,14 +125,11 @@ public class GymListData {
                     String gymAddress = gym.getString(TAG_ADDRESS);
                     String photoReference = gym.getString(TAG_IMAGE);
                     String gymImage;
-//                    if (gym.has(TAG_IMAGE)) {
-//                        gymImage = IMAGE_URL + gym.getString(TAG_IMAGE) + API_KEY;
-//                    } else {
-//                        gymImage = NO_IMAGE;
-//                    }
-                    gymImage = IMAGE_URL + photoReference + API_KEY;
-                    //gymImage = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CnRnAAAAF-LjFR1ZV93eawe1cU_3QNMCNmaGkowY7CnOf-kcNmPhNnPEG9W979jOuJJ1sGr75rhD5hqKzjD8vbMbSsRnq_Ni3ZIGfY6hKWmsOf3qHKJInkm4h55lzvLAXJVc-Rr4kI9O1tmIblblUpg2oqoq8RIQRMQJhFsTr5s9haxQ07EQHxoUO0ICubVFGYfJiMUPor1GnIWb5i8&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";
-                    System.out.println("!!!!!!!!! " + gymImage);
+                    if (!photoReference.isEmpty()) {
+                        gymImage = IMAGE_URL + photoReference + API_KEY;
+                    } else {
+                        gymImage = NO_IMAGE;
+                    }
                     String gymRating = gym.getString(TAG_RATING);
                     GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage);
                     mUserGyms.add(currentGym);
@@ -154,7 +141,7 @@ public class GymListData {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-//            mUserGyms = usersGyms;
+
         }
 
     }
