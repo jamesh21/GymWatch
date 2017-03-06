@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
@@ -34,6 +35,8 @@ public class JSONParser {
     private static final String TAG_PHOTOS = "photos";
     private static final String TAG_RATINGS = "rating";
     private static final String TAG_ADDRESS = "vicinity";
+    private static final String TAG_WEEKDAY_TEST = "weekday_test";
+    private static final String TAG_OPEN = "open_now";
 
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
@@ -47,8 +50,6 @@ public class JSONParser {
             "thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";
 
     private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
-
-    private String mResponse;
     /**
      * Constructor
      *
@@ -73,6 +74,8 @@ public class JSONParser {
         //Can change to 20 for more results, but ten seems ok for now.
         try {
             JSONArray places = json.getJSONArray(TAG_RESULTS);
+            ArrayList<String> weekdayText = new ArrayList<>();
+            boolean isOpen = false;
             // Going through each gym result and buidling a gym item object
             for (int i = 0; i < places.length(); i++) {
                 String str_result= new StaticWebServiceTask().execute(FAKE_DATA).get();
@@ -80,6 +83,17 @@ public class JSONParser {
                 String name = object.getString(TAG_NAME);
                 String rating = object.getString(TAG_RATINGS);
                 String address = object.getString(TAG_ADDRESS);
+
+                if(object.has(TAG_WEEKDAY_TEST)) {
+                    for(int q = 0; q < 7; q++) {
+                        JSONArray days = object.getJSONArray(TAG_WEEKDAY_TEST);
+                        weekdayText.add(days.getString(q));
+                    }
+                }
+                if(object.has(TAG_OPEN)) {
+                    isOpen = object.getBoolean(TAG_OPEN);
+                }
+
                 String image;
                 if (object.has(TAG_PHOTOS)) {
                     JSONArray photo = object.getJSONArray(TAG_PHOTOS);
@@ -89,7 +103,7 @@ public class JSONParser {
                 } else { // if no image are available
                     image = NO_IMAGE;
                 }
-                GymItem gym = new GymItem(name, rating, address, str_result, image);
+                GymItem gym = new GymItem(name, rating, address, str_result, image, weekdayText, isOpen);
                 gymList.add(gym);
             }
         } catch (JSONException e) {

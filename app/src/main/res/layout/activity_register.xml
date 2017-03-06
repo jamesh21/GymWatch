@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/registration"
         android:textSize="30dp"
         android:textStyle="bold" />
@@ -74,16 +74,23 @@
             android:hint="@string/caps_confirm_password"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Username: between 4 and 25 characters\nPasswords: between 8 and 25 characters"
+        android:layout_gravity="center_horizontal"/>
 
     <Button
         android:text="@string/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="10dp"
         android:id="@+id/button_Register"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:onClick="buttonClick"/>
+        android:onClick="buttonClick"
+        android:background="@android:color/transparent"/>
     <!--<TextView-->
         <!--android:text="Username:"-->
         <!--android:layout_width="wrap_content"-->

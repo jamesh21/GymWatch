@@ -8,6 +8,9 @@ package group2.tcss450.uw.edu.gymwatch.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 /**
  * This class represents a single gym and all the information regarding that gym.
@@ -24,8 +27,11 @@ public class GymItem implements Parcelable{
     private String mGymFill;
     /** URL for the image of the gym. */
     private String mGymImage;
+    /**The opening hours if available**/
+    private ArrayList<String> mGymHours;
     /**Position of the GymItem in the Recycler View**/
     private int mGymPosition;
+    private boolean isOpen;
 
     //private String mGymID;
 
@@ -38,13 +44,14 @@ public class GymItem implements Parcelable{
      * @param theGymImage image of the gym
      */
     public GymItem(String theGymName, String theGymRating, String theGymAddress,
-                   String theGymFill, String theGymImage) {
+                   String theGymFill, String theGymImage, ArrayList<String> wk, boolean Open) {
         mGymName = theGymName;
         mGymAddress = theGymAddress;
         mGymFill = theGymFill;
         mGymImage = theGymImage;
         mGymRating = theGymRating;
-
+        mGymHours = wk;
+        isOpen = Open;
     }
 
     /**
@@ -89,6 +96,10 @@ public class GymItem implements Parcelable{
      */
     public void setGymImage(String gymImage) {
         //Will add later
+    }
+
+    public boolean getIsOpen() {
+        return isOpen;
     }
 
     /**
@@ -139,6 +150,13 @@ public class GymItem implements Parcelable{
      * @return gym position
      */
     public int getmGymPosition() {return mGymPosition;};
+
+    /**
+     * Getting the open hours
+     */
+    public ArrayList<String> getmGymHours() {
+        return mGymHours;
+    }
     /**
      * Setting gym position.
      */

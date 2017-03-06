@@ -1,6 +1,7 @@
 package group2.tcss450.uw.edu.gymwatch.data;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +65,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         holder.mGymRating.setRating(Float.parseFloat(item.getGymRating()));
         holder.mGymFillRate.setText(item.getGymFill() + "% Full");
         holder.mGymAddress.setText(item.getGymAddress());
+
     }
 
     @Override

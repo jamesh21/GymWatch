@@ -9,6 +9,7 @@ package group2.tcss450.uw.edu.gymwatch.data;
  */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class GymListData {
             //Making a fake list of gyms to display onto the screen
             for (int j = 0; j < mGymNameList.length;j++) {
                 data.add(new GymItem(mGymNameList[j], "5", mGymAddressList[j],
-                        mGymFillList[j], "hello"));
+                        mGymFillList[j], "hello", new ArrayList<String>(), true));
             }
         }
         return data;

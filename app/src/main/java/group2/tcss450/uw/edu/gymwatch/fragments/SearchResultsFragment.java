@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -48,6 +49,7 @@ public class SearchResultsFragment extends Fragment {
     private LocationManager lm;
     private LocationListener locationListener;
     private ArrayList<GymItem> results = new ArrayList<>();
+    private String query;
 
     private View mView;
 
@@ -61,8 +63,13 @@ public class SearchResultsFragment extends Fragment {
             handleLocation();
             //mText = (TextView) getActivity().findViewById(R.id.display_results);
             AsyncTask<String, Void, String> task = null;
-            PARTIAL_URL += getArguments().getString("query") +
+            query = getArguments().getString("query");
+            System.out.println("Original: " + query);
+            String query2 = query.replaceAll("\\s", "");
+            System.out.println("Changed: " + query2);
+            PARTIAL_URL += query2 +
                     "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";//Replace with API Key
+            System.out.println("Key: " + PARTIAL_URL);
             task = new TestWebServiceTask();
             task.execute(PARTIAL_URL);
         }
@@ -82,7 +89,8 @@ public class SearchResultsFragment extends Fragment {
         SearchView search = (SearchView) getActivity().findViewById(R.id.search);
         search.setVisibility(View.VISIBLE);
         search.setIconified(true);
-        title.setText(R.string.results_page);
+        //title.setText(R.string.results_page);
+        title.setText(query);
         mView = inflater.inflate(R.layout.fragment_search_results, container, false);
         return mView;
     }
@@ -131,7 +139,7 @@ public class SearchResultsFragment extends Fragment {
                 boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
                 Location netLoc = null, gpsLoc = null, finalLoc = null;
                 if(!gps_enabled && !network_enabled) {
-                    Toast.makeText(getActivity(), "Enable GPS/Network", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Search Requires GPS", Toast.LENGTH_SHORT).show();
                 } else if (gps_enabled || network_enabled) {
                     if(gps_enabled) {
                         gpsLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -148,10 +156,8 @@ public class SearchResultsFragment extends Fragment {
                 } else {
                     if (gpsLoc != null) {
                         finalLoc = gpsLoc;
-                        Toast.makeText(getActivity(), "Using GPS", Toast.LENGTH_SHORT).show();
                     } else if (netLoc != null) {
                         finalLoc = netLoc;
-                        Toast.makeText(getActivity(), "Using Network", Toast.LENGTH_SHORT).show();
                     }
                 }
                 if(finalLoc != null) {
@@ -160,7 +166,7 @@ public class SearchResultsFragment extends Fragment {
                         PARTIAL_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/" +
                                 "json?location=" + latitude + "," + longitude + "&radius=16000&type=gym&rankBy=distance&name=";
                 } else {
-                    Toast.makeText(getActivity(), "Check GPS/Network", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Search requires GPS", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -176,7 +182,6 @@ public class SearchResultsFragment extends Fragment {
         ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Toast.makeText(getActivity(), "Name: " + results.get(position).getGymName(), Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), GymDetailActivity.class);
                 i.putExtra("Gym", results.get(position));
                 startActivity(i);
@@ -247,14 +252,12 @@ public class SearchResultsFragment extends Fragment {
             protected void onPostExecute(String result) {
             // Something wrong with the network or the URL.
             if (result.startsWith("Unable to")) {
-                //Toast.makeText(SearchResultsFragment.this, result, Toast.LENGTH_LONG)
-                //     .show();
-                System.out.println("HELLO");
+                Toast.makeText(getContext(), "Search Failed", Toast.LENGTH_LONG)
+                     .show();
                 return;
             }
             //mText.setText(result);
             //Gives the result string to a JSONParser object which will parse the string.
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
             RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
@@ -264,7 +267,6 @@ public class SearchResultsFragment extends Fragment {
             ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    Toast.makeText(getActivity(), "Name: " + results.get(position).getGymName(), Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(getActivity(), GymDetailActivity.class);
                     i.putExtra("Gym", results.get(position));
                     startActivity(i);

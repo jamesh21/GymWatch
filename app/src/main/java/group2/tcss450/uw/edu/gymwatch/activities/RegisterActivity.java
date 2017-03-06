@@ -62,20 +62,19 @@ public class RegisterActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.button_Register:
                 if(password.equals("")){
-                    Toast.makeText(getApplicationContext(), "empty password"
+                    Toast.makeText(getApplicationContext(), "Enter Valid Password"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else if(!password.equals(confirm)) {
-                    Toast.makeText(getApplicationContext(), "the password you have entered do not match"
+                    Toast.makeText(getApplicationContext(), "Passwords Don't Match"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else if(user.length() > 25 || user.length() < 4) {
-                    Toast.makeText(getApplicationContext(), "username has to be less than 25 characters"
+                    Toast.makeText(getApplicationContext(), "Username must be between 4 and 25 characters"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else if(password.length() < 8 || password.length() > 16) {
-                    Toast.makeText(getApplicationContext(), "password has to be not less than 8 characters," +
-                                    "no more than 16 characters."
+                    Toast.makeText(getApplicationContext(), "Passwords must be between 8 and 16 characters"
                             , Toast.LENGTH_LONG)
                             .show();
                 } else {
