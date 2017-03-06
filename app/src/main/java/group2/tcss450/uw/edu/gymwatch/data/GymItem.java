@@ -27,7 +27,7 @@ public class GymItem implements Parcelable{
     /**Position of the GymItem in the Recycler View**/
     private int mGymPosition;
 
-    //private String mGymID;
+    private String mGymID;
 
     /**
      * Constructor for a gym item.
@@ -38,12 +38,13 @@ public class GymItem implements Parcelable{
      * @param theGymImage image of the gym
      */
     public GymItem(String theGymName, String theGymRating, String theGymAddress,
-                   String theGymFill, String theGymImage) {
+                   String theGymFill, String theGymImage, String theGymId) {
         mGymName = theGymName;
         mGymAddress = theGymAddress;
         mGymFill = theGymFill;
         mGymImage = theGymImage;
         mGymRating = theGymRating;
+        mGymID = theGymId;
 
     }
 
@@ -108,6 +109,13 @@ public class GymItem implements Parcelable{
         return mGymRating;
     }
 
+    /**
+     * Getting for gym id.
+     * @return gym id
+     */
+    public String getmGymID() {
+        return mGymID;
+    }
 
     /**
      * Getter for gym address.

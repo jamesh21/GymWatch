@@ -55,6 +55,7 @@ public class MyGymsFragment extends Fragment {
     private static final String TAG_IMAGE = "imageurl";
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_RATING = "rating";
+    private static final String TAG_PLACE_ID = "placeid";
     private static List<GymItem> mUserGyms;
 
     private View mView;
@@ -130,22 +131,26 @@ public class MyGymsFragment extends Fragment {
             try {
                 JSONArray json = new JSONArray(result);
                 List<GymItem> userGyms = new ArrayList<>();
+                System.out.println("!!!!!" + json.length());
                 for (int i = 0; i < json.length(); i++) {
+                    System.out.println("HELLO HELLO");
                     String str_result = new StaticWebServiceTask().execute(FAKE_DATA).get();
                     JSONObject gym = json.getJSONObject(i);
                     String gymName = gym.getString(TAG_NAME);
                     String gymAddress = gym.getString(TAG_ADDRESS);
                     String photoReference = gym.getString(TAG_IMAGE);
                     String gymImage;
+                    String placeId = gym.getString(TAG_PLACE_ID);
                     if (!photoReference.isEmpty()) {
                         gymImage = IMAGE_URL + photoReference + API_KEY;
                     } else {
                         gymImage = NO_IMAGE;
                     }
                     String gymRating = gym.getString(TAG_RATING);
-                    GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage);
+                    GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
                     userGyms.add(currentGym);
                 }
+                System.out.println("User gyms ==== " + userGyms.size());
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 gymRecView.setLayoutManager(layoutManager);

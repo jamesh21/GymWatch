@@ -27,14 +27,14 @@ import java.util.concurrent.ExecutionException;
 
 public class JSONParser {
     private JSONObject json;
-    GymItem gym;
+
     //Tags for reading each result's data
     private static final String TAG_RESULTS = "results";
     private static final String TAG_NAME = "name";
     private static final String TAG_PHOTOS = "photos";
     private static final String TAG_RATINGS = "rating";
     private static final String TAG_ADDRESS = "vicinity";
-
+    private static final String TAG_PLACE_ID = "place_id";
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
             "/photo?maxwidth=400&photoreference=";
@@ -48,7 +48,6 @@ public class JSONParser {
 
     private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
 
-    private String mResponse;
     /**
      * Constructor
      *
@@ -80,6 +79,7 @@ public class JSONParser {
                 String name = object.getString(TAG_NAME);
                 String rating = object.getString(TAG_RATINGS);
                 String address = object.getString(TAG_ADDRESS);
+                String placeId = object.getString(TAG_PLACE_ID);
                 String image;
                 if (object.has(TAG_PHOTOS)) {
                     JSONArray photo = object.getJSONArray(TAG_PHOTOS);
@@ -89,7 +89,7 @@ public class JSONParser {
                 } else { // if no image are available
                     image = NO_IMAGE;
                 }
-                GymItem gym = new GymItem(name, rating, address, str_result, image);
+                GymItem gym = new GymItem(name, rating, address, str_result, image, placeId);
                 gymList.add(gym);
             }
         } catch (JSONException e) {
