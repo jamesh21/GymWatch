@@ -44,14 +44,12 @@ public class GymItem implements Parcelable{
      * @param theGymImage image of the gym
      */
     public GymItem(String theGymName, String theGymRating, String theGymAddress,
-                   String theGymFill, String theGymImage, ArrayList<String> wk, boolean Open) {
+                   String theGymFill, String theGymImage) {
         mGymName = theGymName;
         mGymAddress = theGymAddress;
         mGymFill = theGymFill;
         mGymImage = theGymImage;
         mGymRating = theGymRating;
-        mGymHours = wk;
-        isOpen = Open;
     }
 
     /**

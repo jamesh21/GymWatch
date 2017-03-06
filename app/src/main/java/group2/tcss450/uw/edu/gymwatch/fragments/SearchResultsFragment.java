@@ -50,6 +50,7 @@ public class SearchResultsFragment extends Fragment {
     private LocationListener locationListener;
     private ArrayList<GymItem> results = new ArrayList<>();
     private String query;
+    Location netLoc = null, gpsLoc = null, finalLoc = null;
 
     private View mView;
 
@@ -116,7 +117,7 @@ public class SearchResultsFragment extends Fragment {
                 locationListener = new LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-
+                        finalLoc = location;
                     }
 
                     @Override
@@ -134,10 +135,12 @@ public class SearchResultsFragment extends Fragment {
 
                     }
                 };
+
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,10, locationListener);
                 //Check if the GPS is on
                 boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
                 boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-                Location netLoc = null, gpsLoc = null, finalLoc = null;
+
                 if(!gps_enabled && !network_enabled) {
                     Toast.makeText(getActivity(), "Search Requires GPS", Toast.LENGTH_SHORT).show();
                 } else if (gps_enabled || network_enabled) {

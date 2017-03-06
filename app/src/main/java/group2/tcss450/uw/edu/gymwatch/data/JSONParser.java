@@ -80,19 +80,13 @@ public class JSONParser {
             for (int i = 0; i < places.length(); i++) {
                 String str_result= new StaticWebServiceTask().execute(FAKE_DATA).get();
                 JSONObject object = places.getJSONObject(i);
+                String rating = "No Rating";
+                if(object.has(TAG_RATINGS)) {
+                    rating = object.getString(TAG_RATINGS);
+                }
                 String name = object.getString(TAG_NAME);
-                String rating = object.getString(TAG_RATINGS);
                 String address = object.getString(TAG_ADDRESS);
 
-                if(object.has(TAG_WEEKDAY_TEST)) {
-                    for(int q = 0; q < 7; q++) {
-                        JSONArray days = object.getJSONArray(TAG_WEEKDAY_TEST);
-                        weekdayText.add(days.getString(q));
-                    }
-                }
-                if(object.has(TAG_OPEN)) {
-                    isOpen = object.getBoolean(TAG_OPEN);
-                }
 
                 String image;
                 if (object.has(TAG_PHOTOS)) {
@@ -103,7 +97,7 @@ public class JSONParser {
                 } else { // if no image are available
                     image = NO_IMAGE;
                 }
-                GymItem gym = new GymItem(name, rating, address, str_result, image, weekdayText, isOpen);
+                GymItem gym = new GymItem(name, rating, address, str_result, image);
                 gymList.add(gym);
             }
         } catch (JSONException e) {

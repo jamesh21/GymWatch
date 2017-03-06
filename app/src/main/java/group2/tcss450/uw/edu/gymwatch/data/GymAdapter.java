@@ -62,7 +62,12 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         Picasso.with(mContext)
                 .load(item.getGymImage())
                 .into(holder.mGymImage);
-        holder.mGymRating.setRating(Float.parseFloat(item.getGymRating()));
+        if(!item.getGymRating().equals("No Rating")) {
+            holder.mGymRating.setRating(Float.parseFloat(item.getGymRating()));
+        } else {
+            holder.mGymRating.setRating(0);
+        }
+
         holder.mGymFillRate.setText(item.getGymFill() + "% Full");
         holder.mGymAddress.setText(item.getGymAddress());
 

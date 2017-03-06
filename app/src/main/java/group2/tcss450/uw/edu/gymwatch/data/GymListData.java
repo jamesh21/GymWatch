@@ -39,7 +39,7 @@ public class GymListData {
             //Making a fake list of gyms to display onto the screen
             for (int j = 0; j < mGymNameList.length;j++) {
                 data.add(new GymItem(mGymNameList[j], "5", mGymAddressList[j],
-                        mGymFillList[j], "hello", new ArrayList<String>(), true));
+                        mGymFillList[j], "hello"));
             }
         }
         return data;
