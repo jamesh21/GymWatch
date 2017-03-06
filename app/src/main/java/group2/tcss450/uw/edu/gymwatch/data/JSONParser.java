@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
 
 public class JSONParser {
     private JSONObject json;
-
+    GymItem gym;
     //Tags for reading each result's data
     private static final String TAG_RESULTS = "results";
     private static final String TAG_NAME = "name";
@@ -35,6 +35,7 @@ public class JSONParser {
     private static final String TAG_RATINGS = "rating";
     private static final String TAG_ADDRESS = "vicinity";
     private static final String TAG_PLACE_ID = "place_id";
+    private static final String TAG_OPEN = "open_now";
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
             "/photo?maxwidth=400&photoreference=";
@@ -48,6 +49,7 @@ public class JSONParser {
 
     private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
 
+    private String mResponse;
     /**
      * Constructor
      *
@@ -72,12 +74,16 @@ public class JSONParser {
         //Can change to 20 for more results, but ten seems ok for now.
         try {
             JSONArray places = json.getJSONArray(TAG_RESULTS);
+            boolean isOpen = false;
             // Going through each gym result and buidling a gym item object
             for (int i = 0; i < places.length(); i++) {
                 String str_result= new StaticWebServiceTask().execute(FAKE_DATA).get();
                 JSONObject object = places.getJSONObject(i);
+                String rating = "No Rating";
+                if(object.has(TAG_RATINGS)) {
+                    rating = object.getString(TAG_RATINGS);
+                }
                 String name = object.getString(TAG_NAME);
-                String rating = object.getString(TAG_RATINGS);
                 String address = object.getString(TAG_ADDRESS);
                 String placeId = object.getString(TAG_PLACE_ID);
                 String image;

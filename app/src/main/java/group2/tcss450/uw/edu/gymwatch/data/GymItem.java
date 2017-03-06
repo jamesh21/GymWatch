@@ -26,6 +26,7 @@ public class GymItem implements Parcelable{
     private String mGymImage;
     /**Position of the GymItem in the Recycler View**/
     private int mGymPosition;
+    private boolean isOpen;
 
     private String mGymID;
 
@@ -90,6 +91,10 @@ public class GymItem implements Parcelable{
      */
     public void setGymImage(String gymImage) {
         //Will add later
+    }
+
+    public boolean getIsOpen() {
+        return isOpen;
     }
 
     /**

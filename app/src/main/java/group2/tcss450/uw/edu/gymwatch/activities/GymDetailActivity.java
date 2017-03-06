@@ -1,19 +1,30 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -22,6 +33,9 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import group2.tcss450.uw.edu.gymwatch.R;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
@@ -29,17 +43,18 @@ import group2.tcss450.uw.edu.gymwatch.data.GymItem;
 public class GymDetailActivity extends AppCompatActivity {
     /**The field for the URL that this activity connects to. */
     private static final String Part_URL
-            = "http://cssgate.insttech.washington.edu/" +
-            "~xufang/registertest.php";//Needs to change once Xufang finishes the new .php file
+            = "http://cssgate.insttech.washington.edu/~xufang/insertGymToDB.php";
 
     /**Field for the response which is returned form the web server. */
     private String mResponse;
 
-    /**Reference to the register button. */
-    private Button mButton;
+
 
     /**Reference to the registration activity.*/
     private Activity mActivity;
+
+    ArrayList<Integer> hoursArray = new ArrayList<>();
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +67,18 @@ public class GymDetailActivity extends AppCompatActivity {
 
         final String gymName = gym.getGymName();
         final String gymAddress = gym.getGymAddress();
-        String gymFill = gym.getGymFill();
-        final String gymImage = gym.getGymImage();
+        String gymI = gym.getGymImage();
+        final String gymImage;
+        if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png)")){
+            gymImage = "";
+        } else {
+            gymImage = gymI;
+        }
+
+
         final String gymRating = gym.getGymRating();
+        final int gymFill = Integer.parseInt(gym.getGymFill());
+
 
 
         //OpenSource Github API for multiline titles.
@@ -65,25 +89,76 @@ public class GymDetailActivity extends AppCompatActivity {
         TextView gym_Address = (TextView) findViewById(R.id.gym_address_detail);
         gym_Address.setText(gym.getGymAddress());
 
-        RatingBar gym_Ratingbar = (RatingBar) findViewById(R.id.gym_rating_detail);
-        gym_Ratingbar.setRating(Float.parseFloat(gymRating));
+
 
         TextView gym_Fill = (TextView) findViewById(R.id.gym_fill_detail);
         gym_Fill.setText(gym.getGymFill());
 
+        if(gymFill >= 0 && gymFill <= 17) {
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.white_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.min_fill));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.min_fill));
+        } else if (gymFill >= 17 && gymFill <= 33){
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.white_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.seventeen));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.seventeen));
 
+        } else if (gymFill >= 33 && gymFill <= 50){
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.black_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.thirty_three));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.thirty_three));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        } else if (gymFill >= 50 && gymFill <= 66){
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.black_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.mid_fill));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.mid_fill));
+
+        } else if (gymFill >= 66 && gymFill <= 83) {
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.white_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.sixty_six));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.sixty_six));
+
+        } else if (gymFill >= 82 && gymFill <= 90){
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.white_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.eighty_two));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.eighty_two));
+
+        } else {
+            gym_Fill.setTextColor(ContextCompat.getColor(this, R.color.white_text));
+            gym_Fill.setBackgroundColor(ContextCompat.getColor(this, R.color.max_fill));
+            //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.max_fill));
+        }
+
+        ImageView gym_image_detail = (ImageView) findViewById(R.id.gymImageToolbar);
+        Picasso.with(this)
+                .load(gymImage)
+                .into(gym_image_detail);
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AsyncTask<String, Void, String> task = null;
                 task = new GymDetailActivity.PostWebServiceTask();
-                task.execute(Part_URL, gymName, gymAddress, gymRating, gymImage);
-                Snackbar.make(view, "Saved to My Gyms", Snackbar.LENGTH_LONG)
+
+                task.execute(Part_URL, "1", "Test", gymName, gymImage, gymAddress, gymRating);
+                Snackbar.make(view, "Saved!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
+                fab.setImageResource(R.drawable.ic_delete_white_24px);
             }
         });
+    }
+
+    /**
+     * Puts the maps valus into an array for listview
+     * @param m the map
+     * @param hours the array
+     */
+    private void convertMap(Map<Integer, Integer> m, ArrayList<Integer> hours) {
+        for(int i = 0; i < m.size(); i+=2) {
+            hours.add(m.get(i));
+            hours.add(m.get(i+1));
+        }
     }
 
     /**
@@ -109,13 +184,17 @@ public class GymDetailActivity extends AppCompatActivity {
                 urlConnection.setRequestMethod("POST");
                 urlConnection.setDoOutput(true);
                 OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
-                String data = URLEncoder.encode("name", "UTF-8")
+                String data = URLEncoder.encode("placeid", "UTF-8")
                         + "=" + URLEncoder.encode(strings[1], "UTF-8")
+                        + "&" + URLEncoder.encode("username", "UTF-8")
+                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "&" + URLEncoder.encode("gymname", "UTF-8")
+                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "&" + URLEncoder.encode("imageurl", "UTF-8")
+                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
                         + "&" + URLEncoder.encode("address", "UTF-8")
                         + "=" + URLEncoder.encode(strings[2], "UTF-8")
                         + "&" + URLEncoder.encode("rating", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
-                        + "&" + URLEncoder.encode("image", "UTF-8")
                         + "=" + URLEncoder.encode(strings[2], "UTF-8");
                 wr.write(data);
                 wr.flush();
@@ -148,9 +227,10 @@ public class GymDetailActivity extends AppCompatActivity {
                         .show();
                 return;
             }
-            mResponse += result;
-            mButton.setEnabled(true);
+
         }
 
     }
+
+
 }
