@@ -89,6 +89,7 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
             mTitle.setText(R.string.my_gyms);
+            mSearch.setVisibility(View.VISIBLE);
         }
     }
 
