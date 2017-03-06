@@ -267,6 +267,8 @@ public class SearchResultsFragment extends Fragment {
             //Gives the result string to a JSONParser object which will parse the string.
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
+            System.out.println("Gym ID in SR: " + results.get(0).getGymID());
+
             RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
             gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
             GymAdapter gymAdapter = new GymAdapter(results, getActivity());
@@ -275,6 +277,7 @@ public class SearchResultsFragment extends Fragment {
                 @Override
                 public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                     Intent i = new Intent(getActivity(), GymDetailActivity.class);
+                    System.out.println("Gym ID in SR end: " + results.get(position).getGymID());
                     i.putExtra("Gym", results.get(position));
                     startActivity(i);
                 }

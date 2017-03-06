@@ -96,6 +96,7 @@ public class JSONParser {
                     image = NO_IMAGE;
                 }
                 GymItem gym = new GymItem(name, rating, address, str_result, image, placeId);
+                System.out.println("This is the place id within the json parser " + gym.getGymID());
                 gymList.add(gym);
             }
         } catch (JSONException e) {

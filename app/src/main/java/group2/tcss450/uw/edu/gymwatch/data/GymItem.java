@@ -118,7 +118,7 @@ public class GymItem implements Parcelable{
      * Getting for gym id.
      * @return gym id
      */
-    public String getmGymID() {
+    public String getGymID() {
         return mGymID;
     }
 

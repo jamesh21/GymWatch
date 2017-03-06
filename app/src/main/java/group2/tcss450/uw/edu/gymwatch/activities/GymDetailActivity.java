@@ -39,6 +39,7 @@ import java.util.Map;
 
 import group2.tcss450.uw.edu.gymwatch.R;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
+import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
 
 public class GymDetailActivity extends AppCompatActivity {
     /**The field for the URL that this activity connects to. */
@@ -61,12 +62,17 @@ public class GymDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym_detail2);
         Intent i = getIntent();
-        GymItem gym = (GymItem) i.getParcelableExtra("Gym");
+        GymItem gym = i.getParcelableExtra("Gym");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        final String userName = LoginSavePreference.getUser(this);
         final String gymName = gym.getGymName();
         final String gymAddress = gym.getGymAddress();
+        final String gymPlaceId = gym.getGymID();
+        System.out.println("!!!!!!!!!!" + userName);
+        System.out.println("Gym ID " + gymPlaceId);
+        System.out.println("GYm address " + gymAddress);
+        System.out.println("Gym Name " + gymName );
         String gymI = gym.getGymImage();
         final String gymImage;
         if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png)")){
@@ -141,12 +147,18 @@ public class GymDetailActivity extends AppCompatActivity {
                 AsyncTask<String, Void, String> task = null;
                 task = new GymDetailActivity.PostWebServiceTask();
 
-                task.execute(Part_URL, "1", "Test", gymName, gymImage, gymAddress, gymRating);
+                task.execute(Part_URL, gymPlaceId, userName, gymName, gymImage, gymAddress, gymRating);
                 Snackbar.make(view, "Saved!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
                 fab.setImageResource(R.drawable.ic_delete_white_24px);
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     /**
