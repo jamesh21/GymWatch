@@ -1,29 +1,20 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
@@ -34,7 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import group2.tcss450.uw.edu.gymwatch.R;
@@ -69,13 +59,9 @@ public class GymDetailActivity extends AppCompatActivity {
         final String gymName = gym.getGymName();
         final String gymAddress = gym.getGymAddress();
         final String gymPlaceId = gym.getGymID();
-        System.out.println("!!!!!!!!!!" + userName);
-        System.out.println("Gym ID " + gymPlaceId);
-        System.out.println("GYm address " + gymAddress);
-        System.out.println("Gym Name " + gymName );
         String gymI = gym.getGymImage();
         final String gymImage;
-        if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png)")){
+        if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png")){
             gymImage = "";
         } else {
             gymImage = gymI;
@@ -148,6 +134,10 @@ public class GymDetailActivity extends AppCompatActivity {
                 task = new GymDetailActivity.PostWebServiceTask();
 
                 task.execute(Part_URL, gymPlaceId, userName, gymName, gymImage, gymAddress, gymRating);
+                System.out.println("this is the gym name to be added " + gymName);
+                System.out.println("this is the gym image to be added " + gymImage);
+                System.out.println("this is the gym address to be added " + gymAddress);
+                System.out.println("this is the gym rating to be added " + gymRating);
                 Snackbar.make(view, "Saved!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
                 fab.setImageResource(R.drawable.ic_delete_white_24px);
@@ -201,13 +191,13 @@ public class GymDetailActivity extends AppCompatActivity {
                         + "&" + URLEncoder.encode("username", "UTF-8")
                         + "=" + URLEncoder.encode(strings[2], "UTF-8")
                         + "&" + URLEncoder.encode("gymname", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "=" + URLEncoder.encode(strings[3], "UTF-8")
                         + "&" + URLEncoder.encode("imageurl", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "=" + URLEncoder.encode(strings[4], "UTF-8")
                         + "&" + URLEncoder.encode("address", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "=" + URLEncoder.encode(strings[5], "UTF-8")
                         + "&" + URLEncoder.encode("rating", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8");
+                        + "=" + URLEncoder.encode(strings[6], "UTF-8");
                 wr.write(data);
                 wr.flush();
                 InputStream content = urlConnection.getInputStream();

@@ -165,6 +165,7 @@ public class GymItem implements Parcelable{
         mGymFill = in.readString();
         mGymImage = in.readString();
         mGymPosition = in.readInt();
+        mGymID = in.readString();
     }
     @Override
     public int describeContents() {
@@ -179,6 +180,7 @@ public class GymItem implements Parcelable{
         dest.writeString(mGymFill);
         dest.writeString(mGymImage);
         dest.writeInt(mGymPosition);
+        dest.writeString(mGymID);
 
     }
 

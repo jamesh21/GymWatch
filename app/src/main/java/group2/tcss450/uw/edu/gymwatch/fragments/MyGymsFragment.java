@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,8 @@ public class MyGymsFragment extends Fragment {
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_RATING = "rating";
     private static final String TAG_PLACE_ID = "placeid";
-    private static List<GymItem> mUserGyms;
+    private List<GymItem> mUserGyms;
+    private GymAdapter mGymAdapter;
 
     private View mView;
 
@@ -76,6 +78,28 @@ public class MyGymsFragment extends Fragment {
         return mView;
     }
 
+    private ItemTouchHelper.Callback touchMethod() {
+        ItemTouchHelper.SimpleCallback simpleGymTouchCallBack =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                        deleteItem(viewHolder.getAdapterPosition());
+                    }
+                };
+        return simpleGymTouchCallBack;
+    }
+
+    private void deleteItem(final int position) {
+        mUserGyms.remove(position);
+        mGymAdapter.notifyItemRemoved(position);
+
+    }
     /**
      * Inner AsyncTask class, handle the internet connection with the web server. Passing
      * parameters to the web server and get the response back.
@@ -130,10 +154,9 @@ public class MyGymsFragment extends Fragment {
         protected void onPostExecute(String result) {
             try {
                 JSONArray json = new JSONArray(result);
-                List<GymItem> userGyms = new ArrayList<>();
-                System.out.println("!!!!!" + json.length());
+//                List<GymItem> userGyms = new ArrayList<>();
+                mUserGyms = new ArrayList<>();
                 for (int i = 0; i < json.length(); i++) {
-                    System.out.println("HELLO HELLO");
                     String str_result = new StaticWebServiceTask().execute(FAKE_DATA).get();
                     JSONObject gym = json.getJSONObject(i);
                     String gymName = gym.getString(TAG_NAME);
@@ -148,17 +171,21 @@ public class MyGymsFragment extends Fragment {
                     }
                     String gymRating = gym.getString(TAG_RATING);
                     GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
-                    userGyms.add(currentGym);
+                    System.out.println("Current gym image = " + currentGym.getGymImage());
+//                    userGyms.add(currentGym);
+                    mUserGyms.add(currentGym);
                 }
-                System.out.println("User gyms ==== " + userGyms.size());
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 gymRecView.setLayoutManager(layoutManager);
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
                         (gymRecView.getContext(), layoutManager.getOrientation());
                 gymRecView.addItemDecoration(dividerItemDecoration);
-                GymAdapter gymAdapter = new GymAdapter(userGyms, getActivity());
-                gymRecView.setAdapter(gymAdapter);
+                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchMethod());
+                itemTouchHelper.attachToRecyclerView(gymRecView);
+                //GymAdapter gymAdapter = new GymAdapter(userGyms, getActivity());
+                mGymAdapter = new GymAdapter(mUserGyms, getActivity());
+                gymRecView.setAdapter(mGymAdapter);
 
             } catch (JSONException e) {
                 e.printStackTrace();

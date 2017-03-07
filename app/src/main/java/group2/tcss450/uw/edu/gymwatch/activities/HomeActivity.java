@@ -77,6 +77,9 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_home);
+        TextView userHead = (TextView)headerLayout.findViewById(R.id.username);
+        userHead.setText("Hello " + LoginSavePreference.getUser(this));
         navigationView.setNavigationItemSelectedListener(this);
 
     }
