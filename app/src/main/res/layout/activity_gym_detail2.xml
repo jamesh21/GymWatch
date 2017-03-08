@@ -25,6 +25,7 @@
             app:titleEnabled="true"
             app:maxLines="3">
 
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,10 +44,10 @@
         </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -85,9 +86,25 @@
                     android:textSize="25sp"
                     android:padding="20dp"/>
 
-        </RelativeLayout>
+                <lecho.lib.hellocharts.view.ColumnChartView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:id="@+id/bar_graph"
+                    android:layout_alignParentBottom="true"/>
 
-    </android.support.v4.widget.NestedScrollView>
+        </RelativeLayout>
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<lecho.lib.hellocharts.view.ColumnChartView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/bar_graph"-->
+                <!--android:layout_below="@+id/gym_address_detail"/>-->
+        <!--</LinearLayout>-->
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

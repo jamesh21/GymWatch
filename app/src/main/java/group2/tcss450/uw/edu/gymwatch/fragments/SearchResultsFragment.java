@@ -11,9 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -275,10 +273,10 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
                 gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-                itemAnimator.setAddDuration(1000);
-                itemAnimator.setRemoveDuration(1000);
-                gymRecView.setItemAnimator(itemAnimator);
+//                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+//                itemAnimator.setAddDuration(1000);
+//                itemAnimator.setRemoveDuration(1000);
+//                gymRecView.setItemAnimator(itemAnimator);
                 GymAdapter gymAdapter = new GymAdapter(results, getActivity());
                 gymRecView.setAdapter(gymAdapter);
                 ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {

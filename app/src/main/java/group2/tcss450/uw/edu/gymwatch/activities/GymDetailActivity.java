@@ -25,11 +25,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import group2.tcss450.uw.edu.gymwatch.R;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
 import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Column;
+import lecho.lib.hellocharts.model.ColumnChartData;
+import lecho.lib.hellocharts.model.SubcolumnValue;
+import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class GymDetailActivity extends AppCompatActivity {
     /**The field for the URL that this activity connects to. */
@@ -54,8 +61,8 @@ public class GymDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gym_detail2);
-        Intent i = getIntent();
-        GymItem gym = i.getParcelableExtra("Gym");
+        Intent intent = getIntent();
+        GymItem gym = intent.getParcelableExtra("Gym");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final String userName = LoginSavePreference.getUser(this);
@@ -63,18 +70,35 @@ public class GymDetailActivity extends AppCompatActivity {
         final String gymAddress = gym.getGymAddress();
         final String gymPlaceId = gym.getGymID();
         final String gymI = gym.getGymImage();
-//        final String gymImage;
-//        if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png")){
-//            gymImage = NO_IMAGE;
-//        } else {
-//            gymImage = gymI;
-//        }
-
-
         final String gymRating = gym.getGymRating();
         final int gymFill = Integer.parseInt(gym.getGymFill());
 
-
+        //List<SubcolumnValue> percentages = new ArrayList<>();
+        List<Column> columns = new ArrayList<>();
+        List<AxisValue> axisList = new ArrayList<>();
+        Axis axisX = new Axis();
+        View layout = findViewById(R.id.bar_graph);
+        ColumnChartView barGraph = (ColumnChartView) findViewById(R.id.bar_graph);
+        ColumnChartData barData;
+        barGraph.setZoomEnabled(false);
+        barGraph.setInteractive(false);
+        String[] labels = {"6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm",
+                "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"};
+        List<SubcolumnValue> percentages;
+        for (int i = 0; i < labels.length; i++) {
+            int num = i * 5;
+            percentages = new ArrayList<>();
+            percentages.add(new SubcolumnValue((float) num, getResources().getColor(R.color.colorPrimaryDark)));
+            Column column = new Column(percentages);
+            column.setHasLabels(true);
+            columns.add(column);
+            axisList.add(new AxisValue(i).setLabel(labels[i]));
+        }
+        barData = new ColumnChartData(columns);
+        axisX.setValues(axisList);
+        barData.setAxisXBottom(axisX);
+        barGraph.setColumnChartData(barData);
+        //layout.addView(barGraph);
 
         //OpenSource Github API for multiline titles.
         net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout collapsingToolbarLayout =

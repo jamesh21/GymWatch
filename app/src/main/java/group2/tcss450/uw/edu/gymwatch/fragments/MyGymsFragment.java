@@ -3,7 +3,6 @@ package group2.tcss450.uw.edu.gymwatch.fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -187,10 +186,10 @@ public class MyGymsFragment extends Fragment {
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 gymRecView.setLayoutManager(layoutManager);
-                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-                itemAnimator.setAddDuration(1000);
-                itemAnimator.setRemoveDuration(1000);
-                gymRecView.setItemAnimator(itemAnimator);
+//                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+//                itemAnimator.setAddDuration(1000);
+//                itemAnimator.setRemoveDuration(1000);
+//                gymRecView.setItemAnimator(itemAnimator);
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
                         (gymRecView.getContext(), layoutManager.getOrientation());
                 gymRecView.addItemDecoration(dividerItemDecoration);

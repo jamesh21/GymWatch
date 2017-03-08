@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -70,7 +72,15 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         holder.mGymFillRate.setText(item.getGymFill() + "% Full");
         holder.mGymAddress.setText(item.getGymAddress());
         changeColor(holder, item);
+        animate(holder);
 
+    }
+
+    public void animate(RecyclerView.ViewHolder holder) {
+        Animation animate = AnimationUtils.loadAnimation(mContext, R.anim.bounce_interpolator);
+        Animation animate2 = AnimationUtils.loadAnimation(mContext, R.anim.anticipate_overshoot_interpolator);
+        holder.itemView.setAnimation(animate);
+        holder.itemView.setAnimation(animate2);
     }
 
     private void changeColor(GymHolder holder, GymItem item) {
