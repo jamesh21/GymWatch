@@ -3,6 +3,7 @@ package group2.tcss450.uw.edu.gymwatch.fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -175,26 +176,21 @@ public class MyGymsFragment extends Fragment {
                     String gymImage;
                     String placeId = gym.getString(TAG_PLACE_ID);
                     if (!photoReference.isEmpty()) {
-                        System.out.println("has photo reference");
-                        System.out.println("Current gym name = " + gymName);
-                        System.out.println("Current gym image = " + photoReference);
                         gymImage = photoReference;
                     } else {
-                        System.out.println("does not have photo reference");
-                        System.out.println("Current gym name = " + gymName);
-                        System.out.println("Current gym image = " + photoReference);
                         gymImage = NO_IMAGE;
                     }
                     String gymRating = gym.getString(TAG_RATING);
                     GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
-//                    System.out.println("Current gym name = " + currentGym.getGymName());
-//                    System.out.println("Current gym image = " + currentGym.getGymImage());
-//                    userGyms.add(currentGym);
                     mUserGyms.add(currentGym);
                 }
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 gymRecView.setLayoutManager(layoutManager);
+                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+                itemAnimator.setAddDuration(1000);
+                itemAnimator.setRemoveDuration(1000);
+                gymRecView.setItemAnimator(itemAnimator);
                 DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
                         (gymRecView.getContext(), layoutManager.getOrientation());
                 gymRecView.addItemDecoration(dividerItemDecoration);
@@ -303,54 +299,6 @@ public class MyGymsFragment extends Fragment {
             return response;
         }
 
-//        /**
-//         * This method checks if the response is valid, If it is, store the response
-//         * in to the field mResponse.
-//         * @param result the response string we  get back from the server.
-//         */
-//        @Override
-//        protected void onPostExecute(String result) {
-//            try {
-//                JSONArray json = new JSONArray(result);
-//                mUserGyms = new ArrayList<>();
-//                for (int i = 0; i < json.length(); i++) {
-//                    String str_result = new StaticWebServiceTask().execute(FAKE_DATA).get();
-//                    JSONObject gym = json.getJSONObject(i);
-//                    String gymName = gym.getString(TAG_NAME);
-//                    String gymAddress = gym.getString(TAG_ADDRESS);
-//                    String photoReference = gym.getString(TAG_IMAGE);
-//                    String gymImage;
-//                    String placeId = gym.getString(TAG_PLACE_ID);
-//                    if (!photoReference.isEmpty()) {
-//                        gymImage = photoReference;
-//                    } else {
-//                        gymImage = NO_IMAGE;
-//                    }
-//                    String gymRating = gym.getString(TAG_RATING);
-//                    GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
-//                    mUserGyms.add(currentGym);
-//                }
-//                RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
-//                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//                gymRecView.setLayoutManager(layoutManager);
-//                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
-//                        (gymRecView.getContext(), layoutManager.getOrientation());
-//                gymRecView.addItemDecoration(dividerItemDecoration);
-//                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchMethod());
-//                itemTouchHelper.attachToRecyclerView(gymRecView);
-//                //GymAdapter gymAdapter = new GymAdapter(userGyms, getActivity());
-//                mGymAdapter = new GymAdapter(mUserGyms, getActivity());
-//                gymRecView.setAdapter(mGymAdapter);
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
 
     }
 

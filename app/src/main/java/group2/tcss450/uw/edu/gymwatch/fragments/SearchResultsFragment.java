@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,8 +91,8 @@ public class SearchResultsFragment extends Fragment {
         SearchView search = (SearchView) getActivity().findViewById(R.id.search);
         search.setVisibility(View.VISIBLE);
         search.setIconified(true);
-        //title.setText(R.string.results_page);
-        //title.setText(query);
+        title.setText(R.string.results_page);
+        title.setText(query);
         mView = inflater.inflate(R.layout.fragment_search_results, container, false);
         return mView;
     }
@@ -263,7 +264,7 @@ public class SearchResultsFragment extends Fragment {
                      .show();
                 return;
             }
-            //mText.setText(result);
+
             //Gives the result string to a JSONParser object which will parse the string.
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
@@ -274,6 +275,10 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
                 gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+                itemAnimator.setAddDuration(1000);
+                itemAnimator.setRemoveDuration(1000);
+                gymRecView.setItemAnimator(itemAnimator);
                 GymAdapter gymAdapter = new GymAdapter(results, getActivity());
                 gymRecView.setAdapter(gymAdapter);
                 ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
