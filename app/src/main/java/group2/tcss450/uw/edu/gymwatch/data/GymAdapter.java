@@ -75,9 +75,9 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         holder.mGymFillRate.setText(item.getGymFill() + "%");
         int gymFill = Integer.parseInt(item.getGymFill());
 
-        if (holder.pill instanceof ShapeDrawable) {
+        if (holder.mPill instanceof ShapeDrawable) {
             // cast to 'ShapeDrawable'
-            ShapeDrawable shapeDrawable = (ShapeDrawable)holder.pill;
+            ShapeDrawable shapeDrawable = (ShapeDrawable)holder.mPill;
             if(gymFill >= 0 && gymFill <= 17) {
                 shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext, R.color.min_fill));
             } else if (gymFill >= 17 && gymFill <= 33){
@@ -93,9 +93,9 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             } else {
                 shapeDrawable.getPaint().setColor(ContextCompat.getColor(mContext, R.color.max_fill));
             }
-        } else if (holder.pill instanceof GradientDrawable) {
+        } else if (holder.mPill instanceof GradientDrawable) {
             // cast to 'GradientDrawable'
-            GradientDrawable gradientDrawable = (GradientDrawable)holder.pill;
+            GradientDrawable gradientDrawable = (GradientDrawable)holder.mPill;
             if(gymFill >= 0 && gymFill <= 17) {
                 gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.min_fill));
             } else if (gymFill >= 17 && gymFill <= 33){
@@ -113,7 +113,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             }
         }
         holder.mGymAddress.setText(item.getGymAddress());
-        animate(holder);
+        //animate(holder);
     }
     public void animate(RecyclerView.ViewHolder holder) {
         Animation animate = AnimationUtils.loadAnimation(mContext, R.anim.bounce_interpolator);

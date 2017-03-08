@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,17 +44,12 @@ import lecho.lib.hellocharts.view.ColumnChartView;
 
 public class GymDetailActivity extends AppCompatActivity {
     /**The field for the URL that this activity connects to. */
-    private static final String PART_URL
-            = "http://cssgate.insttech.washington.edu/~xufang/insertGymToDB.php";
-    private static final String Part_URL_DELETE
-            = "http://cssgate.insttech.washington.edu/~xufang/deleteGymFromDB.php";
-    private static final String Part_URL_CHECK
-            ="http://cssgate.insttech.washington.edu/~xufang/addedOrNot.php";
+    private static final String PART_URL = "http://cssgate.insttech.washington.edu/~xufang/insertGymToDB.php";
 
-    private static final String HISTORY_URL = "http://cssgate.insttech.washington.edu/" +
-
-    private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/" +
-            "commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";                                                     "~xufang/bargraph.php";
+    private static final String Part_URL_DELETE = "http://cssgate.insttech.washington.edu/~xufang/deleteGymFromDB.php";
+    private static final String Part_URL_CHECK  = "http://cssgate.insttech.washington.edu/~xufang/addedOrNot.php";
+    private static final String HISTORY_URL = "http://cssgate.insttech.washington.edu/~xufang/bargraph.php";
+    private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";
 
     /**Field for the response which is returned form the web server. */
     private int iconType = 0;//0 is add, 1 is delete
@@ -83,8 +77,6 @@ public class GymDetailActivity extends AppCompatActivity {
         task2 = new GymDetailActivity.PostWebServiceTask();
         task3 = new GymDetailActivity.PostWebServiceTask();
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        Intent i = getIntent();
-        GymItem gym = i.getExtras().getParcelable("Gym");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final String userName = LoginSavePreference.getUser(this);
@@ -95,8 +87,8 @@ public class GymDetailActivity extends AppCompatActivity {
         final String gymRating = gym.getGymRating();
         final int gymFill = Integer.parseInt(gym.getGymFill());
 
-        AsyncTask<String, Void, String> task = new GymDetailActivity.GetGymFillHistory();
-        task.execute(HISTORY_URL);
+        AsyncTask<String, Void, String> historyTask = new GymDetailActivity.GetGymFillHistory();
+        historyTask.execute(HISTORY_URL);
 
 
         //OpenSource Github API for multiline titles.
@@ -154,10 +146,16 @@ public class GymDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String gymImage;
+                if (gymI.equals(NO_IMAGE)) {
+                    gymImage = "";
+                } else {
+                    gymImage = gymI;
+                }
 
                 if(iconType == 0) {//If the icon is an add icon
                     checkType = 0;
-                    task2.execute(Part_URL, gymPlaceId, userName, gymName, gymImage, gymAddress, gymRating);
+                    task2.execute(PART_URL, gymPlaceId, userName, gymName, gymImage, gymAddress, gymRating);
                     Snackbar.make(view, "Saved to Gyms", Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
                     iconType = 1;
