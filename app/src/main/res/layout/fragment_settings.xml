@@ -17,12 +17,14 @@
             android:textSize="20dp"
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
-            android:text="@string/notification_text"/>
+            android:text="@string/notification_text"
+            android:textColor="@color/white_text"/>
         <CheckBox
             android:id="@+id/notification_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="20dp" />
+            android:paddingRight="20dp"
+            android:textColor="@color/white_text"/>
     </LinearLayout>
 
 
@@ -40,13 +42,15 @@
             android:paddingLeft="15dp"
             android:textSize="20dp"
             android:layout_weight="1"
-            android:text="@string/fill_text"/>
+            android:text="@string/fill_text"
+            android:textColor="@color/white_text"/>
         <Spinner
             android:layout_width="100dp"
             android:spinnerMode="dropdown"
             android:dropDownWidth="100dp"
             android:layout_height="wrap_content"
-            android:id="@+id/fill_spinner"></Spinner>
+            android:id="@+id/fill_spinner"
+            android:textColor="@color/white_text"></Spinner>
     </LinearLayout>
 
 
@@ -63,7 +67,8 @@
             android:layout_weight="1"
             android:paddingLeft="15dp"
             android:textSize="20dp"
-            android:text="@string/schedule_text"/>
+            android:text="@string/schedule_text"
+            android:textColor="@color/white_text"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

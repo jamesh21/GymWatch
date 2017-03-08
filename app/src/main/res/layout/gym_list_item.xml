@@ -11,22 +11,34 @@
         android:layout_below="@+id/gym_name"
         android:paddingLeft="10dp"
         android:id="@+id/gym_rating"
-        android:numStars="5"/>
+        android:numStars="5"
+        android:textColor="@color/white_text"/>
     <TextView
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/gym_address"
         android:textSize="12dp"
         android:paddingLeft="10dp"
-        android:layout_below="@id/gym_rating"/>
-    <TextView
+        android:layout_below="@id/gym_rating"
+        android:textColor="@color/white_text"/>
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/gym_fill"
-        android:paddingTop="5dp"
-        android:layout_below="@id/gym_address"
-        android:textSize="30dp"
-        android:paddingLeft="10dp"/>
+        android:background="@drawable/pill"
+        android:layout_below="@id/gym_address">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/gym_fill"
+            android:paddingTop="5dp"
+            android:textSize="25dp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/white_text"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+
 
     <TextView
         android:layout_width="300dp"
@@ -38,7 +50,8 @@
         android:text="YMCA"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@color/white_text"/>
 
     <ImageView
         android:layout_width="100dp"

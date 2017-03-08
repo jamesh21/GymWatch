@@ -66,7 +66,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             holder.mGymRating.setRating(0);
         }
 
-        holder.mGymFillRate.setText(item.getGymFill() + "% Full");
+        holder.mGymFillRate.setText(item.getGymFill() + "%");
         holder.mGymAddress.setText(item.getGymAddress());
 
     }

@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="group2.tcss450.uw.edu.gymwatch.activities.LoginActivity">
+    tools:context="group2.tcss450.uw.edu.gymwatch.activities.LoginActivity"
+    android:background="@color/colorPrimary">
 
 
 
@@ -21,7 +22,8 @@
         android:layout_marginBottom="70dp"
         android:text="@string/app_name"
         android:textSize="30dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:textColor="@color/white_text"/>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/usernameWrapper"
@@ -29,7 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp"
+        >
 
         <EditText
             android:id="@+id/editTextusername"
@@ -40,7 +43,8 @@
             android:layout_alignStart="@+id/editTextpassword"
             android:ems="20"
             android:hint="@string/caps_username"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/white_text"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -76,7 +80,7 @@
             android:layout_marginBottom="87dp"
             android:onClick="buttonClick"
             android:text="@string/log_in"
-            android:textColor="@color/black_text"
+            android:textColor="@color/white_text"
             android:background="@android:color/transparent"/>
 
         <Button
@@ -87,7 +91,7 @@
             android:layout_toRightOf="@id/buttonLogin"
             android:onClick="doRegistration"
             android:text="@string/registration"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/dot_dark_screen2"
             android:background="@android:color/transparent"/>
     </LinearLayout>
 </LinearLayout>
