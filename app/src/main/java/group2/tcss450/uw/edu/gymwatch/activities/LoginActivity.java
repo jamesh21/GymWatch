@@ -63,9 +63,15 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.buttonLogin:
                 //When the user did not input password, shows up a toast.
                 if(password.equals("")){
-                    Toast.makeText(getApplicationContext(), "empty password"
-                            , Toast.LENGTH_LONG)
-                            .show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage("Please input a " +
+                            "password.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+                    alert.show();
                 } else {
                     //when the user did enter something as password.
                     task = new PostWebServiceTask();
