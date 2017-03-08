@@ -181,7 +181,6 @@ public class GymItem implements Parcelable{
         dest.writeString(mGymImage);
         dest.writeInt(mGymPosition);
         dest.writeString(mGymID);
-
     }
 
     public static final Parcelable.Creator<GymItem> CREATOR = new Parcelable.Creator<GymItem>() {

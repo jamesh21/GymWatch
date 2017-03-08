@@ -1,5 +1,6 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,7 +51,6 @@ public class HomeActivity extends AppCompatActivity
         mTitle = (TextView) findViewById(R.id.fragment_title);
         mUsername = getIntent().getStringExtra("username");
         setupSearchView();
-
         //Setting up the my gyms recycle view
         if(savedInstanceState == null) {
             if (findViewById(R.id.content_home) != null) {
@@ -62,8 +62,8 @@ public class HomeActivity extends AppCompatActivity
                         .add(R.id.content_home, gymsFragment)
                         .commit();
             }
-        }
 
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

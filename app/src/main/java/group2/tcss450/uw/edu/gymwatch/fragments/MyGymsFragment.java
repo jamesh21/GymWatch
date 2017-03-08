@@ -1,5 +1,6 @@
 package group2.tcss450.uw.edu.gymwatch.fragments;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,6 +75,7 @@ public class MyGymsFragment extends Fragment {
      */
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         mCurrentUser = getArguments().getString("username");
         mView = inflater.inflate(R.layout.fragment_my_gyms, container, false);
@@ -115,7 +118,6 @@ public class MyGymsFragment extends Fragment {
      * parameters to the web server and get the response back.
      */
     private class GetGymsFromDBTask extends AsyncTask<String, Void, String> {
-
         /**
          * perform web connection, passing parameters and retrieve response back by POST
          * @param strings includes destination URL, and parameters we want to pass.
@@ -215,7 +217,7 @@ public class MyGymsFragment extends Fragment {
      * parameters to the web server and get the response back.
      */
     private class StaticWebServiceTask extends AsyncTask<String, Void, String> {
-
+        ProgressDialog progress = new ProgressDialog(getContext());
         /**
          * Perform web connection, passing parameters and retrieve response back by POST
          * @param strings includes destination URL, and parameters we want to pass.
