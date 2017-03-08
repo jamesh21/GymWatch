@@ -69,36 +69,36 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
 
         holder.mGymFillRate.setText(item.getGymFill() + "% Full");
         holder.mGymAddress.setText(item.getGymAddress());
-//        changeColor(holder, item);
+        changeColor(holder, item);
 
     }
 
     private void changeColor(GymHolder holder, GymItem item) {
         int gymFill = Integer.parseInt(item.getGymFill());
         if(gymFill >= 0 && gymFill <= 17) {
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.min_fill));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.min_fill));
         } else if (gymFill >= 17 && gymFill <= 33){
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seventeen));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.seventeen));
             //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.seventeen));
 
         } else if (gymFill >= 33 && gymFill <= 50){
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.thirty_three));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.thirty_three));
             //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.thirty_three));
 
         } else if (gymFill >= 50 && gymFill <= 66){
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.mid_fill));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.mid_fill));
             //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.mid_fill));
 
         } else if (gymFill >= 66 && gymFill <= 83) {
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.sixty_six));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.sixty_six));
             //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.sixty_six));
 
         } else if (gymFill >= 82 && gymFill <= 90){
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.eighty_two));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.eighty_two));
             //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.eighty_two));
 
         } else {
-            holder.mContainer.setBackgroundColor(ContextCompat.getColor(mContext, R.color.max_fill));
+            holder.mGymFillBar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.max_fill));
             //gym_Address.setBackgroundColor(ContextCompat.getColor(this, R.color.max_fill));
         }
     }
@@ -129,6 +129,8 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         /** The container for the gym. */
         private View mContainer;
 
+        private TextView mGymFillBar;
+
         /**
          * Constructor for a GymHolder object.
          * @param itemView for the items
@@ -141,6 +143,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             mGymFillRate = (TextView)itemView.findViewById(R.id.gym_fill);
             mGymRating = (RatingBar) itemView.findViewById(R.id.gym_rating);
             mGymImage = (ImageView)itemView.findViewById(R.id.gym_picture);
+            mGymFillBar = (TextView)itemView.findViewById(R.id.fill_bar);
             mContainer = itemView.findViewById(R.id.gym_content_container);
         }
 

@@ -91,7 +91,7 @@ public class SearchResultsFragment extends Fragment {
         search.setVisibility(View.VISIBLE);
         search.setIconified(true);
         //title.setText(R.string.results_page);
-        title.setText(query);
+        //title.setText(query);
         mView = inflater.inflate(R.layout.fragment_search_results, container, false);
         return mView;
     }
@@ -267,21 +267,24 @@ public class SearchResultsFragment extends Fragment {
             //Gives the result string to a JSONParser object which will parse the string.
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
-            System.out.println("Gym ID in SR: " + results.get(0).getGymID());
 
-            RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
-            gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            GymAdapter gymAdapter = new GymAdapter(results, getActivity());
-            gymRecView.setAdapter(gymAdapter);
-            ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                @Override
-                public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                    Intent i = new Intent(getActivity(), GymDetailActivity.class);
-                    System.out.println("Gym ID in SR end: " + results.get(position).getGymID());
-                    i.putExtra("Gym", results.get(position));
-                    startActivity(i);
-                }
-            });
+            if (results.isEmpty()) {
+                TextView noResultView = (TextView) mView.findViewById(R.id.no_results);
+                noResultView.setVisibility(View.VISIBLE);
+            } else {
+                RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
+                gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                GymAdapter gymAdapter = new GymAdapter(results, getActivity());
+                gymRecView.setAdapter(gymAdapter);
+                ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Intent i = new Intent(getActivity(), GymDetailActivity.class);
+                        i.putExtra("Gym", results.get(position));
+                        startActivity(i);
+                    }
+                });
+            }
         }
     }
 }

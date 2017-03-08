@@ -35,9 +35,6 @@ public class HomeActivity extends AppCompatActivity
 
     private String mUsername;
 
-    //private SharedPreferences mPrefs;
-
-    //private int settingsSpinnerPos;
     @Override
     /**
      * Setup the home activity, initialize the instance field, and place the MyGymsFragment
@@ -47,8 +44,6 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-//        SharedPreferences prefs = getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
-//        settingsSpinnerPos = prefs.getInt(getString(R.string.POSITION), 0);
 
         //Getting a reference to the search view and adding listeners so the title will disappear
         mSearch = (SearchView) findViewById(R.id.search);
@@ -121,7 +116,7 @@ public class HomeActivity extends AppCompatActivity
              */
             public boolean onQueryTextSubmit(String query) {
                 if (mSearch.getQuery().length() != 0) {
-                    mTitle.setText("Results");
+                    mTitle.setText(query);
                     mSearch.setIconified(true);
                     SearchResultsFragment searchResults = new SearchResultsFragment();
                     //Place the query into a bundle to be passed to the results fragment

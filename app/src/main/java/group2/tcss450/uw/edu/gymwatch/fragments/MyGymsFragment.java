@@ -39,6 +39,10 @@ public class MyGymsFragment extends Fragment {
     private static final String PARTIAL_URL
             = "http://cssgate.insttech.washington.edu/~xufang/getGymsFromDB.php";
     /** The URL for getting google images. */
+
+    private static final String DELETE_URL
+            = "http://cssgate.insttech.washington.edu/~xufang/deleteGymFromDB.php";
+
     private static String IMAGE_URL = "https://maps.googleapis.com/maps/api/place" +
             "/photo?maxwidth=400&photoreference=";
 
@@ -61,6 +65,7 @@ public class MyGymsFragment extends Fragment {
     private GymAdapter mGymAdapter;
 
     private View mView;
+    private String mCurrentUser;
 
     @Override
     /**
@@ -69,12 +74,12 @@ public class MyGymsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        String username = getArguments().getString("username");
+        mCurrentUser = getArguments().getString("username");
         mView = inflater.inflate(R.layout.fragment_my_gyms, container, false);
 
         mUserGyms = new ArrayList<>();
         AsyncTask<String, Void, String> task = new GetGymsFromDBTask();
-        task.execute(PARTIAL_URL, username);
+        task.execute(PARTIAL_URL, mCurrentUser);
         return mView;
     }
 
@@ -83,7 +88,9 @@ public class MyGymsFragment extends Fragment {
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
                     @Override
-                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    public boolean onMove(RecyclerView recyclerView,
+                                          RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
                         return false;
                     }
 
@@ -96,7 +103,10 @@ public class MyGymsFragment extends Fragment {
     }
 
     private void deleteItem(final int position) {
+        GymItem gym = mUserGyms.get(position);
         mUserGyms.remove(position);
+        AsyncTask<String, Void, String> task = new DeleteGymFromDBTask();
+        task.execute(DELETE_URL, gym.getGymID(), mCurrentUser);
         mGymAdapter.notifyItemRemoved(position);
 
     }
@@ -165,13 +175,20 @@ public class MyGymsFragment extends Fragment {
                     String gymImage;
                     String placeId = gym.getString(TAG_PLACE_ID);
                     if (!photoReference.isEmpty()) {
-                        gymImage = IMAGE_URL + photoReference + API_KEY;
+                        System.out.println("has photo reference");
+                        System.out.println("Current gym name = " + gymName);
+                        System.out.println("Current gym image = " + photoReference);
+                        gymImage = photoReference;
                     } else {
+                        System.out.println("does not have photo reference");
+                        System.out.println("Current gym name = " + gymName);
+                        System.out.println("Current gym image = " + photoReference);
                         gymImage = NO_IMAGE;
                     }
                     String gymRating = gym.getString(TAG_RATING);
                     GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
-                    System.out.println("Current gym image = " + currentGym.getGymImage());
+//                    System.out.println("Current gym name = " + currentGym.getGymName());
+//                    System.out.println("Current gym image = " + currentGym.getGymImage());
 //                    userGyms.add(currentGym);
                     mUserGyms.add(currentGym);
                 }
@@ -235,6 +252,105 @@ public class MyGymsFragment extends Fragment {
             }
             return response;
         }
+
+    }
+
+
+    /**
+     * Inner AsyncTask class, handle the internet connection with the web server. Passing
+     * parameters to the web server and get the response back.
+     */
+    private class DeleteGymFromDBTask extends AsyncTask<String, Void, String> {
+
+        /**
+         * perform web connection, passing parameters and retrieve response back by POST
+         * @param strings includes destination URL, and parameters we want to pass.
+         * @return response is the string we get back from the web server.
+         */
+        @Override
+        protected String doInBackground(String... strings) {
+            if (strings.length != 3) {
+                throw new IllegalArgumentException("Two String arguments required.");
+            }
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
+            try {
+                URL urlObject = new URL(url);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setDoOutput(true);
+                OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
+                String data = URLEncoder.encode("placeid", "UTF-8")
+                        + "=" + URLEncoder.encode(strings[1], "UTF-8")
+                        + "&" + URLEncoder.encode("username", "UTF-8")
+                        + "=" + URLEncoder.encode(strings[2], "UTF-8");
+                wr.write(data);
+                wr.flush();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+            } catch (Exception e) {
+                response = "Unable to connect, Reason: "
+                        + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return response;
+        }
+
+//        /**
+//         * This method checks if the response is valid, If it is, store the response
+//         * in to the field mResponse.
+//         * @param result the response string we  get back from the server.
+//         */
+//        @Override
+//        protected void onPostExecute(String result) {
+//            try {
+//                JSONArray json = new JSONArray(result);
+//                mUserGyms = new ArrayList<>();
+//                for (int i = 0; i < json.length(); i++) {
+//                    String str_result = new StaticWebServiceTask().execute(FAKE_DATA).get();
+//                    JSONObject gym = json.getJSONObject(i);
+//                    String gymName = gym.getString(TAG_NAME);
+//                    String gymAddress = gym.getString(TAG_ADDRESS);
+//                    String photoReference = gym.getString(TAG_IMAGE);
+//                    String gymImage;
+//                    String placeId = gym.getString(TAG_PLACE_ID);
+//                    if (!photoReference.isEmpty()) {
+//                        gymImage = photoReference;
+//                    } else {
+//                        gymImage = NO_IMAGE;
+//                    }
+//                    String gymRating = gym.getString(TAG_RATING);
+//                    GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
+//                    mUserGyms.add(currentGym);
+//                }
+//                RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
+//                LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//                gymRecView.setLayoutManager(layoutManager);
+//                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
+//                        (gymRecView.getContext(), layoutManager.getOrientation());
+//                gymRecView.addItemDecoration(dividerItemDecoration);
+//                ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchMethod());
+//                itemTouchHelper.attachToRecyclerView(gymRecView);
+//                //GymAdapter gymAdapter = new GymAdapter(userGyms, getActivity());
+//                mGymAdapter = new GymAdapter(mUserGyms, getActivity());
+//                gymRecView.setAdapter(mGymAdapter);
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            } catch (ExecutionException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
     }
 

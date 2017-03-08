@@ -33,11 +33,14 @@ import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
 
 public class GymDetailActivity extends AppCompatActivity {
     /**The field for the URL that this activity connects to. */
-    private static final String Part_URL
+    private static final String PART_URL
             = "http://cssgate.insttech.washington.edu/~xufang/insertGymToDB.php";
 
     /**Field for the response which is returned form the web server. */
     private String mResponse;
+
+    private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/" +
+            "commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";
 
 
 
@@ -59,13 +62,13 @@ public class GymDetailActivity extends AppCompatActivity {
         final String gymName = gym.getGymName();
         final String gymAddress = gym.getGymAddress();
         final String gymPlaceId = gym.getGymID();
-        String gymI = gym.getGymImage();
-        final String gymImage;
-        if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png")){
-            gymImage = "";
-        } else {
-            gymImage = gymI;
-        }
+        final String gymI = gym.getGymImage();
+//        final String gymImage;
+//        if(gymI.equals("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png")){
+//            gymImage = NO_IMAGE;
+//        } else {
+//            gymImage = gymI;
+//        }
 
 
         final String gymRating = gym.getGymRating();
@@ -123,7 +126,7 @@ public class GymDetailActivity extends AppCompatActivity {
 
         ImageView gym_image_detail = (ImageView) findViewById(R.id.gymImageToolbar);
         Picasso.with(this)
-                .load(gymImage)
+                .load(gymI)
                 .into(gym_image_detail);
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -132,12 +135,13 @@ public class GymDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 AsyncTask<String, Void, String> task = null;
                 task = new GymDetailActivity.PostWebServiceTask();
-
-                task.execute(Part_URL, gymPlaceId, userName, gymName, gymImage, gymAddress, gymRating);
-                System.out.println("this is the gym name to be added " + gymName);
-                System.out.println("this is the gym image to be added " + gymImage);
-                System.out.println("this is the gym address to be added " + gymAddress);
-                System.out.println("this is the gym rating to be added " + gymRating);
+                String gymImage;
+                if(gymI.equals(NO_IMAGE)) {
+                    gymImage = "";
+                } else {
+                    gymImage = gymI;
+                }
+                task.execute(PART_URL, gymPlaceId, userName, gymName, gymImage, gymAddress, gymRating);
                 Snackbar.make(view, "Saved!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
                 fab.setImageResource(R.drawable.ic_delete_white_24px);

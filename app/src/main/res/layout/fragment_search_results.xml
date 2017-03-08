@@ -3,7 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="group2.tcss450.uw.edu.gymwatch.fragments.SearchResultsFragment">
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_results"
+        android:visibility="invisible"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:textSize="20dp"
+        android:text="No Results Found"/>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
