@@ -146,7 +146,7 @@ public class GymDetailActivity extends AppCompatActivity {
 
 
         checkType = 2;//Set the check type to check if place is already added.
-        fab.setImageResource(R.drawable.ic_add_black_24px);
+        fab.setImageResource(R.drawable.ic_add_white_24px);
 
         task.execute(Part_URL_CHECK, gymPlaceId, userName);
 
@@ -324,21 +324,22 @@ public class GymDetailActivity extends AppCompatActivity {
             } else if (checkType == 1) {//Delete
                 if (result.equals("deleted")) {
                     status = 1;
-                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_black_24px));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
                 }
             } else if (checkType == 2) {//Check
-                if (result.equals("true")) {//Gym is already there
-                    if (iconType == 1) {
+                if (result.equals("true")) {
+                    System.out.println("TRUE");
                         fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete_white_24px));
                         iconType = 1;
-                    } else {//Gym is not there
-                        fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_black_24px));
+                } else {//Gym is not there
+                        System.out.println("FALSE");
+                        fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
                         iconType = 0;
                     }
                 }
             }
 
         }
-    }
+
 
 }

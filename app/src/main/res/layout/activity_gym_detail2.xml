@@ -57,10 +57,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="25sp"
-                    android:lineSpacingExtra="8dp"
                     android:text="This is a super text"
                     android:minLines="2"
-                    android:maxLines="2"
                     android:maxWidth="250dp"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/gym_address_detail"
@@ -97,6 +95,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchorGravity="center_vertical|right"
         android:layout_gravity="bottom|right"
-        app:srcCompat="@drawable/ic_add_black_24px"/>
+        app:srcCompat="@drawable/ic_add_white_24px"/>
 
 </android.support.design.widget.CoordinatorLayout>
