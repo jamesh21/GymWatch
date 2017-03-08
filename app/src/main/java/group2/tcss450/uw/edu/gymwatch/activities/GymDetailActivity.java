@@ -2,6 +2,7 @@ package group2.tcss450.uw.edu.gymwatch.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -42,6 +47,9 @@ public class GymDetailActivity extends AppCompatActivity {
     /**The field for the URL that this activity connects to. */
     private static final String PART_URL
             = "http://cssgate.insttech.washington.edu/~xufang/insertGymToDB.php";
+
+    private static final String HISTORY_URL = "http://cssgate.insttech.washington.edu/" +
+                                                     "~xufang/bargraph.php";
 
     /**Field for the response which is returned form the web server. */
     private String mResponse;
@@ -73,32 +81,37 @@ public class GymDetailActivity extends AppCompatActivity {
         final String gymRating = gym.getGymRating();
         final int gymFill = Integer.parseInt(gym.getGymFill());
 
-        //List<SubcolumnValue> percentages = new ArrayList<>();
-        List<Column> columns = new ArrayList<>();
-        List<AxisValue> axisList = new ArrayList<>();
-        Axis axisX = new Axis();
-        View layout = findViewById(R.id.bar_graph);
-        ColumnChartView barGraph = (ColumnChartView) findViewById(R.id.bar_graph);
-        ColumnChartData barData;
-        barGraph.setZoomEnabled(false);
-        barGraph.setInteractive(false);
-        String[] labels = {"6am", "7am", "8am", "9am", "10am", "11am", "12pm", "1pm",
-                "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"};
-        List<SubcolumnValue> percentages;
-        for (int i = 0; i < labels.length; i++) {
-            int num = i * 5;
-            percentages = new ArrayList<>();
-            percentages.add(new SubcolumnValue((float) num, getResources().getColor(R.color.colorPrimaryDark)));
-            Column column = new Column(percentages);
-            column.setHasLabels(true);
-            columns.add(column);
-            axisList.add(new AxisValue(i).setLabel(labels[i]));
-        }
-        barData = new ColumnChartData(columns);
-        axisX.setValues(axisList);
-        barData.setAxisXBottom(axisX);
-        barGraph.setColumnChartData(barData);
-        //layout.addView(barGraph);
+        AsyncTask<String, Void, String> task = new GymDetailActivity.GetGymFillHistory();
+        task.execute(HISTORY_URL);
+
+
+//        List<Column> columns = new ArrayList<>();
+//        List<AxisValue> axisList = new ArrayList<>();
+//        Axis axisX = new Axis();
+//
+//        ColumnChartView barGraph = (ColumnChartView) findViewById(R.id.bar_graph);
+//        ColumnChartData barData;
+//        barGraph.setZoomEnabled(false);
+//        barGraph.setInteractive(false);
+//        String[] labels = {"6am", "8am", "10am", "12pm",
+//                "2pm",  "4pm",  "6pm",  "8pm",  "10pm"};
+//        List<SubcolumnValue> percentages;
+//        for (int i = 0; i < labels.length; i++) {
+//            int num = i * 5;
+//            percentages = new ArrayList<>();
+//            percentages.add(new SubcolumnValue((float) num, getResources().getColor(R.color.dot_light_screen2)));
+//            Column column = new Column(percentages);
+//
+//            column.setHasLabels(true);
+//            columns.add(column);
+//            axisList.add(new AxisValue(i).setLabel(labels[i]));
+//        }
+//        barData = new ColumnChartData(columns);
+//        axisX.setValues(axisList);
+//        axisX.setTextSize(12);
+//        axisX.setTextColor(Color.BLACK);
+//        barData.setAxisXBottom(axisX);
+//        barGraph.setColumnChartData(barData);
 
         //OpenSource Github API for multiline titles.
         net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout collapsingToolbarLayout =
@@ -262,5 +275,84 @@ public class GymDetailActivity extends AppCompatActivity {
 
     }
 
+
+    private class GetGymFillHistory extends AsyncTask<String, Void, String> {
+
+
+        /**
+         * Perform web connection, passing parameters and retrieve response back by POST
+         * @param strings includes destination URL, and parameters we want to pass.
+         * @return response is the string we get back from the web server.
+         */
+        @Override
+        protected String doInBackground(String... strings) {
+            String response = "";
+            HttpURLConnection urlConnection = null;
+            String url = strings[0];
+            try {
+                URL urlObject = new URL(url);
+                urlConnection = (HttpURLConnection) urlObject.openConnection();
+                InputStream content = urlConnection.getInputStream();
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                }
+            } catch (Exception e) {
+                response = "Unable to connect, Reason: "
+                        + e.getMessage();
+            } finally {
+                if (urlConnection != null)
+                    urlConnection.disconnect();
+            }
+            return response;
+        }
+
+        /**
+         * This method checks if the response is valid, If it is, store the response
+         * in to the field mResponse.
+         * @param result the response string we  get back from the server.
+         */
+        @Override
+        protected void onPostExecute(String result) {
+            if (result.startsWith("Unable to")) {
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG)
+                        .show();
+                return;
+            }
+            try {
+                JSONObject fillObject = new JSONObject(result);
+                List<Column> columns = new ArrayList<>();
+                List<AxisValue> axisList = new ArrayList<>();
+                Axis axisX = new Axis();
+                ColumnChartView barGraph = (ColumnChartView) findViewById(R.id.bar_graph);
+                ColumnChartData barData;
+                barGraph.setZoomEnabled(false);
+                barGraph.setInteractive(false);
+                String[] labels = {"6am", "8am", "10am", "12pm",
+                        "2pm", "4pm", "6pm", "8pm", "10pm"};
+                List<SubcolumnValue> percentages;
+                for (int i = 0; i < labels.length; i++) {
+                    String numPercentage = fillObject.getString(Integer.toString(i));
+                    percentages = new ArrayList<>();
+                    percentages.add(new SubcolumnValue(Float.parseFloat(numPercentage), getResources().getColor(R.color.dot_light_screen2)));
+                    Column column = new Column(percentages);
+                    column.setHasLabels(true);
+                    columns.add(column);
+                    axisList.add(new AxisValue(i).setLabel(labels[i]));
+                }
+                barData = new ColumnChartData(columns);
+                axisX.setValues(axisList);
+                axisX.setTextSize(12);
+                axisX.setTextColor(Color.BLACK);
+                barData.setAxisXBottom(axisX);
+                barGraph.setColumnChartData(barData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
 
 }

@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity
              */
             public boolean onQueryTextSubmit(String query) {
                 if (mSearch.getQuery().length() != 0) {
-                    mTitle.setText(query);
+                    mTitle.setText(R.string.results_page);
                     mSearch.setIconified(true);
                     SearchResultsFragment searchResults = new SearchResultsFragment();
                     //Place the query into a bundle to be passed to the results fragment

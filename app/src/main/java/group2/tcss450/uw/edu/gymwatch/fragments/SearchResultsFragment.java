@@ -90,7 +90,6 @@ public class SearchResultsFragment extends Fragment {
         search.setVisibility(View.VISIBLE);
         search.setIconified(true);
         title.setText(R.string.results_page);
-        title.setText(query);
         mView = inflater.inflate(R.layout.fragment_search_results, container, false);
         return mView;
     }

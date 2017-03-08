@@ -60,7 +60,6 @@
                     android:lineSpacingExtra="8dp"
                     android:text="This is a super text"
                     android:minLines="2"
-                    android:maxLines="2"
                     android:maxWidth="250dp"
                     android:layout_alignParentLeft="true"
                     android:id="@+id/gym_address_detail"

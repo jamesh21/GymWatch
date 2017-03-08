@@ -80,7 +80,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         Animation animate = AnimationUtils.loadAnimation(mContext, R.anim.bounce_interpolator);
         Animation animate2 = AnimationUtils.loadAnimation(mContext, R.anim.anticipate_overshoot_interpolator);
         holder.itemView.setAnimation(animate);
-        holder.itemView.setAnimation(animate2);
+        //holder.itemView.setAnimation(animate2);
     }
 
     private void changeColor(GymHolder holder, GymItem item) {
