@@ -42,7 +42,9 @@
             android:layout_weight="1"
             android:text="@string/fill_text"/>
         <Spinner
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
+            android:spinnerMode="dropdown"
+            android:dropDownWidth="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/fill_spinner"></Spinner>
     </LinearLayout>
@@ -65,7 +67,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Colored"
+            android:background="@android:color/transparent"
             android:id="@+id/start_time_button"
             android:text="12:00"/>
         <TextView
@@ -75,7 +77,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Colored"
+            android:background="@android:color/transparent"
             android:id="@+id/end_time_button"
             android:text="24:00"/>
     </LinearLayout>

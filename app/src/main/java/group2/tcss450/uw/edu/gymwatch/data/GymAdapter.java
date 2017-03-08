@@ -43,7 +43,6 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     @Override
     public GymHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.gym_list_item, parent, false);
-
         return new GymHolder(view);
     }
 

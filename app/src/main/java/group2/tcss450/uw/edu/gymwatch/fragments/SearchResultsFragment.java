@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -268,7 +269,6 @@ public class SearchResultsFragment extends Fragment {
             JSONParser parser = new JSONParser(result);
             results = parser.getGyms();
             System.out.println("Gym ID in SR: " + results.get(0).getGymID());
-
             RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
             gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
             GymAdapter gymAdapter = new GymAdapter(results, getActivity());

@@ -28,7 +28,7 @@ public class GymItem implements Parcelable{
     private int mGymPosition;
     private boolean isOpen;
 
-    private String mGymID;
+    private String mGymID = "lol";
 
     /**
      * Constructor for a gym item.
@@ -165,6 +165,7 @@ public class GymItem implements Parcelable{
         mGymFill = in.readString();
         mGymImage = in.readString();
         mGymPosition = in.readInt();
+        mGymID = in.readString();
     }
     @Override
     public int describeContents() {
@@ -179,7 +180,7 @@ public class GymItem implements Parcelable{
         dest.writeString(mGymFill);
         dest.writeString(mGymImage);
         dest.writeInt(mGymPosition);
-
+        dest.writeString(mGymID);
     }
 
     public static final Parcelable.Creator<GymItem> CREATOR = new Parcelable.Creator<GymItem>() {
