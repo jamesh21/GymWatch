@@ -1,8 +1,10 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -61,9 +63,15 @@ public class LoginActivity extends AppCompatActivity {
             case R.id.buttonLogin:
                 //When the user did not input password, shows up a toast.
                 if(password.equals("")){
-                    Toast.makeText(getApplicationContext(), "empty password"
-                            , Toast.LENGTH_LONG)
-                            .show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage("Please input a " +
+                            "password.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+                    alert.show();
                 } else {
                     //when the user did enter something as password.
                     task = new PostWebServiceTask();
@@ -92,9 +100,14 @@ public class LoginActivity extends AppCompatActivity {
     private void checker(){
         // when the username is not found in the database
         if (mResponse.equals("Invaild username.")) {
-            Toast.makeText(getApplicationContext(), ""+ mResponse
-                    , Toast.LENGTH_LONG)
-                    .show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("Can't find this username on server.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create();
+            alert.show();
         }
         //start next activity here
         else if (mResponse.equals("correct password")) {
@@ -104,9 +117,14 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
 
         } else {
-            Toast.makeText(getApplicationContext(), "Incorrect Password."
-                    , Toast.LENGTH_SHORT)
-                    .show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("Incorrect password.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create();
+            alert.show();
         }
 
         mResponse = "";
