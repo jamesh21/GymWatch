@@ -61,22 +61,27 @@ public class RegisterActivity extends AppCompatActivity {
         String confirm = ((EditText) findViewById(R.id.editTextConfirm)).getText().toString();
         switch (view.getId()) {
             case R.id.button_Register:
-                if(password.equals("")){
-                    Toast.makeText(getApplicationContext(), "Enter Valid Password"
-                            , Toast.LENGTH_LONG)
-                            .show();
+                if(password.equals("") || user.equals("") || user.contains(" ")
+                        || password.contains(" ") || user.length() > 25 || user.length() < 4
+                        || password.length() < 8 || password.length() > 16 ){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage("Your username or password is invaild, please follow the" +
+                            " rules.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+                    alert.show();
                 } else if(!password.equals(confirm)) {
-                    Toast.makeText(getApplicationContext(), "Passwords Don't Match"
-                            , Toast.LENGTH_LONG)
-                            .show();
-                } else if(user.length() > 25 || user.length() < 4) {
-                    Toast.makeText(getApplicationContext(), "Username must be between 4 and 25 characters"
-                            , Toast.LENGTH_LONG)
-                            .show();
-                } else if(password.length() < 8 || password.length() > 16) {
-                    Toast.makeText(getApplicationContext(), "Passwords must be between 8 and 16 characters"
-                            , Toast.LENGTH_LONG)
-                            .show();
+                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                    alert.setMessage("The password doesn't match.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).create();
+                    alert.show();
                 } else {
                     task = new GetWebServiceTask();
                     task.execute(Part_URL, user, password);
@@ -92,21 +97,38 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void checker() {
         if (mResponse.equals("username already taken")) {
-            Toast.makeText(getApplicationContext(), ""+ mResponse
-                    , Toast.LENGTH_LONG)
-                    .show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("This username has been taken.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create();
+            alert.show();
         } else if (mResponse.equals("Creating username on server has failed")) {
-            Toast.makeText(getApplicationContext(), ""+ mResponse
-                    , Toast.LENGTH_LONG)
-                    .show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("Creating username has faild due to some connection " +
+                    "problems.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create();
+            alert.show();
         } else if (mResponse.equals("Creating password on server has failed")) {
-            Toast.makeText(getApplicationContext(), ""+ mResponse
-                    , Toast.LENGTH_LONG)
-                    .show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage("Creating password has faild due to some connection " +
+                    "problems.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).create();
+            alert.show();
         }else if (mResponse.equals("Account created successfully")) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setMessage("Creating Account successfully! Please remember your username and " +
-                    "password Click Continue to auto login using your new account!").
+                    "password. Click Continue to auto login using your new account!").
                     setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

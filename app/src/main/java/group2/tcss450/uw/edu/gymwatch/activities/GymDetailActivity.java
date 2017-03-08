@@ -201,13 +201,13 @@ public class GymDetailActivity extends AppCompatActivity {
                         + "&" + URLEncoder.encode("username", "UTF-8")
                         + "=" + URLEncoder.encode(strings[2], "UTF-8")
                         + "&" + URLEncoder.encode("gymname", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "=" + URLEncoder.encode(strings[3], "UTF-8")
                         + "&" + URLEncoder.encode("imageurl", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "=" + URLEncoder.encode(strings[4], "UTF-8")
                         + "&" + URLEncoder.encode("address", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8")
+                        + "=" + URLEncoder.encode(strings[5], "UTF-8")
                         + "&" + URLEncoder.encode("rating", "UTF-8")
-                        + "=" + URLEncoder.encode(strings[2], "UTF-8");
+                        + "=" + URLEncoder.encode(strings[6], "UTF-8");
                 wr.write(data);
                 wr.flush();
                 InputStream content = urlConnection.getInputStream();
