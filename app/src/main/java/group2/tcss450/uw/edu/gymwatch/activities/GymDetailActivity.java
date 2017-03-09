@@ -91,11 +91,6 @@ public class GymDetailActivity extends AppCompatActivity {
         AsyncTask<String, Void, String> historyTask = new GymDetailActivity.GetGymFillHistory();
         historyTask.execute(HISTORY_URL);
 
-
-        //OpenSource Github API for multiline titles.
-        net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout collapsingToolbarLayout =
-                (net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setTitle(gym.getGymName());
         //Get the Gym address
         TextView gym_Address = (TextView) findViewById(R.id.gym_address_detail);
         gym_Address.setText(gym.getGymAddress());
