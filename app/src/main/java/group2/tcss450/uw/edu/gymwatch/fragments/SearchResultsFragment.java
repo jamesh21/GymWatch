@@ -1,6 +1,7 @@
 package group2.tcss450.uw.edu.gymwatch.fragments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -200,6 +201,8 @@ public class SearchResultsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         populateView(results);
+        TextView title = (TextView) getActivity().findViewById(R.id.fragment_title);
+        title.setText(R.string.results_page);
     }
 
     @Override
@@ -228,6 +231,15 @@ public class SearchResultsFragment extends Fragment {
      */
     private class TestWebServiceTask extends AsyncTask<String, Void, String> {
 
+        private ProgressDialog mProgress;
+
+        @Override
+        protected void onPreExecute() {
+            mProgress = new ProgressDialog(getContext());
+            mProgress.setMessage("Loading");
+            mProgress.show();
+
+        }
         @Override
         /**
          * Method for grabbing the search results in the background.
@@ -274,10 +286,6 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_rec_list);
                 gymRecView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-//                itemAnimator.setAddDuration(1000);
-//                itemAnimator.setRemoveDuration(1000);
-//                gymRecView.setItemAnimator(itemAnimator);
                 GymAdapter gymAdapter = new GymAdapter(results, getActivity());
                 gymRecView.setAdapter(gymAdapter);
                 ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -289,6 +297,8 @@ public class SearchResultsFragment extends Fragment {
                     }
                 });
             }
+            mProgress.dismiss();
         }
+
     }
 }

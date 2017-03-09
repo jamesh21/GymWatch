@@ -45,7 +45,7 @@
                 android:id="@+id/gym_fill"
                 android:textSize="20dp"
                 android:paddingLeft="4dp"
-                android:textColor="@color/white_text"
+                android:textColor="@color/black_text"
                 android:layout_centerInParent="true"
                 android:gravity="center_vertical"/>
         </RelativeLayout>

@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import group2.tcss450.uw.edu.gymwatch.R;
 
@@ -64,13 +67,18 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
         return mView;
     }
+    
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView title = (TextView) getActivity().findViewById(R.id.fragment_title);
+        title.setText(R.string.action_settings);
+    }
 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //SharedPreferences.Editor editor = mPrefs.edit();
-        //editor.putInt(getString(R.string.POSITION), position);
-        //editor.commit();
         mPrefs.edit().putInt(getString(R.string.POSITION), position).apply();
 
     }

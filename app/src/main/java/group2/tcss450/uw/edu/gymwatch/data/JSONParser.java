@@ -74,7 +74,6 @@ public class JSONParser {
         //Can change to 20 for more results, but ten seems ok for now.
         try {
             JSONArray places = json.getJSONArray(TAG_RESULTS);
-            boolean isOpen = false;
             // Going through each gym result and buidling a gym item object
             for (int i = 0; i < places.length(); i++) {
                 String str_result= new StaticWebServiceTask().execute(FAKE_DATA).get();

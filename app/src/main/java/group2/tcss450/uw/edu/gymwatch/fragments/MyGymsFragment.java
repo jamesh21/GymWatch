@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,6 +87,14 @@ public class MyGymsFragment extends Fragment {
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView title = (TextView) getActivity().findViewById(R.id.fragment_title);
+        title.setText(R.string.my_gyms);
+    }
+
+
     private ItemTouchHelper.Callback touchMethod() {
         ItemTouchHelper.SimpleCallback simpleGymTouchCallBack =
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -118,6 +127,15 @@ public class MyGymsFragment extends Fragment {
      * parameters to the web server and get the response back.
      */
     private class GetGymsFromDBTask extends AsyncTask<String, Void, String> {
+
+        private ProgressDialog mProgress;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgress = new ProgressDialog(getContext());
+            mProgress.setMessage("Loading");
+            mProgress.show();
+        }
         /**
          * perform web connection, passing parameters and retrieve response back by POST
          * @param strings includes destination URL, and parameters we want to pass.
@@ -166,7 +184,6 @@ public class MyGymsFragment extends Fragment {
         protected void onPostExecute(String result) {
             try {
                 JSONArray json = new JSONArray(result);
-//                List<GymItem> userGyms = new ArrayList<>();
                 mUserGyms = new ArrayList<>();
                 for (int i = 0; i < json.length(); i++) {
                     String str_result = new StaticWebServiceTask().execute(FAKE_DATA).get();
@@ -188,16 +205,8 @@ public class MyGymsFragment extends Fragment {
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 gymRecView.setLayoutManager(layoutManager);
-//                RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-//                itemAnimator.setAddDuration(1000);
-//                itemAnimator.setRemoveDuration(1000);
-//                gymRecView.setItemAnimator(itemAnimator);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration
-                        (gymRecView.getContext(), layoutManager.getOrientation());
-                gymRecView.addItemDecoration(dividerItemDecoration);
                 ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchMethod());
                 itemTouchHelper.attachToRecyclerView(gymRecView);
-                //GymAdapter gymAdapter = new GymAdapter(userGyms, getActivity());
                 mGymAdapter = new GymAdapter(mUserGyms, getActivity());
                 gymRecView.setAdapter(mGymAdapter);
 
@@ -208,6 +217,7 @@ public class MyGymsFragment extends Fragment {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+            mProgress.dismiss();
 
         }
 
