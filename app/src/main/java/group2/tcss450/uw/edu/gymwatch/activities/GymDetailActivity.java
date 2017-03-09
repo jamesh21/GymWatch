@@ -3,6 +3,7 @@ package group2.tcss450.uw.edu.gymwatch.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -184,6 +185,13 @@ public class GymDetailActivity extends AppCompatActivity {
             hours.add(m.get(i));
             hours.add(m.get(i+1));
         }
+    }
+
+    public void openMaps(View view) {
+        TextView v = (TextView) findViewById(R.id.gym_address_detail);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q="
+            +v.getText().toString()));
+        startActivity(mapIntent);
     }
 
     /**

@@ -127,12 +127,12 @@ public class RegisterActivity extends AppCompatActivity {
             alert.show();
         }else if (mResponse.equals("Account created successfully")) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setMessage("Creating Account successfully! Please remember your username and " +
-                    "password. Click Continue to auto login using your new account!").
+            alert.setMessage("Created Account successfully! Please remember your username and " +
+                    "password.").
                     setPositiveButton("Continue..", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(mActivity, HomeActivity.class));
+                            startActivity(new Intent(mActivity, LoginActivity.class));
                             dialog.dismiss();
                         }
             }).create();
