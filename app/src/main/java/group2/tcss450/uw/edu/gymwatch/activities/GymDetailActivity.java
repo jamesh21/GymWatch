@@ -405,7 +405,7 @@ public class GymDetailActivity extends AppCompatActivity {
                 barData = new ColumnChartData(columns);
                 axisX.setValues(axisList);
                 axisX.setTextSize(12);
-                axisX.setTextColor(Color.BLACK);
+                axisX.setTextColor(Color.WHITE);
                 barData.setAxisXBottom(axisX);
                 barGraph.setColumnChartData(barData);
             } catch (JSONException e) {
