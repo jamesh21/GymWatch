@@ -3,6 +3,7 @@ package group2.tcss450.uw.edu.gymwatch.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -91,11 +92,6 @@ public class GymDetailActivity extends AppCompatActivity {
         AsyncTask<String, Void, String> historyTask = new GymDetailActivity.GetGymFillHistory();
         historyTask.execute(HISTORY_URL);
 
-
-        //OpenSource Github API for multiline titles.
-        net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout collapsingToolbarLayout =
-                (net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setTitle(gym.getGymName());
         //Get the Gym address
         TextView gym_Address = (TextView) findViewById(R.id.gym_address_detail);
         gym_Address.setText(gym.getGymAddress());
@@ -189,6 +185,13 @@ public class GymDetailActivity extends AppCompatActivity {
             hours.add(m.get(i));
             hours.add(m.get(i+1));
         }
+    }
+
+    public void openMaps(View view) {
+        TextView v = (TextView) findViewById(R.id.gym_address_detail);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q="
+            +v.getText().toString()));
+        startActivity(mapIntent);
     }
 
     /**
@@ -410,7 +413,7 @@ public class GymDetailActivity extends AppCompatActivity {
                 barData = new ColumnChartData(columns);
                 axisX.setValues(axisList);
                 axisX.setTextSize(12);
-                axisX.setTextColor(Color.BLACK);
+                axisX.setTextColor(Color.WHITE);
                 barData.setAxisXBottom(axisX);
                 barGraph.setColumnChartData(barData);
             } catch (JSONException e) {

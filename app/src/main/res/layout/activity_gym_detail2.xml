@@ -15,46 +15,17 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-
-        <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="true"
-            app:maxLines="3">
+            android:scaleType="centerCrop"
+            app:layout_collapseMode="parallax"
+            android:id="@+id/gymImageToolbar"
+            android:background="@drawable/gradient"/>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                android:id="@+id/gymImageToolbar"
-                android:background="@drawable/gradient"/>
-
-
-        </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-    <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<lecho.lib.hellocharts.view.ColumnChartView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/bar_graph"-->
-                <!--android:layout_below="@+id/gym_address_detail"/>-->
-        <!--</LinearLayout>-->
-
-    <!--</android.support.v4.widget.NestedScrollView>-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -85,6 +56,7 @@
             android:paddingTop="20dp"
             android:text="This is a super text"
             android:textColor="@color/white_text"
+            android:onClick="openMaps"
             android:textSize="25sp">
 
         </TextView>
@@ -107,12 +79,21 @@
             android:layout_below="@+id/gym_address_detail"
             android:padding="20dp"
             android:textSize="25sp" />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weeks Average"
+            android:textColor="@color/white_text"
+            android:textSize="30sp"
+            android:layout_above="@id/bar_graph"
+            android:layout_centerInParent="true"
+            android:paddingBottom="20dp"/>
         <lecho.lib.hellocharts.view.ColumnChartView
             android:id="@+id/bar_graph"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_alignParentBottom="true"
+            android:paddingBottom="50dp"
             android:layout_marginBottom="@dimen/fab_margin"
             />
 
