@@ -74,28 +74,26 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
 
         holder.mGymFillRate.setText(item.getGymFill() + "%");
         int gymFill = Integer.parseInt(item.getGymFill());
-        System.out.println("The gym name is " + item.getGymName());
-        System.out.println("The gym fill rate is " + item.getGymFill());
-            // cast to 'GradientDrawable'
-        GradientDrawable gradientDrawable = (GradientDrawable)holder.mPill;
-        if(gymFill >= 0 && gymFill < 17) {
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.min_fill));
-        } else if (gymFill >= 17 && gymFill < 33){
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.seventeen));
-        } else if (gymFill >= 33 && gymFill < 50){
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.thirty_three));
-        } else if (gymFill >= 50 && gymFill < 66){
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.mid_fill));
-        } else if (gymFill >= 66 && gymFill < 83) {
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.sixty_six));
-        } else if (gymFill >= 83 && gymFill < 90){
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.eighty_two));
-        } else {
-            gradientDrawable.setColor(ContextCompat.getColor(mContext, R.color.max_fill));
-        }
+        GradientDrawable pill = (GradientDrawable)holder.mPill;
+
+            if(gymFill >= 0 && gymFill <= 17) {
+                pill.setColor(ContextCompat.getColor(mContext, R.color.min_fill));
+            } else if (gymFill >= 17 && gymFill <= 33){
+                pill.setColor(ContextCompat.getColor(mContext, R.color.seventeen));
+            } else if (gymFill >= 33 && gymFill <= 50){
+                pill.setColor(ContextCompat.getColor(mContext, R.color.thirty_three));
+            } else if (gymFill >= 50 && gymFill <= 66){
+                pill.setColor(ContextCompat.getColor(mContext, R.color.mid_fill));
+            } else if (gymFill >= 66 && gymFill <= 83) {
+                pill.setColor(ContextCompat.getColor(mContext, R.color.sixty_six));
+            } else if (gymFill >= 82 && gymFill <= 90){
+                pill.setColor(ContextCompat.getColor(mContext, R.color.eighty_two));
+            } else {
+                pill.setColor(ContextCompat.getColor(mContext, R.color.max_fill));
+            }
 
         holder.mGymAddress.setText(item.getGymAddress());
-        //holder.mGymAddress.setTextColor(Color.BLACK);
+
     }
 
     @Override
@@ -139,7 +137,6 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
             mGymRating = (RatingBar) itemView.findViewById(R.id.gym_rating);
             mGymImage = (ImageView)itemView.findViewById(R.id.gym_picture);
             mContainer = itemView.findViewById(R.id.gym_content_container);
-            //mPill = ContextCompat.getDrawable(mContext, R.drawable.pill);
             mPill = mContainer.findViewById(R.id.pill).getBackground();
         }
 

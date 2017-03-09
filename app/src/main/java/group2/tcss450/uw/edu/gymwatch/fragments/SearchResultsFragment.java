@@ -113,7 +113,22 @@ public class SearchResultsFragment extends Fragment {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         location_permission_request_code);
             } else {
+                //Check if the GPS is on
                 lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                if(!gps_enabled && !network_enabled) {
+                    Toast.makeText(getActivity(), "Search Requires GPS", Toast.LENGTH_SHORT).show();
+                } else if (gps_enabled || network_enabled) {
+                    if(gps_enabled) {
+                        gpsLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    }
+                    if(network_enabled) {
+                        netLoc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
+                }
+
                 //Location Listener helps get the latest location based on below methods.
                 locationListener = new LocationListener() {
                     @Override
@@ -138,20 +153,7 @@ public class SearchResultsFragment extends Fragment {
                 };
 
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,10, locationListener);
-                //Check if the GPS is on
-                boolean gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                boolean network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-                if(!gps_enabled && !network_enabled) {
-                    Toast.makeText(getActivity(), "Search Requires GPS", Toast.LENGTH_SHORT).show();
-                } else if (gps_enabled || network_enabled) {
-                    if(gps_enabled) {
-                        gpsLoc = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    }
-                    if(network_enabled) {
-                        netLoc = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    }
-                }
                 if(gpsLoc != null && netLoc != null) {
                     if (gpsLoc.getAccuracy() > netLoc.getAccuracy())//Check which one is more accurate
                         finalLoc = netLoc;
