@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -162,11 +163,9 @@ public class GymDetailActivity extends AppCompatActivity {
                 } else {//If the icon is a delete icon
                     checkType = 1;
                     task3.execute(Part_URL_DELETE, gymPlaceId, userName);
-                    if(status == 1) {
-                        Snackbar.make(view, "Removed from Gyms", Snackbar.LENGTH_SHORT)
-                                .setAction("Action", null).show();
+                    Snackbar.make(view, "Removed from Gyms", Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
                         iconType = 0;
-                    }
 
                 }
 
@@ -322,16 +321,19 @@ public class GymDetailActivity extends AppCompatActivity {
             } else if (checkType == 1) {//Delete
                 if (result.equals("deleted")) {
                     status = 1;
+                    //fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
                     fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
+
                 }
             } else if (checkType == 2) {//Check
                 if (result.equals("true")) {
                     System.out.println("TRUE");
-                        fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete_white_24px));
-                        iconType = 1;
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete_white_24px));
+
+                    iconType = 1;
                 } else {//Gym is not there
                         System.out.println("FALSE");
-                        fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
                         iconType = 0;
                     }
                 }

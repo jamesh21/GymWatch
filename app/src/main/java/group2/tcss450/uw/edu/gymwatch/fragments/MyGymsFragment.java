@@ -1,8 +1,10 @@
 package group2.tcss450.uw.edu.gymwatch.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,8 +32,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.activities.GymDetailActivity;
 import group2.tcss450.uw.edu.gymwatch.data.GymAdapter;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
+import group2.tcss450.uw.edu.gymwatch.data.ItemClickSupport;
 
 
 /**
@@ -120,7 +124,8 @@ public class MyGymsFragment extends Fragment {
         AsyncTask<String, Void, String> task = new DeleteGymFromDBTask();
         task.execute(DELETE_URL, gym.getGymID(), mCurrentUser);
         mGymAdapter.notifyItemRemoved(position);
-
+        Snackbar.make(getView(), "Removed from Gyms", Snackbar.LENGTH_SHORT)
+                .setAction("Action", null).show();
     }
     /**
      * Inner AsyncTask class, handle the internet connection with the web server. Passing
@@ -209,6 +214,14 @@ public class MyGymsFragment extends Fragment {
                 itemTouchHelper.attachToRecyclerView(gymRecView);
                 mGymAdapter = new GymAdapter(mUserGyms, getActivity());
                 gymRecView.setAdapter(mGymAdapter);
+                ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Intent i = new Intent(getActivity(), GymDetailActivity.class);
+                        i.putExtra("Gym", mUserGyms.get(position));
+                        startActivity(i);
+                    }
+                });
 
             } catch (JSONException e) {
                 e.printStackTrace();
