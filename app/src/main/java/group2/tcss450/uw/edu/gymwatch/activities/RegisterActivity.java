@@ -21,6 +21,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import group2.tcss450.uw.edu.gymwatch.R;
+import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
 
 /**
  * This Activity Class handles the registration activity.
@@ -83,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }).create();
                     alert.show();
                 } else {
+                    LoginSavePreference.setUser(this, user);
                     task = new GetWebServiceTask();
                     task.execute(Part_URL, user, password);
                 }

@@ -96,6 +96,8 @@ public class MyGymsFragment extends Fragment {
         super.onResume();
         TextView title = (TextView) getActivity().findViewById(R.id.fragment_title);
         title.setText(R.string.my_gyms);
+        AsyncTask<String, Void, String> task = new GetGymsFromDBTask();
+        task.execute(PARTIAL_URL, mCurrentUser);
     }
 
 

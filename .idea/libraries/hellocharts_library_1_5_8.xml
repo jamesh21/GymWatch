@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="hellocharts-library-1.5.8">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/d05ec3cc2714e194ad4b5f52387f63c6814f2518/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/d05ec3cc2714e194ad4b5f52387f63c6814f2518/output/res" />
+      <root url="file://$USER_HOME$/.android/build-cache/f5bb6cfff8a0e6fa29359c98a4812683423a310d/output/res" />
+      <root url="jar://$USER_HOME$/.android/build-cache/f5bb6cfff8a0e6fa29359c98a4812683423a310d/output/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
