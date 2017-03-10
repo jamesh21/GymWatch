@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         if (!LoginSavePreference.getUser(this).isEmpty()) {
             Intent intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("username", LoginSavePreference.getUser(this));
             startActivity(intent);
         }
@@ -114,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         else if (mResponse.equals("correct password")) {
             LoginSavePreference.setUser(this, mUsername);
             Intent intent = new Intent(this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("username", mUsername);
             startActivity(intent);
 
