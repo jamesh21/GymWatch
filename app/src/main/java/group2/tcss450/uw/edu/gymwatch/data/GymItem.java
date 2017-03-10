@@ -36,6 +36,7 @@ public class GymItem implements Parcelable{
      * @param theGymAddress address of the gym
      * @param theGymFill fill rate of the gym
      * @param theGymImage image of the gym
+     * @param theGymId id for the gym
      */
     public GymItem(String theGymName, String theGymRating, String theGymAddress,
                    String theGymFill, String theGymImage, String theGymId) {
@@ -49,7 +50,7 @@ public class GymItem implements Parcelable{
     }
 
     /**
-     * Getting for Gym Name.
+     * Setter for Gym Name.
      * @return gym name
      */
     public void setGymName(String gymName) {
@@ -58,7 +59,7 @@ public class GymItem implements Parcelable{
 
 
     /**
-     * Getter for gym rating.
+     * Setter for gym rating.
      * @return gym rating
      */
     public void setGymRating(String gymRating) {
@@ -67,7 +68,7 @@ public class GymItem implements Parcelable{
 
 
     /**
-     * Getter for gym address.
+     * Setter for gym address.
      * @return gym address
      */
     public void setGymAddress(String gymAddress) {
@@ -76,7 +77,7 @@ public class GymItem implements Parcelable{
 
 
     /**
-     * Getter for gym fill rate.
+     * Setter for gym fill rate.
      * @return gym fill rate
      */
     public void setGymFill(String gymFill) {
@@ -85,7 +86,7 @@ public class GymItem implements Parcelable{
 
 
     /**
-     * Getting for gym image.
+     * Setter for gym image.
      * @return gym image
      */
     public void setGymImage(String gymImage) {
@@ -142,11 +143,13 @@ public class GymItem implements Parcelable{
     public String getGymImage() {
         return mGymImage;
     }
+
     /**
      * Getting for gym position in list.
      * @return gym position
      */
     public int getmGymPosition() {return mGymPosition;};
+
     /**
      * Setting gym position.
      */
@@ -178,6 +181,9 @@ public class GymItem implements Parcelable{
         dest.writeString(mGymID);
     }
 
+    /**
+     * For Creating a parcelable item.
+     */
     public static final Parcelable.Creator<GymItem> CREATOR = new Parcelable.Creator<GymItem>() {
 
         @Override

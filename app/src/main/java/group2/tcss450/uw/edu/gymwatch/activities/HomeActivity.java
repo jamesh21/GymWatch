@@ -1,6 +1,5 @@
 package group2.tcss450.uw.edu.gymwatch.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,7 +32,7 @@ public class HomeActivity extends AppCompatActivity
     private SearchView mSearch;
     /** Reference to the title. */
     private TextView mTitle;
-
+    /** Reference to the usernam. */
     private String mUsername;
 
     @Override
@@ -181,7 +180,7 @@ public class HomeActivity extends AppCompatActivity
                     .beginTransaction()
                     .replace(R.id.content_home, settings).addToBackStack(null);
             transaction.commit();
-        } else if(id == R.id.nav_signout) {
+        } else if(id == R.id.nav_signout) { // For signing out
             Intent signOut = new Intent(this, LoginActivity.class);
             signOut.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             LoginSavePreference.setUser(this, "");

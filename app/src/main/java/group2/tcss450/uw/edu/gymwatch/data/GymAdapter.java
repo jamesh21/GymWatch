@@ -31,6 +31,7 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
     private List<GymItem> mListData;
     private LayoutInflater mInflater;
     private Context mContext;
+
     /**
      * Constructor for a GymAdapter.
      * @param theListData which represents the data of gyms to be placed in the recycle view
@@ -72,21 +73,22 @@ public class GymAdapter extends RecyclerView.Adapter<GymAdapter.GymHolder> {
         int gymFill = Integer.parseInt(item.getGymFill());
         GradientDrawable pill = (GradientDrawable)holder.mPill;
 
-            if(gymFill >= 0 && gymFill <= 17) {
-                pill.setColor(ContextCompat.getColor(mContext, R.color.min_fill));
-            } else if (gymFill >= 17 && gymFill <= 33){
-                pill.setColor(ContextCompat.getColor(mContext, R.color.seventeen));
-            } else if (gymFill >= 33 && gymFill <= 50){
-                pill.setColor(ContextCompat.getColor(mContext, R.color.thirty_three));
-            } else if (gymFill >= 50 && gymFill <= 66){
-                pill.setColor(ContextCompat.getColor(mContext, R.color.mid_fill));
-            } else if (gymFill >= 66 && gymFill <= 83) {
-                pill.setColor(ContextCompat.getColor(mContext, R.color.sixty_six));
-            } else if (gymFill >= 82 && gymFill <= 90){
-                pill.setColor(ContextCompat.getColor(mContext, R.color.eighty_two));
-            } else {
-                pill.setColor(ContextCompat.getColor(mContext, R.color.max_fill));
-            }
+        // Setting the gym fill color
+        if(gymFill >= 0 && gymFill <= 17) {
+            pill.setColor(ContextCompat.getColor(mContext, R.color.min_fill));
+        } else if (gymFill >= 17 && gymFill <= 33){
+            pill.setColor(ContextCompat.getColor(mContext, R.color.seventeen));
+        } else if (gymFill >= 33 && gymFill <= 50){
+            pill.setColor(ContextCompat.getColor(mContext, R.color.thirty_three));
+        } else if (gymFill >= 50 && gymFill <= 66){
+            pill.setColor(ContextCompat.getColor(mContext, R.color.mid_fill));
+        } else if (gymFill >= 66 && gymFill <= 83) {
+            pill.setColor(ContextCompat.getColor(mContext, R.color.sixty_six));
+        } else if (gymFill >= 83 && gymFill <= 90){
+            pill.setColor(ContextCompat.getColor(mContext, R.color.eighty_two));
+        } else {
+            pill.setColor(ContextCompat.getColor(mContext, R.color.max_fill));
+        }
 
         holder.mGymAddress.setText(item.getGymAddress());
     }

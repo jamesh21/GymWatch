@@ -12,11 +12,15 @@ import group2.tcss450.uw.edu.gymwatch.R;
  */
 
 public class ItemClickSupport {
+
+    /** Reference to recycler view. */
     private final RecyclerView mRecyclerView;
-    //Normal Click
+    /** For the normal click. */
     private OnItemClickListener mOnItemClickListener;
-    //Long Click
+    /** For the long click. */
     private OnItemLongClickListener mOnItemLongClickListener;
+
+    /** Initialize and attaching the onclick listener for normal click. */
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -26,16 +30,21 @@ public class ItemClickSupport {
             }
         }
     };
+
+    /** Initialize and attaching the onclick listerner for long click .*/
     private View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             if (mOnItemLongClickListener != null) {
                 RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
-                return mOnItemLongClickListener.onItemLongClicked(mRecyclerView, holder.getAdapterPosition(), v);
+                return mOnItemLongClickListener.onItemLongClicked(mRecyclerView,
+                        holder.getAdapterPosition(), v);
             }
             return false;
         }
     };
+
+    /** Initialize and attaching the listener to the recycle view. */
     private RecyclerView.OnChildAttachStateChangeListener mAttachListener
             = new RecyclerView.OnChildAttachStateChangeListener() {
         @Override
@@ -54,12 +63,21 @@ public class ItemClickSupport {
         }
     };
 
+    /**
+     * Constructor for item click support.
+     * @param recyclerView the recycle view
+     */
     private ItemClickSupport(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
         mRecyclerView.setTag(R.id.item_click_support, this);
         mRecyclerView.addOnChildAttachStateChangeListener(mAttachListener);
     }
 
+    /**
+     * Method for adding click support.
+     * @param view of the recycler view
+     * @return a ItemClickSupport
+     */
     public static ItemClickSupport addTo(RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support == null) {
@@ -68,6 +86,11 @@ public class ItemClickSupport {
         return support;
     }
 
+    /**
+     * Method for removing.
+     * @param view of the recycler view
+     * @return a ItemSupport
+     */
     public static ItemClickSupport removeFrom(RecyclerView view) {
         ItemClickSupport support = (ItemClickSupport) view.getTag(R.id.item_click_support);
         if (support != null) {
@@ -76,11 +99,21 @@ public class ItemClickSupport {
         return support;
     }
 
+    /**
+     * Setting up the Item click listener.
+      * @param listener which will be attached
+     * @return the ItemClickSupport
+     */
     public ItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
         return this;
     }
 
+    /**
+     * Setting up the Item Click listener for long clicks.
+     * @param listener which will be attached
+     * @return the ItemClickSupport
+     */
     public ItemClickSupport setOnItemLongClickListener(OnItemLongClickListener listener) {
         mOnItemLongClickListener = listener;
         return this;
@@ -91,11 +124,17 @@ public class ItemClickSupport {
         view.setTag(R.id.item_click_support, null);
     }
 
+    /**
+     * Interface for the normal click.
+     */
     public interface OnItemClickListener {
 
         void onItemClicked(RecyclerView recyclerView, int position, View v);
     }
 
+    /**
+     * Interface for the long clicks.
+     */
     public interface OnItemLongClickListener {
 
         boolean onItemLongClicked(RecyclerView recyclerView, int position, View v);

@@ -2,8 +2,6 @@ package group2.tcss450.uw.edu.gymwatch.data;
 
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,13 +10,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,16 +20,20 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class JSONParser {
-    private JSONObject json;
-    GymItem gym;
-    //Tags for reading each result's data
+
+    /** Constant used for the results of the JSON. */
     private static final String TAG_RESULTS = "results";
+    /** Constant used for the name of the JSON. */
     private static final String TAG_NAME = "name";
+    /** Constant used for the photos of the JSON. */
     private static final String TAG_PHOTOS = "photos";
+    /** Constant used for the ratings of the JSON. */
     private static final String TAG_RATINGS = "rating";
+    /** Constant used for the address of the JSON. */
     private static final String TAG_ADDRESS = "vicinity";
+    /** Constant used for they place id of the JSON. */
     private static final String TAG_PLACE_ID = "place_id";
-    private static final String TAG_OPEN = "open_now";
+
     /** The URL for getting google images. */
     private static String PARTIAL_URL = "https://maps.googleapis.com/maps/api/place" +
             "/photo?maxwidth=400&photoreference=";
@@ -47,9 +45,13 @@ public class JSONParser {
     private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/" +
             "thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";
 
-    private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/fakeData.php";
+    /** The URL for getting the fake gym fill data. */
+    private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/" +
+                                        "~xufang/fakeData.php";
 
-    private String mResponse;
+    /** Reference to the JSON Object. */
+    private JSONObject mJson;
+
     /**
      * Constructor
      *
@@ -57,7 +59,7 @@ public class JSONParser {
      */
     public JSONParser(String jsonResult) {
         try {
-            json = new JSONObject(jsonResult);
+            mJson = new JSONObject(jsonResult);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -73,7 +75,7 @@ public class JSONParser {
         AsyncTask<String, Void, String> task = null;
         //Can change to 20 for more results, but ten seems ok for now.
         try {
-            JSONArray places = json.getJSONArray(TAG_RESULTS);
+            JSONArray places = mJson.getJSONArray(TAG_RESULTS);
             // Going through each gym result and buidling a gym item object
             for (int i = 0; i < places.length(); i++) {
                 String str_result= new StaticWebServiceTask().execute(FAKE_DATA).get();
@@ -109,8 +111,8 @@ public class JSONParser {
 
 
     /**
-     * Inner AsyncTask class, handle the internet connection with the web server. Passing
-     * parameters to the web server and get the response back.
+     * Inner AsyncTask class used for getting fake data, handle the internet connection with the
+     * web server. Passing parameters to the web server and get the response back.
      */
     private class StaticWebServiceTask extends AsyncTask<String, Void, String> {
 

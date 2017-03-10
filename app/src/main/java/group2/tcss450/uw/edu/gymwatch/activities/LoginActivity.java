@@ -27,7 +27,7 @@ import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    /**The field for the URL that this activity connects to. */
+    /**The field for the URL for Login. */
     private static final String PARTIAL_URL
             = "http://cssgate.insttech.washington.edu/" +
             "~xufang/logintest.php";
@@ -35,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     /**Field for the reponse gets back from the web server. */
     private String mResponse;
 
+    /** Reference to the username. */
     private String mUsername;
 
 

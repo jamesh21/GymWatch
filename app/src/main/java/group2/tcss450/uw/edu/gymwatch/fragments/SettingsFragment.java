@@ -16,8 +16,6 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import group2.tcss450.uw.edu.gymwatch.R;
 
 
@@ -37,7 +35,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mPrefs = getActivity().getSharedPreferences(getString(R.string.SHARED_PREFS), Context.MODE_PRIVATE);
+        mPrefs = getActivity().getSharedPreferences(getString(R.string.SHARED_PREFS),
+                                Context.MODE_PRIVATE);
         Bundle args = getArguments();
         int position = args.getInt(getString(R.string.POSITION));
         boolean isChecked = args.getBoolean(getString(R.string.NOTIFICATION));
@@ -45,10 +44,12 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         String endTime = args.getString(getString(R.string.END_TIME));
 
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
+
         //Setting the saved instance of the notification switch
         CheckBox notificationSwitch = (CheckBox) mView.findViewById(R.id.notification_switch);
         notificationSwitch.setOnCheckedChangeListener(this);
         notificationSwitch.setChecked(isChecked);
+
         //Setting the saved instance of the position for the spinner
         Spinner spinner = (Spinner) mView.findViewById(R.id.fill_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -58,6 +59,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
         spinner.setOnItemSelectedListener(this);
         spinner.setSelection(position);
 
+        // Initializing the buttons and adding listeners
         Button startButton = (Button) mView.findViewById(R.id.start_time_button);
         startButton.setOnClickListener(this);
         startButton.setText(startTime);
@@ -136,9 +138,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//        SharedPreferences.Editor editor = mPrefs.edit();
-//        editor.putBoolean(getString(R.string.POSITION), isChecked);
-//        editor.commit();
         mPrefs.edit().putBoolean(getString(R.string.NOTIFICATION), isChecked).apply();
     }
 }

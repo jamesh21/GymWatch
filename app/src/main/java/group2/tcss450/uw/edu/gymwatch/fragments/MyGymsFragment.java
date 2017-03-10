@@ -6,14 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -50,12 +48,6 @@ public class MyGymsFragment extends Fragment {
     private static final String DELETE_URL
             = "http://cssgate.insttech.washington.edu/~xufang/deleteGymFromDB.php";
 
-    private static String IMAGE_URL = "https://maps.googleapis.com/maps/api/place" +
-            "/photo?maxwidth=400&photoreference=";
-
-    /** API KEY for this app. */
-    private static String API_KEY = "&key=AIzaSyC32qpLF5AVQGXBEq0iCGkCHHAI9V8Eb1w";
-
     private static final String FAKE_DATA = "http://cssgate.insttech.washington.edu/~xufang/" +
             "fakeData.php";
     /** This URL is used for when there are no pictures available for that gym. */
@@ -63,15 +55,20 @@ public class MyGymsFragment extends Fragment {
     private static final String NO_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/" +
             "thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png";
 
+
     private static final String TAG_NAME = "gymname";
     private static final String TAG_IMAGE = "imageurl";
     private static final String TAG_ADDRESS = "address";
     private static final String TAG_RATING = "rating";
     private static final String TAG_PLACE_ID = "placeid";
-    private List<GymItem> mUserGyms;
-    private GymAdapter mGymAdapter;
 
+    /** Reference to the list of gyms for the user. */
+    private List<GymItem> mUserGyms;
+    /** Reference to the gym adapter. */
+    private GymAdapter mGymAdapter;
+    /** Reference to the view. */
     private View mView;
+    /** Reference to the current user. */
     private String mCurrentUser;
 
     @Override
@@ -101,6 +98,10 @@ public class MyGymsFragment extends Fragment {
     }
 
 
+    /** This method is the callback method for whenever a item within the recycler view is
+     * swiped.
+     * @return the callback
+     */
     private ItemTouchHelper.Callback touchMethod() {
         ItemTouchHelper.SimpleCallback simpleGymTouchCallBack =
                 new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -120,6 +121,10 @@ public class MyGymsFragment extends Fragment {
         return simpleGymTouchCallBack;
     }
 
+    /**
+     * Method is used to delete the item from the DB from the position.
+     * @param position to be deleted
+     */
     private void deleteItem(final int position) {
         GymItem gym = mUserGyms.get(position);
         mUserGyms.remove(position);
@@ -129,13 +134,16 @@ public class MyGymsFragment extends Fragment {
         Snackbar.make(getView(), "Removed from Gyms", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null).show();
     }
+
     /**
-     * Inner AsyncTask class, handle the internet connection with the web server. Passing
+     * Inner AsyncTask class getting gyms from the DB, handle the internet connection with the web server. Passing
      * parameters to the web server and get the response back.
      */
     private class GetGymsFromDBTask extends AsyncTask<String, Void, String> {
 
+        /** Reference to the progress dialog. */
         private ProgressDialog mProgress;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -192,6 +200,7 @@ public class MyGymsFragment extends Fragment {
             try {
                 JSONArray json = new JSONArray(result);
                 mUserGyms = new ArrayList<>();
+                // Building the gym item and placing into gym list
                 for (int i = 0; i < json.length(); i++) {
                     String str_result = new StaticWebServiceTask().execute(FAKE_DATA).get();
                     JSONObject gym = json.getJSONObject(i);
@@ -209,6 +218,7 @@ public class MyGymsFragment extends Fragment {
                     GymItem currentGym = new GymItem(gymName, gymRating, gymAddress, str_result, gymImage, placeId);
                     mUserGyms.add(currentGym);
                 }
+                //Setting up recycler view and adding the touch helper for delete
                 RecyclerView gymRecView = (RecyclerView) mView.findViewById(R.id.gym_home_list);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
                 gymRecView.setLayoutManager(layoutManager);
@@ -216,7 +226,10 @@ public class MyGymsFragment extends Fragment {
                 itemTouchHelper.attachToRecyclerView(gymRecView);
                 mGymAdapter = new GymAdapter(mUserGyms, getActivity());
                 gymRecView.setAdapter(mGymAdapter);
-                ItemClickSupport.addTo(gymRecView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+
+                // Going into the detail view.
+                ItemClickSupport.addTo(gymRecView).setOnItemClickListener
+                                    (new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         Intent i = new Intent(getActivity(), GymDetailActivity.class);
@@ -242,7 +255,6 @@ public class MyGymsFragment extends Fragment {
      * parameters to the web server and get the response back.
      */
     private class StaticWebServiceTask extends AsyncTask<String, Void, String> {
-        ProgressDialog progress = new ProgressDialog(getContext());
         /**
          * Perform web connection, passing parameters and retrieve response back by POST
          * @param strings includes destination URL, and parameters we want to pass.
@@ -279,8 +291,8 @@ public class MyGymsFragment extends Fragment {
 
 
     /**
-     * Inner AsyncTask class, handle the internet connection with the web server. Passing
-     * parameters to the web server and get the response back.
+     * Inner AsyncTask class for deleting, handle the internet connection with the web server.
+     * Passing parameters to the web server and get the response back.
      */
     private class DeleteGymFromDBTask extends AsyncTask<String, Void, String> {
 

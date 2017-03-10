@@ -28,7 +28,7 @@ import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
  */
 public class RegisterActivity extends AppCompatActivity {
 
-    /**The field for the URL that this activity connects to. */
+    /**The field for the URL for registration. */
     private static final String Part_URL
             = "http://cssgate.insttech.washington.edu/" +
             "~xufang/registertest.php";
@@ -76,7 +76,8 @@ public class RegisterActivity extends AppCompatActivity {
                     alert.show();
                 } else if(!password.equals(confirm)) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                    alert.setMessage("The password doesn't match.").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alert.setMessage("The password doesn't match.").
+                            setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
