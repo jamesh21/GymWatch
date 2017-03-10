@@ -14,7 +14,7 @@ import android.os.Parcelable;
  */
 public class GymItem implements Parcelable{
 
-    /** Name of the gyme. */
+    /** Name of the gym. */
     private String mGymName;
     /** Rating for the gym. */
     private String mGymRating;
@@ -26,8 +26,7 @@ public class GymItem implements Parcelable{
     private String mGymImage;
     /**Position of the GymItem in the Recycler View**/
     private int mGymPosition;
-    private boolean isOpen;
-
+    /** Gym ID. */
     private String mGymID;
 
     /**
@@ -91,10 +90,6 @@ public class GymItem implements Parcelable{
      */
     public void setGymImage(String gymImage) {
         //Will add later
-    }
-
-    public boolean getIsOpen() {
-        return isOpen;
     }
 
     /**
