@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +34,7 @@ import java.util.List;
 import group2.tcss450.uw.edu.gymwatch.R;
 import group2.tcss450.uw.edu.gymwatch.data.GymItem;
 import group2.tcss450.uw.edu.gymwatch.data.LoginSavePreference;
+import group2.tcss450.uw.edu.gymwatch.fragments.MyGymsFragment;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
@@ -171,12 +173,14 @@ public class GymDetailActivity extends AppCompatActivity {
                     Snackbar.make(view, "Saved to Gyms", Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
                     mIconType = 1;
+                    finish();
                 } else {//If the icon is a delete icon
                     mCheckType = 1;
                     mTask3.execute(Part_URL_DELETE, gymPlaceId, userName);
                     Snackbar.make(view, "Removed from Gyms", Snackbar.LENGTH_SHORT)
                             .setAction("Action", null).show();
                         mIconType = 0;
+                    finish();
 
                 }
 
@@ -286,9 +290,6 @@ public class GymDetailActivity extends AppCompatActivity {
                     urlConnection.setRequestMethod("POST");
                     urlConnection.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(urlConnection.getOutputStream());
-                    for (int i = 0; i < strings.length; i++) {
-                        System.out.println(strings[i]);
-                    }
                     String data = URLEncoder.encode("placeid", "UTF-8")
                             + "=" + URLEncoder.encode(strings[1], "UTF-8")
                             + "&" + URLEncoder.encode("username", "UTF-8")
@@ -337,12 +338,10 @@ public class GymDetailActivity extends AppCompatActivity {
                 }
             } else if (mCheckType == 2) {//Check
                 if (result.equals("true")) {
-                    System.out.println("TRUE");
                     mFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_delete_white_24px));
 
                     mIconType = 1;
                 } else {//Gym is not there
-                        System.out.println("FALSE");
                     mFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_add_white_24px));
                         mIconType = 0;
                     }
